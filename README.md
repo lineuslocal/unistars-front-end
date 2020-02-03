@@ -1,4 +1,5 @@
-the front-end part
+the front-end part of unistars
+
 short tech list
 vue.js
 nuxt.js
