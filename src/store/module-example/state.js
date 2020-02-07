@@ -1,5 +1,7 @@
 export default function () {
   return {
-    title: 'Applicant Management'
+    title: 'Applicant Management',
+    back: false,
+    url: ''
   }
 }

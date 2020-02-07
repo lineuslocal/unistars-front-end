@@ -2,6 +2,14 @@
   <q-layout view="hHr lpR fFr">
     <q-header elevated>
       <q-toolbar class="cus-toolbar">
+        <q-btn
+          flat
+          dense
+          rounded
+          icon="arrow_back"
+          v-if="back"
+          v-go-back.single
+        />
         <q-toolbar-title class="text-center">
           {{title}}
         </q-toolbar-title>
@@ -73,7 +81,12 @@ export default {
   computed: {
     title () {
       return this.$store.state.title
-    }
+    },
+    back () {
+      return this.$store.state.back
+    },
+  },
+  methods: {
   }
 }
 </script>
