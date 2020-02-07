@@ -9,9 +9,9 @@ const state = {
             currentParticipant: 30,
             startTime: "2020-10-30 08:30",
             endTime: "2020-10-30 11:30",
-            starRegTime: "2020-09-01 00:00",
+            startRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
-            price: 25000,
+            price: 0,
             addInfor: [
                 
             ],
@@ -33,7 +33,7 @@ const state = {
             currentParticipant: 0,
             startTime: "2020-10-30 08:30",
             endTime: "2020-10-30 11:30",
-            starRegTime: "2020-09-01 00:00",
+            startRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
             addInfor: [
@@ -59,7 +59,7 @@ const state = {
             currentParticipant: 30,
             startTime: "2020-10-30 08:30",
             endTime: "2020-10-30 11:30",
-            starRegTime: "2020-09-01 00:00",
+            startRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 0,
             addInfor: [
@@ -85,7 +85,7 @@ const state = {
             currentParticipant: 0,
             startTime: "2020-10-30 08:30",
             endTime: "2020-10-30 11:30",
-            starRegTime: "2020-09-01 00:00",
+            startRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
             addInfor: [
@@ -111,7 +111,7 @@ const state = {
             currentParticipant: 0,
             startTime: "2020-10-30 08:30",
             endTime: "2020-10-30 11:30",
-            starRegTime: "2020-09-01 00:00",
+            startRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
             addInfor: [
@@ -142,7 +142,8 @@ const mutations = {
               event.currentParticipant = changedEvent.currentParticipant
               event.startTime = changedEvent.startTime
               event.endTime = changedEvent.endTime
-              event.expiredRegTime = changedEvent.expiredRegTime
+              event.startRegTime = changedEvent.startRegTime
+              event.endRegTime = changedEvent.endRegTime
               event.price = changedEvent.price
               event.addInfor = []
               changedEvent.addInfor.forEach( e => {

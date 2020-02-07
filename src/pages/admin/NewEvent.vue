@@ -77,23 +77,39 @@
           </q-icon>
         </template>
       </q-input>
-      <q-input dense filled v-model="event.expiredRegTime" hint="Expired register time (yyyy-mm-dd hh:mm)">
+      <q-input filled dense v-model="event.startRegTime" hint="Start register time (yyyy-mm-dd hh:mm)">
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-date v-model="event.expiredRegTime" mask="YYYY-MM-DD HH:mm" />
+              <q-date v-model="event.startRegTime" mask="YYYY-MM-DD HH:mm" />
             </q-popup-proxy>
           </q-icon>
         </template>
         <template v-slot:append>
           <q-icon name="access_time" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="event.expiredRegTime" mask="YYYY-MM-DD HH:mm" format12h />
+              <q-time v-model="event.startRegTime" mask="YYYY-MM-DD HH:mm" format12h />
             </q-popup-proxy>
           </q-icon>
         </template>
       </q-input>
-      <div class="row relative-position">
+      <q-input dense filled v-model="event.endRegTime" hint="End register time (yyyy-mm-dd hh:mm)">
+        <template v-slot:prepend>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
+              <q-date v-model="event.endRegTime" mask="YYYY-MM-DD HH:mm" />
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+        <template v-slot:append>
+          <q-icon name="access_time" class="cursor-pointer">
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
+              <q-time v-model="event.endRegTime" mask="YYYY-MM-DD HH:mm" format12h />
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+      <div class="row flex justify-between">
         <q-input
           v-if="!isFree"
           filled
@@ -121,7 +137,6 @@
           hint="Price in KRW"
         />
         <q-btn-toggle
-          class="absolute-right"
           style="height:37px; width: 126px"
           v-model="typePrice"
           toggle-color="primary"
@@ -131,9 +146,8 @@
           ]"
         />
       </div>
-      <div class="row ">
-        <p class="col-7">Need Additional Information?</p>
-        <div class="col-5 flex justify-end">
+      <div class="row flex justify-between" >
+        <p class="col-7" style="height: 37px; line-height:37px;">Need Additional Information?</p>
           <q-btn-toggle
             style="height:37px;"
             v-model="haveAddInfor"
@@ -143,10 +157,10 @@
                 {label: 'No', value: 'no'},
             ]"
           />
-        </div>
       </div>
-      <q-item v-for="(infor, index) in event.addInfor" :key="index">
+      <q-item v-for="(infor, index) in event.addInfor" :key="index" style="padding:0;" class="row" v-if="haveAddInfor=='yes'">
         <q-input
+        class="col-8"
         filled
         v-model="infor.question"
         dense
@@ -154,9 +168,9 @@
         placeholder="Enter a question"
         :rules="[ val => val && val.length > 0 || 'Please type something']"
         />
-        <q-checkbox size="xs" v-model="infor.isRequired" label="required"/>
-        <q-btn flat round color="primary"  icon="add_circle" v-if="stateBtnInfor[index].add" @click="addMoreInfor(index)"/>
-        <q-btn flat round color="negative"  icon="remove_circle" v-if="stateBtnInfor[index].remove" @click="removeInfor(index)"/>
+        <q-checkbox size="xs" v-model="infor.isRequired" label="required" style="height:40px; line-height:40px;"/>
+        <q-btn flat round color="primary"  icon="add_circle" style="height:40px; line-height:40px;" v-if="stateBtnInfor[index].add" @click="addMoreInfor(index)"/>
+        <q-btn flat round color="negative"  icon="remove_circle" style="height:40px; line-height:40px;" v-if="stateBtnInfor[index].remove" @click="removeInfor(index)"/>
       </q-item>
       
       <q-input
@@ -223,7 +237,8 @@ export default {
         currentParticipant: 0,
         startTime: "",
         endTime: "",
-        expiredRegTime: "",
+        startRegTime: "",
+        endRegTime: "",
         price: 0,
         addInfor: [],
         description: "",
@@ -235,7 +250,7 @@ export default {
       },
       typePrice: "free",
       haveAddInfor: "no",
-      tempInfor: [],
+      //tempInfor: [],
       stateBtnInfor: [],
       role: ''
     }
@@ -259,9 +274,10 @@ export default {
         participant: null,
         startTime: null,
         endTime: null,
-        expiredRegTime: null,
-        price: null,
-        addInfor: null,
+        startRegTime: null,
+        endRegTime: null,
+        price: 0,
+        addInfor: [],
         description: null,
         photoEvent: null,
         photoHowToReg: null,
@@ -317,14 +333,11 @@ export default {
   },
   watch: {
     haveAddInfor: function(val) {
-      if( val == 'yes') {
-        this.event.addInfor = this.tempInfor
-        this.event.addInfor.push({question: '', isRequired: false})
+      if( val == 'yes' ) {
+        if( this.event.addInfor === null || this.event.addInfor.length == 0){
+          this.event.addInfor.push({question: '', isRequired: false})
         this.stateBtnInfor.push({add: true, remove: false})
-      }
-      else{
-        this.tempInfor = this.event.addInfor
-        this.event.addInfor = []
+        }
       }
     }
   },
@@ -344,7 +357,8 @@ export default {
           this.event.currentParticipant = event.currentParticipant
           this.event.startTime = event.startTime
           this.event.endTime = event.endTime
-          this.event.expiredRegTime = event.expiredRegTime
+          this.event.startRegTime = event.startRegTime
+          this.event.endRegTime = event.endRegTime
           this.event.price = event.price
           event.addInfor.forEach( (e, index) => {
             this.event.addInfor.push(e)
@@ -373,12 +387,11 @@ export default {
       }
     }
     this.$store.commit("changeBack", true);
-    this.$store.commit("changeUrl", "/admin");
-    if (this.price > 0) {
-      this.event.typePrice = "paid";
+    if (this.event.price > 0) {
+      this.typePrice = "paid";
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
