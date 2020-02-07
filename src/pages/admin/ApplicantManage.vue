@@ -69,7 +69,7 @@ export default {
   
   methods: {
     toDetailApplicantList (id, index) {
-      this.$router.push('/applicant-manage/' + id + '&' + index)
+      this.$router.push('/admin/applicant-manage/' + id + '&' + index)
       //this.$store.commit('Event/changeCurrentEvent', this.events[index])
     },
     sortByName () {

@@ -201,7 +201,7 @@
         />
       </div>
       <div class="text-center">
-        <q-btn label="OK"  color="primary" v-if="role == 'view'" to="/"/>
+        <q-btn label="OK"  color="primary" v-if="role == 'view'" to="/admin"/>
         <q-btn label="Save"  color="primary" v-if="role == 'edit'" @click="saveEvent"/>
         <q-btn label="Create" type="submit" color="primary" v-if="role == 'create'"/>
         <q-btn label="Cancel" type="reset" color="primary" class="q-ml-sm" v-if="!(role == 'view')"/>
@@ -279,7 +279,7 @@ export default {
             persistent: true,
           })
           .onOk(() => {
-            this.$router.push("/")
+            this.$router.push("/admin")
           })
           .onCancel(() => {
             
@@ -373,7 +373,7 @@ export default {
       }
     }
     this.$store.commit("changeBack", true);
-    this.$store.commit("changeUrl", "/");
+    this.$store.commit("changeUrl", "/admin");
     if (this.price > 0) {
       this.event.typePrice = "paid";
     }

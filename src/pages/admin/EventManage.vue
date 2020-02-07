@@ -9,7 +9,7 @@
             <q-icon v-else name="clear" class="cursor-pointer" @click="filterEvent = ''" />
           </template>
         </q-input>
-        <q-btn outline rounded color="white" label="AddNew" size="sm" to="/new-event" />
+        <q-btn outline rounded color="white" label="AddNew" size="sm" to="/admin/new-event" />
         <q-btn outline rounded color="white" label="Delete" size="sm" @click="deleteEvent" />
       </q-toolbar>
       <div class="cus-event">
@@ -134,7 +134,7 @@ export default {
       }
     },
     toEditEvent (id) {
-      this.$router.push('/edit-event/' + id)
+      this.$router.push('/admin/edit-event/' + id)
     },
     sortByName () {
       if (this.sortName == 'ascending') {

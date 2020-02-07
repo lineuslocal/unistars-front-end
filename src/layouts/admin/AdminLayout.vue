@@ -32,7 +32,7 @@
       >
         <q-scroll-area class="cus-drawer">
           <q-list padding separator bordered >
-            <q-item clickable v-ripple to="/" exact>
+            <q-item clickable v-ripple to="/admin" exact>
               <q-item-section avatar>
                 <q-icon name="event_seat" />
               </q-item-section>
@@ -41,7 +41,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="/applicant-manage">
+            <q-item clickable v-ripple to="/admin/applicant-manage">
               <q-item-section avatar>
                 <q-icon name="people" />
               </q-item-section>

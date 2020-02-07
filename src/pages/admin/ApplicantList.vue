@@ -156,7 +156,7 @@ export default {
     var index = this.$route.params.index
     this.$store.commit('changeTitle', this.$store.state.Event.events[index].name)
     this.$store.commit('changeBack', true)
-    this.$store.commit('changeUrl', '/applicant-manage')
+    this.$store.commit('changeUrl', '/admin/applicant-manage')
   }
 }
 </script>
