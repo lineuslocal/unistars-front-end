@@ -108,9 +108,6 @@
             Signup </p>
           </q-card-section>
       </div>
-      <div 
-        ref="signinBtn" 
-        class="btn-sign-in">Sign In</div>
   
       <div class="text-center" >
         <p> or login with </p>
