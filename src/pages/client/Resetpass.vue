@@ -15,7 +15,6 @@
  <!---->
     <q-form 
       @submit="onSubmit"
-      @reset="onReset"
       class="q-gutter-md" >
       <div class="row">
       
@@ -38,7 +37,7 @@
       v-model="reset.password" 
       outlined
       color="secondary"
-      placeholder="Password"
+      placeholder=" New Password"
       :type="isPwd ? 'password' : 'text'"
       lazy-rules
         :rules="[
@@ -62,7 +61,7 @@
       v-model="reset.confirmpassword" 
       outlined
       color="secondary"
-      placeholder="Password"
+      placeholder="Confirm New Password"
       :type="isPwd ? 'password' : 'text'"
       lazy-rules
         :rules="[
@@ -125,6 +124,28 @@ export default {
   },
 
   methods: {
+     onSubmit () {
+      if (this.accept !== true) {
+        this.$q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'You need to accept the license and terms first'
+        })
+      }
+      else {
+        this.$q.notify({
+          color: 'green-5',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Submitted'
+        })
+      }
+    },
+    onReset () {
+      this.password = null
+      this.confirmpassword = null
+    },
      signup () {
       this.$router.push('/signup')
     },
