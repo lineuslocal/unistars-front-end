@@ -36,9 +36,7 @@
       <q-input 
       class="col-9"
       type="email"
-        :error="error"
         outlined
-        :loading="loading"
          error-label=" A valid email"
           :count="10"
         color="secondary"
