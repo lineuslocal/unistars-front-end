@@ -122,7 +122,6 @@
                     type="submit"
                     label="Complete"
                     color="primary"
-                    @click="history"
                     style="width:250px; font-size:18px"
                   />
                 </div>
@@ -147,20 +146,18 @@ export default {
     };
   },
   methods: {
-    history() {
-      this.$router.push("/ApplicationHistory");
-    },
     onSubmit() {
-      if (this.accept !== true) {
+      if (this.accept != true) {
         this.$q.notify({
           color: 'negative',
           message: 'You need to accept the license and terms first'
         })
       } else {
+         this.$router.push("/ApplicationHistory")
         this.$q.notify({
           icon: 'done',
           color: 'positive',
-          message: 'Submitted'
+          message: 'Submitted',
         })
       }
     }

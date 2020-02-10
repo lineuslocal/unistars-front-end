@@ -18,7 +18,7 @@
           dense
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
-          icon="ion-more"
+          icon="more_vert"
         />
       </q-toolbar>
     </q-header>
@@ -81,6 +81,10 @@ export default {
   computed: {
     title () {
       return this.$store.state.title
+      let currentPath = this.$route.fullPath
+      if (currentPath == '/Apply') return 'Apply'
+      else if (currentPath == '/ApplicationHistory') return 'Apply History'
+      else if (currentPath == '/ApplicationHistory/'+ this.$route.params.id) return 'Application Confirm'
     },
     back () {
       return this.$store.state.back

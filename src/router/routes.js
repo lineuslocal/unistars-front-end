@@ -9,7 +9,17 @@ const routes = [
       { path: '/resetpass', component: () => import('pages/client/Resetpass.vue') },
       { path: '/event', component: () => import('pages/client/Event.vue') },
       { path: '/event-style', component: () => import('pages/client/Event-style.vue') },
-      { path: '/event-detail', component: () => import('pages/client/Event-detail.vue') }
+      { path: '/event-detail', component: () => import('pages/client/Event-detail.vue') },
+      {
+        path: '/Apply',
+        component: () => import('pages/client/Apply.vue')
+      }, {
+        path: '/ApplicationHistory',
+        component: () => import('pages/client/ApplicationHistory.vue')
+      }, {
+        path: '/ApplicationHistory/:id',
+        component: () => import('pages/client/ApplicationConfirm.vue')
+      }
     ]
   },
   {
@@ -20,7 +30,8 @@ const routes = [
       { path: '/admin/applicant-manage', component: () => import('pages/admin/ApplicantManage.vue') },
       { path: '/admin/applicant-manage/:id&:index', component: () => import('pages/admin/ApplicantList.vue') },
       { path: '/admin/new-event', component: () => import('pages/admin/NewEvent.vue') },
-      { path: '/admin/edit-event/:id', component: () => import('pages/admin/NewEvent.vue') }
+      { path: '/admin/edit-event/:id', component: () => import('pages/admin/NewEvent.vue') },
+      
     ]
   }
 ]
