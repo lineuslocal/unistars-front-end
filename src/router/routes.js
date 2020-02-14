@@ -9,7 +9,12 @@ const routes = [
       { path: '/resetpass', component: () => import('pages/client/Resetpass.vue') },
       { path: '/event', component: () => import('pages/client/Event.vue') },
       { path: '/event-style', component: () => import('pages/client/Event-style.vue') },
-      { path: '/event-detail', component: () => import('pages/client/Event-detail.vue') }
+      { path: '/event-detail', component: () => import('pages/client/Event-detail.vue') },
+      { path: '/reset-manager', component: () => import('pages/client/rs_manager.vue') },
+      { path: '/reset-manager-add', component: () => import('pages/client/rs_manager-add.vue') },
+      { path: '/reset-manager-month', component: () => import('pages/client/rs_manager-month.vue') },
+      { path: '/reset-manager-AdProd', component: () => import('pages/client/RS_manager-AdProd.vue') },
+      { path: '/study', component: () => import('pages/client/Study_manager.vue') }
     ]
   },
   {

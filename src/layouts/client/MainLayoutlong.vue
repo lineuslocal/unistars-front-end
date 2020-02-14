@@ -26,6 +26,17 @@
     >
       <q-list>
         <q-item-label header class="text-grey-8">Essential Links</q-item-label>
+        <q-item clickable v-ripple>
+          <q-item-section side>
+          <q-avatar>
+            <img src="../../statics/img/avatar.jpg">
+          </q-avatar>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Mary</q-item-label>
+            <q-item-label caption>2 new messages</q-item-label>
+          </q-item-section>
+        </q-item>
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
