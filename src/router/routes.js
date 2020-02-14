@@ -14,7 +14,18 @@ const routes = [
       { path: '/reset-manager-add', component: () => import('pages/client/rs_manager-add.vue') },
       { path: '/reset-manager-month', component: () => import('pages/client/rs_manager-month.vue') },
       { path: '/reset-manager-AdProd', component: () => import('pages/client/RS_manager-AdProd.vue') },
-      { path: '/study', component: () => import('pages/client/Study_manager.vue') }
+      { path: '/study', component: () => import('pages/client/Study_manager.vue') },
+      {
+        path: '/Apply',
+        component: () => import('pages/client/Apply.vue')
+      }, {
+        path: '/ApplicationHistory',
+        component: () => import('pages/client/ApplicationHistory.vue')
+      }, {
+        path: '/ApplicationHistory/:id',
+        component: () => import('pages/client/ApplicationConfirm.vue')
+      }
+
     ]
   },
   {
@@ -25,7 +36,8 @@ const routes = [
       { path: '/admin/applicant-manage', component: () => import('pages/admin/ApplicantManage.vue') },
       { path: '/admin/applicant-manage/:id&:index', component: () => import('pages/admin/ApplicantList.vue') },
       { path: '/admin/new-event', component: () => import('pages/admin/NewEvent.vue') },
-      { path: '/admin/edit-event/:id', component: () => import('pages/admin/NewEvent.vue') }
+      { path: '/admin/edit-event/:id', component: () => import('pages/admin/NewEvent.vue') },
+      
     ]
   }
 ]
