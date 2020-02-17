@@ -2,11 +2,43 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/client/MainLayoutlong.vue'),
+    component: () => import('layouts/client/Auth.vue'),
     children: [
-      { path: '/', component: () => import('pages/client/Login.vue') },
-      { path: '/signup', component: () => import('pages/client/Signup.vue') },
-      { path: '/resetpass', component: () => import('pages/client/Resetpass.vue') },
+      {
+        path: '',
+        name: 'Login',
+        component: () => import('pages/client/Login.vue'),
+        meta: { showHeader: true }
+      },
+      {
+        path: '/register',
+        name: 'Register',
+        component: () => import('pages/client/Register.vue'),
+        meta: { showHeader: true, showBack: true }
+      },
+      {
+        path: '/reset',
+        name: 'Reset',
+        component: () => import('pages/client/Reset.vue'),
+        meta: { showHeader: true, showBack: true }
+      },
+      {
+        path: '/verify',
+        name: 'verify',
+        component: () => import('pages/client/Verify.vue'),
+        meta: { showHeader: true, showBack: true }
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: () => import('layouts/client/Main.vue'),
+    children: [
+      {
+        path: 'index',
+        name: 'Index',
+        component: () => import('pages/client/Index.vue')
+      },
       { path: '/event', component: () => import('pages/client/Event.vue') },
       { path: '/event-style', component: () => import('pages/client/Event-style.vue') },
       { path: '/event-detail', component: () => import('pages/client/Event-detail.vue') },

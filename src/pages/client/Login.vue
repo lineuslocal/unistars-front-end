@@ -1,338 +1,209 @@
 <template>
 <q-page class="flex q-pa-lg">
-  <div class="full-width">
-
-     <!---->
-
- <div class="text-center">
-        <q-badge
-        color="white" 
+    <div class="full-width">
+      <br>
+      <div class="text-center"
+        color="white"
         text-color="black">
         <h4>Login</h4>
-      
-    </q-badge>
       </div>
-     <!---->
-     <div class="text-center">
-        <q-badge
-        color="white" 
+          <div class="text-center"
+        color="white"
         text-color="black">
-        
-        <p>Please enter your account</p>
-      
-    </q-badge>
+        <p>Please enter your account.</p>
       </div>
- <!---->
-    <q-form 
-      @submit="onSubmit"
-      @reset="onReset"
-      class="q-gutter-md" >
-      <div class="row">
-      
-       <!---->
-
-   </div>
-  
-    <div class="row">
-    <q-input 
-      class="col-12"
-        type="email"
-        outlined
-        suffix="@gmail.com"
-         error-label=" A valid email"
-          :count="10"
-        color="secondary"
-        maxlength="30"
-        v-model="login.email"
-        @keyup.enter="submit"
-        placeholder="ID (Email)"
-        lazy-rules
-        :rules="[
-        val => val && val.length > 0 || 'Please type something',
-       val => val !== null && val !== '' || 'Please type your Email',
-        
-        ]"
-      
-      />
+    <div class="col-12">
+        <q-input
+          placeholder="E-mail"
+          outlined
+          type="email"
+          v-model="form.email"
+          :error="$v.form.email.$invalid"
+          maxlength="50"
+          clearable
+        ></q-input>
       </div>
-      <div>
-      <q-input 
-      ref="input"
-      v-model="login.password" 
-      outlined
-      color="secondary"
-      placeholder="Password"
-      :type="isPwd ? 'password' : 'text'"
-      lazy-rules
-        :rules="[
-        
-          val => val && val.length > 0 || 'Please type something',
-          val => val !== null && val !== '' || 'Please type your Password',
-        ]">
-        <template v-slot:append>
-          <q-icon
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            class="cursor-pointer"
-            @click="isPwd = !isPwd"
-          />
-        </template>
-      </q-input>
+      <div class="col-12 q-mb-sm">
+        <q-input
+          outlined
+          color="green"
+          :type="isPwd ? 'password' : 'text'"
+          placeholder="Password"
+          v-model="form.password"
+          maxlength="20"
+          :error="$v.form.password.$invalid"
+          clearable
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
       </div>
-     
-      <!-- COnfirm -->
-      <div>
-    <q-btn 
-    size="md"
-    @click="waring"
-    @keyup.enter="submit"
-    unelevated  
-    type="submit" color="blue-6" class="full-width text-white" 
-    label="Sign In" />
+      <div class="col-12 q-mb-sm">
+        <q-btn
+          label="Sign In"
+          color="primary"
+          class="full-width"
+          @click="signIn()"
+          :disable="isDisabled()"
+          :outline="isDisabled()"
+        ></q-btn>
       </div>
-      
-      <div class="flex flex-center">
-       <q-card-section class="col-8">
-            <p 
-            class="btn btn-info"
+      <br>
+       <div class="flex flex-center">
+       <p class="col-6"
+          v-once
+          @click="finduser = true" >
+            Forgot your password? &nbsp; &nbsp; / </p>
+            <p class="col-6" @click="signup"
             v-once
-          @click="finduser = true"
-            >
-            Did you forget your password /  </p>
-          </q-card-section>
-        <q-card-section class="col-4">
-            <p
-            class="btn btn-info"
-            v-once
-            @click="signup"
-            >
-            Signup </p>
-          </q-card-section>
+            no-ripple
+            >&nbsp; Signup</p>
       </div>
-  
-      <div class="text-center" >
-        <p> or login with </p>
-        <div 
-        ref="signinBtn" 
-        class="btn-sign-in">Sign In</div>
-  
-     <q-btn 
-     round 
-     flat 
-     color="indigo-8" 
-     type="a" 
-     href="https://facebook.com" 
-     target="_blank" > 
-               <q-img
-            src="~assets/client/facebook-icon.svg"
-          
-        /> 
-              </q-btn>
-              <q-btn 
-              
-              round 
-              flat 
-              color="white"
-              type="a" 
-              href="https://mail.google.com/" >
-               <q-img
-              
-              style="width: 70px"
-            src="~assets/client/gmail-icon-2.svg"
-          
-        />
-              </q-btn>
-              <q-btn 
-              round 
-              flat
-               type="a" 
-     href="https://accounts.kakao.com/">
-               <q-img
-              
-            src="~assets/client/kakaotalk.svg"
-          
-        />
-              </q-btn>
-      </div>
-    </q-form>
-   <q-dialog v-model="finduser">
+      <q-dialog v-model="finduser">
       <q-card>
-        <q-toolbar>
-          <q-avatar>
-            
-          </q-avatar>
-          
-
-          <q-toolbar-title><span class="text-weight-bold">Verify</span> your userid</q-toolbar-title>
-
-          <q-btn flat round dense icon="close" v-close-popup />
-        </q-toolbar>
-        <div >
-      <q-input 
-      style="width: 420px; "
-         type="email"
-        outlined
-         error-label=" A valid email"
-        :count="10"
-        color="secondary"
-        maxlength="30"
-        v-model="login.mail"
-        placeholder="Email"
-        lazy-rules
-        :rules="[
-        val => val && val.length > 0 || 'Please type something',
-       val => val !== null && val !== '' || 'Please type your Email',
-        
-        ]"
-
-      />
-      </div>
         <q-card-section>
+          <div class="text-h6">Verify UserID</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section style="max-height: 90vh" class="scroll">
+           <div >
+       <q-input class="flex flex-center"
+          outlined
+          placeholder="E-Mail"
+          type="email"
+          v-model="findemail"
+          :error="$v.findemail.$invalid"
+          maxlength="50"
+          clearable
+        ></q-input>
+      </div>
          * Please enter the  e-mail address you created during registration. <br>
             A temporary password will be issued to you by e-mail.
         </q-card-section>
+        <q-separator />
         <div class="row">
-          
-           <q-btn class="col-6"
-    @keyup.enter="submit"
-    unelevated 
-    to=""
-    outlined
-    type="exit" color="grey-8"
-    label="Cancel" />
-        <q-btn class="col-6"
-    @keyup.enter="submit"
-    unelevated 
-    to="/resetpass"
-    outlined
-    type="submit" color="blue-6"
-    label="Confirm" />
-    
-    </div>
-
+          <q-btn class="col-6" label="Cancel" color="grey-6" v-close-popup />
+          <q-btn
+           class="col-6" label="Confirm" color="primary" to="/Verify"  />
+        </div>
       </q-card>
     </q-dialog>
-  </div>
+    <br>
+    <br>
+    <div class="row">
+    </div>
+      <div class="flex flex-center text-center">
+        <p>Or signup with</p>
+      </div>
+      <div class="flex flex-center">
+     <q-btn
+          round
+          @click="authSocialNetwork('google')"
+          size="18px"
+          text-color="deep-orange"
+          color="white"
+          icon="fab fa-google"
+        ></q-btn>
+      <br>
+      &#160;
+      &#160;
+       <div class="row">
+        <q-btn
+          round
+          @click="authSocialNetwork('facebook')"
+          size="18px"
+          text-color="blue-6"
+          color="white"
+          icon="fab fa-lg fa-facebook-f"
+        ></q-btn>
+      </div>
+      </div>
+    </div>
   </q-page>
 </template>
-
 <script>
-
-import axios from 'axios';
-import { required, email } from 'vuelidate/lib/validators'
-
+import { required, minLength, maxLength, email } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
+import SocialNetwork from 'src/mixins/SocialNetwork'
 export default {
+  props: {
+    openDialog: Function
+  },
+  mixins: [SocialNetwork],
   data () {
-    
     return {
-      isPwd: true,
       finduser: false,
-      loading1: false,
-      login: {
-      phone: '',
-      phoneNumber: '',
-      email: '',
-      password: '',
-      mail: '',
-      accept: false,
-      },
-     
-}
-    
+      findemail: '',
+      isPwd: true,
+      form: {
+        email: '',
+        password: ''
+      }
+    }
   },
-   mounted () {
-    
-    window.gapi.load('auth2', () => {
-
-      const auth2 = window.gapi.auth2.init({
-        client_id: '996745877431-mh0nlornfeq1qh5mepommu36r01o2fge.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin'
-      })
-      auth2.attachClickHandler(this.$refs.signinBtn, {}, googleUser => {
-        
-        this.$emit('success', googleUser)
-      }, error => {
-            this.$emit('error', error)
-            this.$emit('failure', error) // an alias
-          })
-    })
+  computed: {
   },
-
+  mounted () {
+    this.$v.form.$touch()
+  },
   methods: {
-     signup () {
-      this.$router.push('/signup')
+    ...mapActions('Auth', ['AuthLogin']),
+    authSocialNetwork (network) {
+      let callback = (json) => {
+        let form = {
+          email: json.email,
+          isSocialNetwork: true
+        }
+        console.log('form', form)
+        this.signIn(form)
+      }
+      if (network === 'facebook') { this.authFacebook(callback) } else { this.authGoogle(callback) }
     },
-    onSubmit () {
-      if (this.accept !== true) {
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'warning',
-          message: 'You need to accept the license and terms first'
+    signIn (form) {
+      if (!form) { form = this.form }
+      this.$q.loading.show()
+      this.AuthLogin(form)
+        .then((user) => {
+          if (user) {
+            this.$q.notify({ message: 'Authenticated with success', color: 'positive', timeout: 1000 })
+            this.$router.replace('/index')
+          }
         })
-      }
-      else {
-        this.$q.notify({
-          color: 'green-5',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Submitted'
+        .catch((err) => {
+          console.error(err)
         })
-      }
+        .finally(() => this.$q.loading.hide())
     },
-    onReset () {
-      this.email = null
-      this.password = null
-      this.accept = false
+    isDisabled () {
+      return this.$v.form.$invalid || this.$v.form.$error
     },
-    
-    submit(){
-      this.$v.login.$touch()
-      if(this.$v.login.$error){
-         this.$q.notify('Please review fields again.')
-        return
-      }
-    },
-    suscess () {
-      this.$q.notify({
-        message: 'Your temporary passwords has been send your email!',
-        color: 'blue',
-      html: true
-      })
-    },
-    waring () {
-      this.$q.notify({
-        message: 'Wrong Invalid Username or password',
-        color: 'red',
-        position: 'bottom-right',
-        type:'warning',
-        timeout: 1000,
-        textColor: 'black',
-        icon: 'warning',
-      html: true
-      })
-    },
-    
-  
+    signup () {
+      this.$router.push('/register')
+    }
   },
-  
-
-    onReset () {
-      this.email = false
-      this.password = false
-      this.accept = false
+  validations: {
+    findemail: {
+      email,
+      required,
+      maxLength: maxLength(50)
     },
-  
-  simulateProgress (number) {
-      // we set loading state
-      this[`loading${number}`] = true
-      // simulate a delay
-      setTimeout(() => {
-        // we're done, we reset loading state
-        this[`loading${number}`] = false
-      }, 3000)
-    },
-  
+    form: {
+      email: {
+        email,
+        required,
+        maxLength: maxLength(50)
+      },
+      password: {
+        required,
+        minLength: minLength(4),
+        maxLength: maxLength(20)
+      }
+    }
   }
-
- 
+}
 </script>

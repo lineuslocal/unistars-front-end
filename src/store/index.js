@@ -4,7 +4,7 @@ import Event from './module-example/Event'
 import Applicant from './module-example/Applicant'
 import state from './module-example/state'
 import * as mutations from './module-example/mutations'
-
+import Auth from './auth'
 Vue.use(Vuex)
 
 /*
@@ -22,7 +22,8 @@ export default function (/* { ssrContext } */) {
     mutations,
     modules: {
       Event,
-      Applicant
+      Applicant,
+      Auth
     },
 
     // enable strict mode (adds overhead!)
