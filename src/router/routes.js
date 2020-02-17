@@ -15,29 +15,25 @@ const routes = [
       { path: '/reset-manager-month', component: () => import('pages/client/rs_manager-month.vue') },
       { path: '/reset-manager-AdProd', component: () => import('pages/client/RS_manager-AdProd.vue') },
       { path: '/study', component: () => import('pages/client/Study_manager.vue') },
-      {
-        path: '/Apply',
-        component: () => import('pages/client/Apply.vue')
-      }, {
-        path: '/ApplicationHistory',
-        component: () => import('pages/client/ApplicationHistory.vue')
-      }, {
-        path: '/ApplicationHistory/:id',
-        component: () => import('pages/client/ApplicationConfirm.vue')
-      }
-
+      { path: '/Apply', component: () => import('pages/client/Apply.vue') }, 
+      { path: '/ApplicationHistory', component: () => import('pages/client/ApplicationHistory.vue')}, 
+      { path: '/ApplicationHistory/:id', component: () => import('pages/client/ApplicationConfirm.vue')}
     ]
   },
   {
     path: '/admin',
-    component: () => import('layouts/admin/AdminLayout.vue'),
+    component: () => import('layouts/admin/AdminLayoutWeb.vue'),
     children: [
-      { path: '', component: () => import('pages/admin/EventManage.vue') },
-      { path: '/admin/applicant-manage', component: () => import('pages/admin/ApplicantManage.vue') },
-      { path: '/admin/applicant-manage/:id&:index', component: () => import('pages/admin/ApplicantList.vue') },
-      { path: '/admin/new-event', component: () => import('pages/admin/NewEvent.vue') },
-      { path: '/admin/edit-event/:id', component: () => import('pages/admin/NewEvent.vue') },
-      
+      { path: '/admin/edu-event/:cat_id', 
+        component: () => import('pages/admin/EventManagerWeb.vue'),
+        children: [
+          { path: '/admin/applicant-manager/:id', component: () => import('pages/admin/ApplicantManagerWeb.vue') },
+          { path: '/admin/detail-applicant/:id', component: () => import('pages/admin/ApplicantDetailWeb.vue') }
+        ] 
+      },
+      { path: '/admin/event-detail/:id', component: () => import('pages/admin/EventDetailWeb.vue') },
+      { path: '/admin/edit-event/:id', component: () => import('pages/admin/NewEventWeb.vue') },
+      { path: '/admin/add-event', component: () => import('pages/admin/NewEventWeb.vue') }
     ]
   }
 ]

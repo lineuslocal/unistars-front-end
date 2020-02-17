@@ -1,0 +1,372 @@
+<template>
+  <q-page style="margin-top:30px">
+    <q-tabs
+      v-model="tab"
+      dense
+      class="text-grey"
+      active-color="primary"
+      indicator-color="primary"
+      align="justify"
+      narrow-indicator
+      inline-label
+    >
+      <template v-for="catalog in catalogs">
+        <q-tab :name="catalog.id" :label="catalog.Name_event" icon="event_available"/>
+      </template>
+      
+    </q-tabs>
+    <q-separator />
+    <q-tab-panels v-model="tab" animated
+      swipeable
+      infinite> 
+      <template v-for="catalog in catalogs">
+        <q-tab-panel :name="catalog.id" >
+          <div class="cus-title">
+            <q-icon name="event_available" />&nbsp;&nbsp;&nbsp;{{catalog.Name_event}}
+          </div>
+          <div class="cus-title-table">
+            <q-icon name="event_available" />&nbsp;&nbsp;&nbsp;{{catalog.Name_event}} - List
+          </div>
+          <div class="cus-container">
+            <div class="row flex justify-between">
+              <div>
+                <q-btn color="white" text-color="black" icon="refresh" class="cus-btn"/>
+                <q-btn
+                  color="white"
+                  text-color="black"
+                  icon="add"
+                  style="width:35px; height:35px; margin-right: 12px;"
+                  to="/admin/add-event"
+                />
+                <q-btn
+                  color="white"
+                  text-color="black"
+                  icon="delete"
+                  style="width:35px; height:35px"
+                  @click="deleteEvent()"
+                />
+              </div>
+              <q-input dense v-model="filterEvent" placeholder="Title">
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+            <q-item v-ripple class="row" style="font-weight:bold">
+              <q-item-section class="col-1">
+                <q-checkbox size="xs" v-model="del" />
+              </q-item-section>
+              <q-item-section class="col-1">#</q-item-section>
+              <q-item-section class="col-4">
+                <q-item-label @click="sortByName">Title</q-item-label>
+              </q-item-section>
+              <q-item-section class="col-2">
+                <q-item-label @click="sortByDate">Personnel</q-item-label>
+              </q-item-section>
+              <q-item-section class="col-2">
+                <q-item-label @click="sortByDate">Reg.date</q-item-label>
+              </q-item-section>
+              <q-item-section class="col-2">
+                <q-item-label>Update</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-list class="bg-white" separator bordered>
+              <q-item
+                v-for="(event, index) in events"
+                :key="event.id"
+                v-ripple
+                class="row"
+                clickable
+                @click="toAppplicantList(event.id)"
+              >
+                <q-item-section class="col-1">
+                  <q-checkbox
+                    size="xs"
+                    v-model="canDelEvent[index].chosen"
+                    v-if="canDelEvent[index].canDel"
+                  />
+                  <q-checkbox
+                    size="xs"
+                    v-model="canDelEvent[index].chosen"
+                    disable
+                    v-if="!(canDelEvent[index].canDel)"
+                  />
+                </q-item-section>
+                <q-item-section class="col-1">
+                  <q-item-label>{{index+1}}</q-item-label>
+                </q-item-section>
+                <q-item-section class="col-4">
+                  <q-item-label style="color:#1976D2" @click.stop="toEventDetail(event.id)">{{event.title}}</q-item-label>
+                </q-item-section>
+                <q-item-section class="col-2">
+                  <q-item-label>{{event.maxParticipant}}</q-item-label>
+                </q-item-section>
+                <q-item-section class="col-2">
+                  <q-item-label>{{event.createdDate}}</q-item-label>
+                </q-item-section>
+                <q-item-section class="col-2">
+                  <q-btn
+                    v-if="!(event.currentParticipant > 0)"
+                    size="xs"
+                    color="primary"
+                    label="Update"
+                    :to="'/admin/edit-event/' + event.id"
+                    style="width:50%"
+                  />
+                  <q-btn
+                    v-if="event.currentParticipant > 0"
+                    size="xs"
+                    color="primary"
+                    label="Update"
+                    style="width:50%"
+                    @click.stop="alertUpdate(index)"
+                  />
+                </q-item-section>
+              </q-item>
+            </q-list>
+            <div class="flex flex-center">
+              <q-pagination
+                size="xs"
+                v-model="current"
+                :max="5"
+                :input="true"
+              >
+              </q-pagination>
+            </div>
+          </div>
+          <router-view />
+        </q-tab-panel>
+      </template>
+    </q-tab-panels>
+  </q-page>
+</template>
+
+<script>
+export default {
+  name: "EventManager",
+  data() {
+    return {
+  //test
+      temp:[],
+      catalogs:[
+        {
+          id: 1,
+          image: "/statics/image/anh5.jpg",
+          Name_event: "Spring Season Event ",
+          Payment_type: "Free",
+          startDate: "12/12(moday)",
+          endDate: "13/12(sunday)"
+        },
+        {
+          id: 2,
+          image: "/statics/image/anh5.jpg",
+          Name_event: "Summer Season Event",
+          Payment_type: "Free",
+          startDate: "12/12(moday)",
+          endDate: "13/12(sunday)"
+        },
+        {
+          id: 3,
+          image: "/statics/image/anh5.jpg",
+          Name_event: "Autumn Season Event",
+          Payment_type: "Free",
+          startDate: "12/12(moday)",
+          endDate: "13/12(sunday)"
+        },
+        {
+          id: 4,
+          image: "/statics/image/anh5.jpg",
+          Name_event: "Winter Season Event",
+          Payment_type: "Free",
+          startDate: "12/12(moday)",
+          endDate: "13/12(sunday)"
+        }
+      ],
+//test
+      current: 1,
+      tab: 3,
+      filterEvent: "",
+      canDelEvent: [],
+      del: false,
+      sortName: "ascending",
+      sortDate: "descending",
+      sortOrder: "ascending"
+    };
+  },
+  computed: {
+    events() {
+      this.canDelEvent = [];
+      this.$store.state.Event.events
+        .filter(event => {
+          return (
+            event.title.toLowerCase().match(this.filterEvent.toLowerCase())
+          );
+        })
+        .forEach(element => {
+          if (element.currentParticipant > 0) {
+            this.canDelEvent.push({
+              id: element.id,
+              canDel: false,
+              chosen: false
+            });
+          } else {
+            this.canDelEvent.push({
+              id: element.id,
+              canDel: true,
+              chosen: false
+            });
+          }
+        });
+      return this.$store.state.Event.events.filter(event => {
+        return (
+          event.title.toLowerCase().match(this.filterEvent.toLowerCase())
+        );
+      });
+    }
+  },
+  methods: {
+    deleteEvent() {
+      var delList = [];
+      this.canDelEvent.forEach(event => {
+        if (event.chosen == true) {
+          delList.push(event.id);
+        }
+      });
+      if (delList.length > 0) {
+        if (delList.length > 1) {
+          var text = delList.length + " events";
+        } else {
+          var text = delList.length + " event";
+        }
+        this.$q
+          .dialog({
+            title: "Alert",
+            message:
+              "if you delete, you cannot find it again. Do you really want to delete " +
+              text,
+            cancel: true,
+            persistent: true
+          })
+          .onOk(() => {
+            console.log(">>>> OK");
+            console.log(delList);
+            this.$store.commit("Event/deleteEvent", delList);
+            this.canDelEvent = [];
+          })
+          .onCancel(() => {
+            console.log(">>>> Cancel");
+          });
+      } else {
+        this.$q
+          .dialog({
+            title: "Alert",
+            message: "Please check event that you want to delete",
+            persistent: true
+          })
+          .onOk(() => {});
+      }
+    },
+    sortByName() {
+      if (this.sortName == "ascending") {
+        this.$store.commit("Event/sortAscByName");
+        this.sortName = "descending";
+      } else {
+        this.$store.commit("Event/sortDesByName");
+        this.sortName = "ascending";
+      }
+    },
+    sortByDate() {
+      if (this.sortDate == "ascending") {
+        this.$store.commit("Event/sortAscByDate");
+        this.sortDate = "descending";
+      } else {
+        this.$store.commit("Event/sortDesByDate");
+        this.sortDate = "ascending";
+      }
+    },
+    sortByOrder () {
+      if (this.sortOrder == 'ascending') {
+        this.$store.commit('Applicant/sortAscByOrder')
+        this.sortOrder = 'descending'
+      }
+      else{
+        this.$store.commit('Applicant/sortDesByOrder')
+        this.sortOrder = 'ascending'
+      }
+    },
+    toAppplicantList( id ){
+      this.$router.push('/admin/applicant-manager/' + id)
+    },
+    toEventDetail( id ) {
+      this.$router.push('/admin/event-detail/' + id)
+    },
+    alertUpdate(index) {
+      this.$q
+          .dialog({
+            title: "Alert",
+            message:
+              `You cannot update this event because there 
+              ${this.events[index].currentParticipant > 1 ? 'are ' : 'is '} 
+              ${this.events[index].currentParticipant}
+              ${this.events[index].currentParticipant > 1 ? ' persons' : ' person'} applied.`,
+            persistent: true,
+          })
+    }
+  },
+  watch: {
+    del: function(val) {
+      if (val == true) {
+        this.canDelEvent.forEach(event => {
+          if (event.canDel == true) {
+            event.chosen = true;
+          }
+        });
+      } else {
+        this.canDelEvent.forEach(event => {
+          if (event.canDel == true) {
+            event.chosen = false;
+          }
+        });
+      }
+    },
+    $route(to, from) {
+      //this.tab= this.$route.params.cat_id
+    }
+
+  },
+  //test
+  created() {
+    console.log(this.tab)
+    this.tab = this.$route.params.cat_id
+    console.log(this.tab)
+  }
+  //test
+};
+</script>
+
+<style scoped>
+.cus-container {
+  padding: 20px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 12px;
+}
+.cus-btn {
+  width: 35px;
+  height: 35px;
+  margin-right: 12px;
+  color: rgba(0, 0, 0, 0.12);
+}
+.cus-title-table {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  height: 48px;
+  line-height: 48px;
+  font-size: 18px;
+  margin-top: 15px;
+  padding-left: 15px;
+}
+.cus-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+</style>

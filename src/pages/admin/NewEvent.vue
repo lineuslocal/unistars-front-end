@@ -45,7 +45,7 @@
           ]"
         />
       </div>
-      <q-input filled dense v-model="event.startTime" hint="Start time (yyyy-mm-dd hh:mm)">
+      <q-input filled dense v-model="event.startTime" hint="Start time (yyyy-mm-dd hh:mm)" mask="YYYY-MM-DD HH:mm" fill-mask :rules="['datetime']">
         <template v-slot:prepend>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">

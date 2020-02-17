@@ -2,18 +2,23 @@ const state = {
     events: [
         { 
             id: 1,
-            name: "<Busan> Success Core 5th Recruitment",
+            title: "<Busan> Success Core 5th Recruitment",
             place: "Busan",
             lecturer: "James Gosling",
-            maxParticipant: 50,
-            currentParticipant: 30,
+            maxParticipant: 40,
+            currentParticipant: 0,
             startTime: "2020-10-30 08:30",
             endTime: "2020-10-30 11:30",
-            startRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
-            price: 0,
-            addInfor: [
-                
+            addInfors: [
+                { question: "How old are you?", isRequired: true },
+                { question: "How long do you spend to exercise in every weekend?", isRequired: true },
+                { question: "what is your weight?", isRequired: false }
+            ],
+            surveys: [
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"]},
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"]},
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"]}
             ],
             description: `Open the evening with a brief welcome and thank all the people and organizations who helped
             put this event together. If cast/crew members are in attendance be sure to mention that there will"
@@ -22,50 +27,24 @@ const state = {
             photoHowToReg: "",
             photoAttGuide: "",
             photoLecInf: "",
-            createdDate: "2020-08-28",
+            createdDate: "2020-08-28 11:00",
+            câtlog_id: 999999
         },
         { 
             id: 2,
-            name: "<Seoul> Success Core 5th Recruitment",
-            place: "Busan",
-            lecturer: "James Gosling",
-            maxParticipant: 50,
-            currentParticipant: 0,
-            startTime: "2020-10-30 08:30",
-            endTime: "2020-10-30 11:30",
-            startRegTime: "2020-09-01 00:00",
-            endRegTime: "2020-09-28 23:59",
-            price: 25000,
-            addInfor: [
-                { question: "How old are you?", isRequired: true },
-                { question: "How long do you spend to exercise in every weekend?", isRequired: true },
-                { question: "what is your weight?", isRequired: true }
-            ],
-            description: `Open the evening with a brief welcome and thank all the people and organizations who helped
-            put this event together. If cast/crew members are in attendance be sure to mention that there will"
-            be a Q&A following the screening`,
-            photoEvent: "/statics/img/event.jpg",
-            photoHowToReg: "",
-            photoAttGuide: "",
-            photoLecInf: "",
-            createdDate: "2020-08-16",
-        },
-        { 
-            id: 3,
-            name: "<Osaka> Success Core 5th Recruitment",
+            title: "<Tokyo> Success Core 5th Recruitment",
             place: "Busan",
             lecturer: "James Gosling",
             maxParticipant: 50,
             currentParticipant: 30,
             startTime: "2020-10-30 08:30",
             endTime: "2020-10-30 11:30",
-            startRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
-            price: 0,
-            addInfor: [
-                { question: "How old are you?", isRequired: true },
-                { question: "How long do you spend to exercise in every weekend?", isRequired: true },
-                { question: "what is your weight?", isRequired: true }
+            addInfors: [
+              
+            ],
+            surveys: [
+               
             ],
             description: `Open the evening with a brief welcome and thank all the people and organizations who helped
             put this event together. If cast/crew members are in attendance be sure to mention that there will"
@@ -74,59 +53,7 @@ const state = {
             photoHowToReg: "",
             photoAttGuide: "",
             photoLecInf: "",
-            createdDate: "2020-08-17",
-        },
-        { 
-            id: 4,
-            name: "<Tokyo> Success Core 5th Recruitment",
-            place: "Busan",
-            lecturer: "James Gosling",
-            maxParticipant: 50,
-            currentParticipant: 0,
-            startTime: "2020-10-30 08:30",
-            endTime: "2020-10-30 11:30",
-            startRegTime: "2020-09-01 00:00",
-            endRegTime: "2020-09-28 23:59",
-            price: 25000,
-            addInfor: [
-                { question: "How old are you?", isRequired: true },
-                { question: "How long do you spend to exercise in every weekend?", isRequired: true },
-                { question: "what is your weight?", isRequired: true }
-            ],
-            description: `Open the evening with a brief welcome and thank all the people and organizations who helped
-            put this event together. If cast/crew members are in attendance be sure to mention that there will"
-            be a Q&A following the screening`,
-            photoEvent: "/statics/img/event.jpg",
-            photoHowToReg: "",
-            photoAttGuide: "",
-            photoLecInf: "",
-            createdDate: "2020-08-18",
-        },
-        { 
-            id: 5,
-            name: "<Tokyo> Success Core 5th Recruitment",
-            place: "Busan",
-            lecturer: "James Gosling",
-            maxParticipant: 50,
-            currentParticipant: 0,
-            startTime: "2020-10-30 08:30",
-            endTime: "2020-10-30 11:30",
-            startRegTime: "2020-09-01 00:00",
-            endRegTime: "2020-09-28 23:59",
-            price: 25000,
-            addInfor: [
-                { question: "How old are you?", isRequired: true },
-                { question: "How long do you spend to exercise in every weekend?", isRequired: true },
-                { question: "what is your weight?", isRequired: true }
-            ],
-            description: `Open the evening with a brief welcome and thank all the people and organizations who helped
-            put this event together. If cast/crew members are in attendance be sure to mention that there will"
-            be a Q&A following the screening`,
-            photoEvent: "/statics/img/event.jpg",
-            photoHowToReg: "",
-            photoAttGuide: "",
-            photoLecInf: "",
-            createdDate: "2020-08-18",
+            createdDate: "2020-08-30 13:20",
         }
     ],
     currentEvent: {}
@@ -135,7 +62,7 @@ const mutations = {
     saveEvent( state, changedEvent ) {
         state.events.forEach(event => {
             if ( event.id ==  changedEvent.id ) {
-              event.name = changedEvent.name
+              event.title = changedEvent.title
               event.place = changedEvent.place
               event.lecturer = changedEvent.lecturer
               event.maxParticipant = changedEvent.maxParticipant
@@ -145,9 +72,13 @@ const mutations = {
               event.startRegTime = changedEvent.startRegTime
               event.endRegTime = changedEvent.endRegTime
               event.price = changedEvent.price
-              event.addInfor = []
-              changedEvent.addInfor.forEach( e => {
-                event.addInfor.push(e)
+              event.addInfors = []
+              changedEvent.addInfors.forEach( e => {
+                event.addInfors.push(e)
+              })
+              event.surveys = []
+              changedEvent.surveys.forEach( e => {
+                event.surveys.push(e)
               })
               event.description = changedEvent.description
               event.photoEvent = changedEvent.photoEvent
@@ -179,8 +110,8 @@ const mutations = {
     },
     sortAscByName (state) {
         state.events.sort( (a, b) => {
-            var x = a.name.toLowerCase()
-            var y = b.name.toLowerCase()
+            var x = a.title.toLowerCase()
+            var y = b.title.toLowerCase()
             if ( x < y) {return 1}
             if ( x > y) {return -1}
             return 0
@@ -188,8 +119,8 @@ const mutations = {
     },
     sortDesByName (state) {
         state.events.sort( (a, b) => {
-            var x = a.name.toLowerCase()
-            var y = b.name.toLowerCase()
+            var x = a.title.toLowerCase()
+            var y = b.title.toLowerCase()
             if ( x < y) {return 1}
             if ( x > y) {return -1}
             return 0

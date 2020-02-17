@@ -6,73 +6,39 @@ const state = {
             email: 'example@gmail.com',
             phone:'0123456789',
             belongs: 'The Player',
-            appliedDate: '2020-01-01',
+            appliedDate: '2020-01-01 08:30',
             orderNo: 3,
-            state: 'registered',
-            addInfor: [
+            state: 'Applied',
+            NumOfTicket: 5,
+            addInfors: [
                 { question: "How old are you?", isRequired: true, answer: "18" },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
+            surveys:[
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "bad"},
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
+            ]
         },
         {
             id: 2,
-            name: 'Nelson Mandela',
+            name: 'Steve McManaman',
             email: 'example@gmail.com',
             phone:'0123456789',
             belongs: 'The Player',
-            appliedDate: '2020-12-01',
-            orderNo: 5,
-            state: 'registered',
+            appliedDate: '2020-01-01 08:30',
+            orderNo: 3,
+            state: 'Attended',
+            NumOfTicket: 5,
             addInfor: [
                 { question: "How old are you?", isRequired: true, answer: "18" },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
-                { question: "How old are you?", isRequired: true, answer: "18" },
-                { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
-                { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
-        },
-        {
-            id: 3,
-            name: 'Franklin D. Roosevelt',
-            email: 'example@gmail.com',
-            phone:'0123456789',
-            belongs: 'The Player',
-            appliedDate: '2019-01-03',
-            orderNo: 2,
-            state: 'registered',
-            addInfor: [
-
-            ],
-        },
-        {
-            id: 4,
-            name: 'Mahatma Gandhi',
-            email: 'example@gmail.com',
-            phone:'0123456789',
-            belongs: 'The Player',
-            appliedDate: '2020-01-05',
-            orderNo: 4,
-            state: 'registered',
-            addInfor: [
-                { question: "How old are you?", isRequired: true, answer: "18" },
-            ],
-        },
-        {
-            id: 5,
-            name: 'Bill Gates',
-            email: 'example@gmail.com',
-            phone:'0123456789',
-            belongs: 'The Player',
-            appliedDate: '2018-10-30',
-            orderNo: 1,
-            state: 'registered',
-            addInfor: [
-                { question: "How old are you?", isRequired: true, answer: "18" },
-                { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
-            ],
-        },
+            survey:[
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
+            ]
+        }
     ]
 }
 const mutations = {
@@ -108,15 +74,20 @@ const mutations = {
             return parseInt(b.appliedDate.split('-').join('')) - parseInt(a.appliedDate.split('-').join(''))
         })
     },
-    sortAscByOrder(state) {
+    sortAscByStatus(state) {
         state.applicants.sort((a, b) => {
-            return a.orderNo - b.orderNo
+            if (a.state < b.state) { return 1 }
+            if (a.state > b.state) { return -1 }
+            return 0
         })
     },
-    sortDesByOrder(state) {
+    sortDesByStatus(state) {
         state.applicants.sort((a, b) => {
-            return b.orderNo - a.orderNo
+            if (a.state < b.state) { return 1 }
+            if (a.state > b.state) { return -1 }
+            return 0
         })
+        state.applicants.reverse()
     },
 }
 export default {
