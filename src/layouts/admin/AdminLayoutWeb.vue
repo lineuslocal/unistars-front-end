@@ -85,15 +85,45 @@
           </q-list>
           
         </q-expansion-item>
-        <q-expansion-item @click="isActive[4] = !isActive[4]">
+       <q-expansion-item @click="isActive[4] = !isActive[4]">
           <template v-slot:header>
             <q-item-section avatar>
-              <q-icon color="primary" name="ion-help-circle" />
+              <q-icon color="primary" name="help" />
             </q-item-section>
             <q-item-section v-bind:class="{ active: isActive[4] }">
               FAQ
             </q-item-section>
           </template>
+           <q-list>
+            <q-item clickable  class="cus-sub-menu">
+              <q-item-section avatar>
+                <q-icon size="xs" name="collections_bookmark" />
+              </q-item-section>
+              <q-item-section style="margin-left:-20px">
+               Category
+              </q-item-section>
+            </q-item>
+          </q-list>
+          <q-list>
+            <q-item clickable to="/admin/faq-keyword" class="cus-sub-menu">
+              <q-item-section avatar>
+                <q-icon size="xs" name="keyboard" />
+              </q-item-section>
+              <q-item-section style="margin-left:-20px">
+               Keyword
+              </q-item-section>
+            </q-item>
+          </q-list>
+          <q-list>
+            <q-item clickable  class="cus-sub-menu">
+              <q-item-section avatar>
+                <q-icon size="xs" name="help" />
+              </q-item-section>
+              <q-item-section style="margin-left:-20px">
+               FAQ
+              </q-item-section>
+            </q-item>
+          </q-list>
         </q-expansion-item>
         <q-expansion-item @click="isActive[5] = !isActive[5]">
           <template v-slot:header>
