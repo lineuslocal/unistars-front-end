@@ -1,26 +1,5 @@
 <template>
-  <q-page style="margin-top:30px">
-    <q-tabs
-      v-model="tab"
-      dense
-      class="text-grey"
-      active-color="primary"
-      indicator-color="primary"
-      align="justify"
-      narrow-indicator
-      inline-label
-    >
-      <template v-for="catalog in catalogs">
-        <q-tab :name="catalog.id" :label="catalog.Name_event" icon="event_available"/>
-      </template>
-      
-    </q-tabs>
-    <q-separator />
-    <q-tab-panels v-model="tab" animated
-      swipeable
-      infinite> 
-      <template v-for="catalog in catalogs">
-        <q-tab-panel :name="catalog.id" >
+  <q-page class="cus-layout">
           <div class="cus-title">
             <q-icon name="event_available" />&nbsp;&nbsp;&nbsp;{{catalog.Name_event}}
           </div>
@@ -36,7 +15,7 @@
                   text-color="black"
                   icon="add"
                   style="width:35px; height:35px; margin-right: 12px;"
-                  to="/admin/add-event"
+                  :to="'/admin/event/event-create/' + catalog.id"
                 />
                 <q-btn
                   color="white"
@@ -72,7 +51,7 @@
             </q-item>
             <q-list class="bg-white" separator bordered>
               <q-item
-                v-for="(event, index) in events"
+                v-for="(event, index) in pagingEvent"
                 :key="event.id"
                 v-ripple
                 class="row"
@@ -93,7 +72,7 @@
                   />
                 </q-item-section>
                 <q-item-section class="col-1">
-                  <q-item-label>{{index+1}}</q-item-label>
+                  <q-item-label>{{index+1 + (current-1)*5}}</q-item-label>
                 </q-item-section>
                 <q-item-section class="col-4">
                   <q-item-label style="color:#1976D2" @click.stop="toEventDetail(event.id)">{{event.title}}</q-item-label>
@@ -110,7 +89,7 @@
                     size="xs"
                     color="primary"
                     label="Update"
-                    :to="'/admin/edit-event/' + event.id"
+                    :to="'/admin/event/event-update/' + catalog.id + '/' + event.id"
                     style="width:50%"
                   />
                   <q-btn
@@ -128,70 +107,29 @@
               <q-pagination
                 size="xs"
                 v-model="current"
-                :max="5"
+                :max= maxPage
                 :input="true"
               >
               </q-pagination>
             </div>
           </div>
           <router-view />
-        </q-tab-panel>
-      </template>
-    </q-tab-panels>
   </q-page>
 </template>
 
 <script>
 export default {
-  name: "EventManager",
+  name: "EventManagerList",
   data() {
     return {
-  //test
-      temp:[],
-      catalogs:[
-        {
-          id: 1,
-          image: "/statics/image/anh5.jpg",
-          Name_event: "Spring Season Event ",
-          Payment_type: "Free",
-          startDate: "12/12(moday)",
-          endDate: "13/12(sunday)"
-        },
-        {
-          id: 2,
-          image: "/statics/image/anh5.jpg",
-          Name_event: "Summer Season Event",
-          Payment_type: "Free",
-          startDate: "12/12(moday)",
-          endDate: "13/12(sunday)"
-        },
-        {
-          id: 3,
-          image: "/statics/image/anh5.jpg",
-          Name_event: "Autumn Season Event",
-          Payment_type: "Free",
-          startDate: "12/12(moday)",
-          endDate: "13/12(sunday)"
-        },
-        {
-          id: 4,
-          image: "/statics/image/anh5.jpg",
-          Name_event: "Winter Season Event",
-          Payment_type: "Free",
-          startDate: "12/12(moday)",
-          endDate: "13/12(sunday)"
-        }
-      ],
-//test
-      current: 1,
-      tab: 3,
       filterEvent: "",
       canDelEvent: [],
       del: false,
       sortName: "ascending",
       sortDate: "descending",
-      sortOrder: "ascending"
-    };
+      sortOrder: "ascending",
+      current: 1,
+    }
   },
   computed: {
     events() {
@@ -222,6 +160,46 @@ export default {
           event.title.toLowerCase().match(this.filterEvent.toLowerCase())
         );
       });
+      // var x = []
+      // this.$store.state.Catalogue.catalog.forEach(e => {
+      //   if ( e.id == this.$route.params.cat_id ) {
+      //     x = e.events
+      //   }
+      // })
+      // this.canDelEvent = [];
+      // x.forEach( element => {
+      //   if (element.currentParticipant > 0) {
+      //       this.canDelEvent.push({
+      //         id: element.id,
+      //         canDel: false,
+      //         chosen: false
+      //       });
+      //     } else {
+      //       this.canDelEvent.push({
+      //         id: element.id,
+      //         canDel: true,
+      //         chosen: false
+      //       });
+      //     }
+      // })
+      // return x
+    },
+    catalog() {
+      var a
+      this.$store.state.Catalogue.catalog.forEach(e => {
+        if( e.id == this.$route.params.cat_id) {
+          a = e
+        }
+      })
+      return a
+    },
+    maxPage() {
+      return Math.ceil(this.events.length / 5)
+    },
+    pagingEvent() {
+      var startIndex = (this.current-1) * 5
+      var endIndex = this.current*5 -1 
+      return this.events.slice(startIndex, endIndex + 1)
     }
   },
   methods: {
@@ -295,10 +273,10 @@ export default {
       }
     },
     toAppplicantList( id ){
-      this.$router.push('/admin/applicant-manager/' + id)
+      this.$router.push('/admin/event/event-list/' + this.catalog.id + '/applicant-list/' +  id)
     },
     toEventDetail( id ) {
-      this.$router.push('/admin/event-detail/' + id)
+      this.$router.push('/admin/event/event-detail/' + this.catalog.id + '/' + id)
     },
     alertUpdate(index) {
       this.$q
@@ -311,7 +289,7 @@ export default {
               ${this.events[index].currentParticipant > 1 ? ' persons' : ' person'} applied.`,
             persistent: true,
           })
-    }
+    },
   },
   watch: {
     del: function(val) {
@@ -329,44 +307,40 @@ export default {
         });
       }
     },
-    $route(to, from) {
-      //this.tab= this.$route.params.cat_id
-    }
-
   },
-  //test
   created() {
-    console.log(this.tab)
-    this.tab = this.$route.params.cat_id
-    console.log(this.tab)
+
   }
-  //test
-};
+}
 </script>
 
 <style scoped>
-.cus-container {
-  padding: 20px 15px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  font-size: 12px;
-}
-.cus-btn {
-  width: 35px;
-  height: 35px;
-  margin-right: 12px;
-  color: rgba(0, 0, 0, 0.12);
-}
-.cus-title-table {
-  width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  height: 48px;
-  line-height: 48px;
-  font-size: 18px;
-  margin-top: 15px;
-  padding-left: 15px;
-}
-.cus-title {
-  font-size: 18px;
-  font-weight: bold;
-}
+  .cus-container {
+    padding: 20px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    font-size: 12px;
+  }
+  .cus-btn {
+    width: 35px;
+    height: 35px;
+    margin-right: 12px;
+    color: rgba(0, 0, 0, 0.12);
+  }
+  .cus-title-table {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    height: 48px;
+    line-height: 48px;
+    font-size: 18px;
+    margin-top: 15px;
+    padding-left: 15px;
+  }
+  .cus-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .cus-layout {
+    margin-top:20px;
+  }
+  
 </style>

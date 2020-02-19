@@ -34,10 +34,11 @@
           </q-item>
           <q-list class="bg-white" separator bordered>
             <q-item
-              v-for="(applicant, index) in applicants"
+              v-for="(applicant, index) in pagingApplicant"
               :key="applicant.id"
               v-ripple
               class="row"
+              clickable
             >
               <q-item-section class="col-1">
                 <q-checkbox
@@ -46,7 +47,7 @@
                 />
               </q-item-section>
               <q-item-section class="col-1">
-                <q-item-label>{{index+1}}</q-item-label>
+                <q-item-label>{{index+1 + (current-1)*5}}</q-item-label>
               </q-item-section>
               <q-item-section class="col-4">
                 <q-item-label style="color:#1976D2" @click.stop="toDetailApplicant(applicant.id)">{{applicant.name}}</q-item-label>
@@ -62,7 +63,7 @@
                   size="xs"
                   color="primary"
                   label="Update"
-                  :to="'/admin/edit-applicant/' + applicant.id"
+                  @click.stop="toUpdateApplicant(applicant.id)"
                   style="width:50%"
                 />
               </q-item-section>
@@ -72,7 +73,7 @@
             <q-pagination
               size="xs"
               v-model="current"
-              :max="5"
+              :max= maxPage
               :input="true"
             >
             </q-pagination>
@@ -128,11 +129,15 @@ export default {
       }
     },
     toDetailApplicant(id) {
-      this.$router.push("/admin/detail-applicant/" + id)
+      this.$router.push('/admin/event/event-list/' + this.$route.params.cat_id + '/applicant-detail/' +  this.$route.params.event_id + '/' +id)
+    },
+    toUpdateApplicant(id) {
+      this.$router.push('/admin/event/event-list/' + this.$route.params.cat_id + '/applicant-update/' +  this.$route.params.event_id + '/' +id)
     }
   },
   computed: {
     applicants() {
+      //this.$store.commit('Applicant/sortAscByName')
       this.$store.state.Applicant.applicants.filter(applicant => {
         return (
           applicant.name.toLowerCase().match(this.filterEvent.toLowerCase())
@@ -141,14 +146,36 @@ export default {
       .forEach(element => {
         this.applicantChosen.push(false)
       });
-      
+       
       return this.$store.state.Applicant.applicants.filter(applicant => {
         return (
           applicant.name.toLowerCase().match(this.filterEvent.toLowerCase())
         )
       })
+    },
+    maxPage() {
+      return Math.ceil(this.applicants.length / 5)
+    },
+    pagingApplicant() {
+      var startIndex = (this.current-1) * 5
+      var endIndex = this.current*5 -1 
+      return this.applicants.slice(startIndex, endIndex + 1)
     }
   },
+  watch: {
+    del : function(val) {
+      if (val == true) {
+        this.applicantChosen.forEach((a, index) => {
+          this.applicantChosen[index] = true
+        })
+      }
+      else{
+        this.applicantChosen.forEach((a, index) => {
+          this.applicantChosen[index] = false
+        })
+      }
+    }
+  }
 };
 </script>
 

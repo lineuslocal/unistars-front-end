@@ -56,16 +56,22 @@ const routes = [
     path: '/admin',
     component: () => import('layouts/admin/AdminLayoutWeb.vue'),
     children: [
-      { path: '/admin/edu-event/:cat_id', 
-        component: () => import('pages/admin/EventManagerWeb.vue'),
+      { path: 'event', 
+        component: () => import('pages/admin/EventManagerHeaderWeb.vue'),
         children: [
-          { path: '/admin/applicant-manager/:id', component: () => import('pages/admin/ApplicantManagerWeb.vue') },
-          { path: '/admin/detail-applicant/:id', component: () => import('pages/admin/ApplicantDetailWeb.vue') }
+          { path: 'event-create/:cat_id', component: () => import('pages/admin/NewEventWeb.vue') },
+          { path: 'event-update/:cat_id/:event_id', component: () => import('pages/admin/NewEventWeb.vue') },
+          { path: 'event-detail/:cat_id/:event_id', component: () => import('pages/admin/EventDetailWeb.vue') },
+          { path: 'event-list/:cat_id', 
+            component: () => import('pages/admin/EventListWeb.vue'),
+            children:[
+              { path: 'applicant-list/:event_id', component: () => import('pages/admin/ApplicantListWeb.vue') },
+              { path: 'applicant-update/:event_id/:applicant_id', component: () => import('pages/admin/ApplicantUpdateWeb.vue') },
+              { path: 'applicant-detail/:event_id/:applicant_id', component: () => import('pages/admin/ApplicantDetailWeb.vue') }
+            ] 
+          }
         ] 
       },
-      { path: '/admin/event-detail/:id', component: () => import('pages/admin/EventDetailWeb.vue') },
-      { path: '/admin/edit-event/:id', component: () => import('pages/admin/NewEventWeb.vue') },
-      { path: '/admin/add-event', component: () => import('pages/admin/NewEventWeb.vue') }
     ]
   }
 ]

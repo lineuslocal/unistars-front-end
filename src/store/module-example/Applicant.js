@@ -28,14 +28,128 @@ const state = {
             belongs: 'The Player',
             appliedDate: '2020-01-01 08:30',
             orderNo: 3,
-            state: 'Attended',
+            state: 'Missed',
             NumOfTicket: 5,
-            addInfor: [
+            addInfors: [
                 { question: "How old are you?", isRequired: true, answer: "18" },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
-            survey:[
+            surveys:[
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
+            ]
+        },
+        {
+            id: 3,
+            name: 'Steve McManaman',
+            email: 'example@gmail.com',
+            phone:'0123456789',
+            belongs: 'The Player',
+            appliedDate: '2020-01-01 08:30',
+            orderNo: 3,
+            state: 'Missed',
+            NumOfTicket: 5,
+            addInfors: [
+                { question: "How old are you?", isRequired: true, answer: "18" },
+                { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
+                { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
+            ],
+            surveys:[
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
+            ]
+        },
+        {
+            id: 4,
+            name: 'Steve McManaman',
+            email: 'example@gmail.com',
+            phone:'0123456789',
+            belongs: 'The Player',
+            appliedDate: '2020-01-01 08:30',
+            orderNo: 3,
+            state: 'Missed',
+            NumOfTicket: 5,
+            addInfors: [
+                { question: "How old are you?", isRequired: true, answer: "18" },
+                { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
+                { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
+            ],
+            surveys:[
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
+            ]
+        },
+        {
+            id: 5,
+            name: 'Steve McManaman',
+            email: 'example@gmail.com',
+            phone:'0123456789',
+            belongs: 'The Player',
+            appliedDate: '2020-01-01 08:30',
+            orderNo: 3,
+            state: 'Missed',
+            NumOfTicket: 5,
+            addInfors: [
+                { question: "How old are you?", isRequired: true, answer: "18" },
+                { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
+                { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
+            ],
+            surveys:[
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
+            ]
+        },
+        {
+            id: 6,
+            name: 'Steve McManaman',
+            email: 'example@gmail.com',
+            phone:'0123456789',
+            belongs: 'The Player',
+            appliedDate: '2020-01-01 08:30',
+            orderNo: 3,
+            state: 'Missed',
+            NumOfTicket: 5,
+            addInfors: [
+                { question: "How old are you?", isRequired: true, answer: "18" },
+                { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
+                { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
+            ],
+            surveys:[
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
+            ]
+        },
+        {
+            id: 7,
+            name: 'Steve McManaman',
+            email: 'example@gmail.com',
+            phone:'0123456789',
+            belongs: 'The Player',
+            appliedDate: '2020-01-01 08:30',
+            orderNo: 3,
+            state: 'Missed',
+            NumOfTicket: 5,
+            addInfors: [
+                { question: "How old are you?", isRequired: true, answer: "18" },
+                { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
+                { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
+            ],
+            surveys:[
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
+            ]
+        },
+        {
+            id: 8,
+            name: 'Steve McManaman',
+            email: 'example@gmail.com',
+            phone:'0123456789',
+            belongs: 'The Player',
+            appliedDate: '2020-01-01 08:30',
+            orderNo: 3,
+            state: 'Missed',
+            NumOfTicket: 5,
+            addInfors: [
+                { question: "How old are you?", isRequired: true, answer: "18" },
+                { question: "How long do you spend to exercise in every weekend?", isRequired: false, answer: "30 minutes" },
+                { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
+            ],
+            surveys:[
                 {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
             ]
         }
@@ -89,6 +203,18 @@ const mutations = {
         })
         state.applicants.reverse()
     },
+    saveApplicant(state, updateApp){
+        state.applicants.forEach(app => {
+            if ( app.id == updateApp.id){
+                app.addInfors.forEach( (e, index) =>{
+                    e.answer = updateApp.addInfors[index].answer
+                })
+                app.surveys.forEach((e, index) =>{
+                    e.selected = updateApp.surveys[index].selected
+                })
+            }
+        });
+    }
 }
 export default {
     namespaced: true,

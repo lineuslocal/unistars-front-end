@@ -25,7 +25,7 @@
 
           <q-item v-for="(infor, index) in applicant.addInfors" :key="index" style="padding:0;" class="col-12" v-if="haveAddInfor=='yes'">
             <p class="col-5 cus-text">{{infor.question}}<span v-if="infor.isRequired" >*</span></p>
-            <p pclass="offset-1 col-6" >{{infor.answer}}</p>
+            <q-input dense class="offset-1 col-6" outlined v-model="infor.answer"/>
           </q-item>
           
            <div class="col-11" style="border-bottom: 2px solid rgba(0, 0, 0, 0.12); margin-bottom:14px"></div>
@@ -36,14 +36,15 @@
           <q-item v-for="(survey, index) in applicant.surveys" :key="survey.id" class="col-12">
             <div style="width:100%">
               <p class="cus-text col-12" style="margin-bottom:5px">Q{{index + 1}}. {{survey.queSurvey}}</p>
-              <p class="col-sm-6 col-12" style="padding-left:10px; margin-bottom: 0px">{{index + 1}}.&nbsp;{{survey.selected}}</p>
+              <q-select dense outlined v-model="survey.selected" :options="survey.selections" class="col-sm-6 col-12"/>
             </div>
           </q-item>
         </div>
       </div>
     </div>
     <div class="text-center" style="margin-top:15px">
-        <q-btn label="OK"  color="primary" v-go-back.single/>
+        <q-btn label="Save"  color="primary" style="margin-right:10px" @click="saveApplicant"/>
+        <q-btn label="Cancel"  color="primary" @click="alertCancel"/>
     </div>
   </q-page>
 </template>
@@ -109,6 +110,29 @@ export default {
         }
       }
     })
+   },
+   alertCancel(){
+    this.$q
+      .dialog({
+        title: "Alert",
+        message:
+          "Canceling will delete all entered values. Do you really want to cancel?",
+        cancel: true,
+        persistent: true,
+      })
+      .onOk(() => {
+        this.$router.push("/admin/event/event-list/" + this.$route.params.cat_id + "/applicant-list/" + this.$route.params.event_id)
+      })
+   },
+   saveApplicant(){
+     this.$store.commit('Applicant/saveApplicant', this.applicant)
+      this.$q.notify({
+        color: "green-4",
+        textColor: "white",
+        icon: "cloud_done",
+        timeout: 1000,
+        message: "Update Applicant Successful"
+      });
    }
   },
   computed: {},

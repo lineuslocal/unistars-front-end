@@ -2,16 +2,16 @@
   <q-layout view="hHr Lpr fFf">
     <q-header elevated >
       <q-toolbar class="cus-toolbar row flex justify-between">
-        <div class="flex justify-between col-3">
+        <div class="flex justify-between col-3" style="max-width:280px">
           <h5  style="padding:0px; margin:0px">LOGO</h5>
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          icon="menu"
-          aria-label="Menu"
-        />
+          <q-btn
+            flat
+            dense
+            round
+            @click="leftDrawerOpen = !leftDrawerOpen"
+            icon="menu"
+            aria-label="Menu"
+          />
         </div>
         <q-avatar  side="right">
           <img src="https://cdn.quasar.dev/img/avatar.png">
@@ -74,7 +74,7 @@
             </q-item-section>
           </template>
           <q-list>
-            <q-item clickable v-for="catalog in catalogs" :key="catalog.id" class="cus-sub-menu" :to="'/admin/edu-event/' + catalog.id">
+            <q-item clickable v-for="catalog in catalogs" :key="catalog.id" class="cus-sub-menu" @click="toEvenList(catalog.id)">
               <q-item-section avatar>
                 <q-icon size="xs" name="event_available" />
               </q-item-section>
@@ -138,40 +138,33 @@ export default {
         'Korean','English'
       ],
       leftDrawerOpen: false,
-      catalogs:[
-        {
-          id: 1,
-          image: "/statics/image/anh5.jpg",
-          Name_event: "Spring Season Event ",
-          Payment_type: "Free",
-          startDate: "12/12(moday)",
-          endDate: "13/12(sunday)"
-        },
-        {
-          id: 2,
-          image: "/statics/image/anh5.jpg",
-          Name_event: "Summer season Event",
-          Payment_type: "Free",
-          startDate: "12/12(moday)",
-          endDate: "13/12(sunday)"
-        },
-        {
-          id: 3,
-          image: "/statics/image/anh5.jpg",
-          Name_event: "Autumn Season Event",
-          Payment_type: "Free",
-          startDate: "12/12(moday)",
-          endDate: "13/12(sunday)"
-        },
-        {
-          id: 4,
-          image: "/statics/image/anh5.jpg",
-          Name_event: "Winter Season Event",
-          Payment_type: "Free",
-          startDate: "12/12(moday)",
-          endDate: "13/12(sunday)"
+    }
+  },
+  computed: {
+    catalogs() {
+      return this.$store.state.Catalogue.catalog
+    }
+  },
+  methods: {
+    toEvenList( cat_id) {
+      if(!(this.$store.state.allCurrentTab.includes(cat_id))){
+        this.$store.commit("addTab", cat_id)
+        this.$store.state.Catalogue.catalog.forEach((cat, index) => {
+          if( cat.id == cat_id ) {
+            this.$store.commit("addCatalog", this.$store.state.Catalogue.catalog[index])
+          }
+        })
+      }
+      var historyExist = false
+      this.$store.state.urlHistory.forEach( (e, index) => {
+        if (e.id == cat_id){
+          this.$router.push(this.$store.state.urlHistory[index].url)
+          historyExist = true
         }
-      ]
+      })
+      if(!historyExist){
+        this.$router.push('/admin/event/event-list/' + cat_id) 
+      }
     }
   }
 }

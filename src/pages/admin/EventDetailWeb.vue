@@ -1,27 +1,12 @@
 <template>
-  <q-page style="margin-top:30px">
-    <q-tabs
-      v-model="tab"
-      dense
-      class="text-grey"
-      active-color="primary"
-      indicator-color="primary"
-      align="justify"
-      narrow-indicator
-      inline-label
-    >
-      <q-tab name="event" label="Event Manager" icon="event_available"/>
-    </q-tabs>
-    <q-separator />
-    <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="event">
-        <div class="cus-title">
-          <q-icon name="event_available"/>&nbsp;&nbsp;&nbsp;Event Manager
-        </div>
-        <div class="cus-title-table">
-          <q-icon name="event_available"/>&nbsp;&nbsp;&nbsp;Event Manager - {{title}}
-        </div>
-        <div class="cus-form">
+  <q-page class="cus-layout">
+    <div class="cus-title">
+      <q-icon name="event_available"/>&nbsp;&nbsp;&nbsp;{{catalog.Name_event}}
+    </div>
+    <div class="cus-title-table">
+      <q-icon name="event_available"/>&nbsp;&nbsp;&nbsp;{{catalog.Name_event}} - {{title}}
+    </div>
+    <div class="cus-form">
           <div class="row">
 
             <!-- main picture of event -->
@@ -90,11 +75,9 @@
           </div>
 
           <div class="text-center" style="margin-top:30px">
-            <q-btn label="OK"  color="primary" to="/admin"/>
+            <q-btn label="OK"  color="primary" :to="'/admin/event/event-list/' + this.$route.params.cat_id"/>
           </div>
     </div>
-      </q-tab-panel>
-    </q-tab-panels>
   </q-page>
 </template>
 
@@ -175,14 +158,24 @@ export default {
     })
    }
   },
-  computed: {},
+  computed: {
+    catalog() {
+      var a
+      this.$store.state.Catalogue.catalog.forEach(e => {
+        if( e.id == this.$route.params.cat_id) {
+          a = e
+        }
+      })
+      return a
+    }
+  },
   watch: {
     $route(to, from) {
-      this.loadEvent(this.$route.params.id) 
+      this.loadEvent(this.$route.params.event_id) 
     }
   },
   created() {
-    this.loadEvent(this.$route.params.id) 
+    this.loadEvent(this.$route.params.event_id) 
   },
 }
 </script>
@@ -225,4 +218,7 @@ export default {
  .cus-selection {
    padding: 0px 20px;
  }
+ .cus-layout {
+    margin-top:20px;
+  }
 </style>

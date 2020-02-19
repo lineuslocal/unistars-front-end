@@ -1,27 +1,12 @@
 <template>
-  <q-page style="margin-top:30px">
-    <q-tabs
-      v-model="tab"
-      dense
-      class="text-grey"
-      active-color="primary"
-      indicator-color="primary"
-      align="justify"
-      narrow-indicator
-      inline-label
-    >
-      <q-tab name="event" label="Event Manager" icon="event_available"/>
-    </q-tabs>
-    <q-separator />
-    <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="event">
-        <div class="cus-title">
-          <q-icon name="event_available"/>&nbsp;&nbsp;&nbsp;Event Manager
-        </div>
-        <div class="cus-title-table">
-          <q-icon name="event_available"/>&nbsp;&nbsp;&nbsp;Event Manager - {{title}}
-        </div>
-        <q-form @submit="onSubmit" @reset="onReset" class="cus-form">
+  <q-page class="cus-layout">
+    <div class="cus-title">
+      <q-icon name="event_available"/>&nbsp;&nbsp;&nbsp;{{catalog.Name_event}}
+    </div>
+    <div class="cus-title-table">
+      <q-icon name="event_available"/>&nbsp;&nbsp;&nbsp;{{catalog.Name_event}} - {{title}}
+    </div>
+    <q-form @submit="onSubmit" @reset="onReset" class="cus-form">
           <div class="row">
 
             <!-- main picture of event -->
@@ -246,13 +231,11 @@
           </div>
 
           <div class="text-center" style="margin-top:30px">
-            <q-btn label="OK"  color="primary" v-if="role == 'view'" to="/admin"/>
-            <q-btn label="Save"  color="primary" v-if="role == 'edit'" @click="saveEvent"/>
-            <q-btn label="Create" type="submit" color="primary" v-if="role == 'create'"/>
+            <q-btn label="Save"  color="primary" v-if="role == 'edit'" @click="saveEvent" style="margin-right: 10px"/>
+            <q-btn label="Create" type="submit" color="primary" v-if="role == 'create'" style="margin-right: 10px"/>
+            <q-btn label="Cancel" type="reset" color="primary"/>
           </div>
     </q-form>
-      </q-tab-panel>
-    </q-tab-panels>
   </q-page>
 </template>
 
@@ -293,7 +276,6 @@ export default {
    methods: {
     onSubmit() {
       var a = new Date()
-      console.log(a.getMonth())
       this.event.createdDate = a.getFullYear() + '-' 
                               + ( a.getMonth() + 1 < 10 ? '0' + (a.getMonth() + 1) : a.getMonth() +1 ) + '-'
                               + ( a.getDate() < 10 ? '0' + a.getDate() : a.getDate() ) + ' ' 
@@ -305,7 +287,7 @@ export default {
         textColor: "white",
         icon: "cloud_done",
         timeout: 1000,
-        message: "Create Event Successfull"
+        message: "Create Event Successful"
       });
       this.event  = {
         id: this.event.id + 1,
@@ -337,7 +319,7 @@ export default {
             persistent: true,
           })
           .onOk(() => {
-            this.$router.push("/admin")
+            this.$router.push("/admin/event/event-list/" + this.$route.params.cat_id)
           })
           .onCancel(() => {
             
@@ -382,11 +364,21 @@ export default {
         textColor: "white",
         icon: "cloud_done",
         timeout: 1000,
-        message: "Edit Event Successfull"
+        message: "Edit Event Successful"
       });
     }
   },
-  computed: {},
+  computed: {
+    catalog() {
+      var a
+      this.$store.state.Catalogue.catalog.forEach(e => {
+        if( e.id == this.$route.params.cat_id) {
+          a = e
+        }
+      })
+      return a
+    }
+  },
   watch: {
     haveAddInfor: function(val) {
       if( val == 'yes' ) {
@@ -404,13 +396,13 @@ export default {
     }
   },
   created() {
-    if( this.$route.params.id === undefined) {
+    if( this.$route.params.event_id === undefined) {
       this.title = 'Insert'
       this.role = 'create'
     }
     else {
       this.$store.state.Event.events.forEach(event => {
-        if ( event.id == this.$route.params.id ) {
+        if ( event.id == this.$route.params.event_id ) {
           this.event.id = event.id
           this.event.title = event.title
           this.event.place = event.place
@@ -496,4 +488,7 @@ export default {
    border: 1px solid rgba(0, 0, 0, 0.12);
 
  }
+ .cus-layout {
+    margin-top:20px;
+  }
 </style>
