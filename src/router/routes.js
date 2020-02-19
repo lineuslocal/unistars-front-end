@@ -62,6 +62,10 @@ const routes = [
           { path: 'event-create/:cat_id', component: () => import('pages/admin/NewEventWeb.vue') },
           { path: 'event-update/:cat_id/:event_id', component: () => import('pages/admin/NewEventWeb.vue') },
           { path: 'event-detail/:cat_id/:event_id', component: () => import('pages/admin/EventDetailWeb.vue') },
+          { path: '/admin/faq-keyword', component: () => import('pages/admin/FaqKeywordWeb.vue') },
+          { path: '/admin/faq-insert', component: () => import('pages/admin/FaqKeywordInsert.vue') },
+          { path: '/admin/faq-edit/:id', component: () => import('pages/admin/FaqKeywordEdit.vue') },
+          { path: '/admin/faq-detail/:id', component: () => import('pages/admin/FaqKeywordDetail.vue') },
           { path: 'event-list/:cat_id', 
             component: () => import('pages/admin/EventListWeb.vue'),
             children:[
