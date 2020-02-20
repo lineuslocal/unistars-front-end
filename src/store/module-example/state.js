@@ -2,6 +2,7 @@ export default function () {
   return {
     allCurrentTab: [],
     urlHistory: [],
-    catalogs: []
+    catalogs: [],
+    faq: [],
   }
 }

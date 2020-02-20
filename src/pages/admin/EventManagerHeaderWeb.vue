@@ -68,7 +68,7 @@ export default {
           }
           //change url corresponding to current tab
           this.$store.state.urlHistory.forEach(e => {
-            if (e.id == this.tab){
+            if (e.id == this.tab && e.url != this.$route.path){
               this.$router.push(e.url)
             }
           })
@@ -80,7 +80,7 @@ export default {
     },
     changeTab(cat_id){
       this.$store.state.urlHistory.forEach(e => {
-        if (e.id == cat_id){
+        if (e.id == cat_id && e.url != this.$route.path){
           this.$router.push(e.url)
           }
         })

@@ -1,7 +1,7 @@
 <template>
   <q-page class="cus-layout">
     <div class="cus-title">
-      <q-icon name="keyboard" />&nbsp;&nbsp;&nbsp;Keyword
+      <q-icon name="keyboard" />&nbsp;&nbsp;&nbsp;FAQ
     </div>
     <div class="cus-title-table">
       <q-icon name="keyboard" />&nbsp;&nbsp;&nbsp; {{Name}} - List
@@ -120,7 +120,7 @@ export default {
   data() {
     return {
       temp:[],
-      Name: 'Keyword',
+      Name: 'FAQ',
       catalogs:[
       ],
 

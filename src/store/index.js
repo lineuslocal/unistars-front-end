@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Faq from './module-example/Faq'
 import Catalogue from './module-example/Catalogue'
 import Event from './module-example/Event'
 import Applicant from './module-example/Applicant'
@@ -25,7 +26,8 @@ export default function (/* { ssrContext } */) {
       Event,
       Applicant,
       Auth, 
-      Catalogue
+      Catalogue,
+      Faq
     },
 
     // enable strict mode (adds overhead!)

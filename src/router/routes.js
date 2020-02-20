@@ -56,16 +56,12 @@ const routes = [
     path: '/admin',
     component: () => import('layouts/admin/AdminLayoutWeb.vue'),
     children: [
-      { path: 'event', 
+      { path: 'event', //  => event here
         component: () => import('pages/admin/EventManagerHeaderWeb.vue'),
         children: [
-          { path: 'event-create/:cat_id', component: () => import('pages/admin/NewEventWeb.vue') },
-          { path: 'event-update/:cat_id/:event_id', component: () => import('pages/admin/NewEventWeb.vue') },
+          { path: 'event-create/:cat_id', component: () => import('pages/admin/EventCreateUpdateWeb.vue') },
+          { path: 'event-update/:cat_id/:event_id', component: () => import('pages/admin/EventCreateUpdateWeb.vue') },
           { path: 'event-detail/:cat_id/:event_id', component: () => import('pages/admin/EventDetailWeb.vue') },
-          { path: '/admin/faq-keyword', component: () => import('pages/admin/FaqKeywordWeb.vue') },
-          { path: '/admin/faq-insert', component: () => import('pages/admin/FaqKeywordInsert.vue') },
-          { path: '/admin/faq-edit/:id', component: () => import('pages/admin/FaqKeywordEdit.vue') },
-          { path: '/admin/faq-detail/:id', component: () => import('pages/admin/FaqKeywordDetail.vue') },
           { path: 'event-list/:cat_id', 
             component: () => import('pages/admin/EventListWeb.vue'),
             children:[
@@ -76,6 +72,24 @@ const routes = [
           }
         ] 
       },
+      { path: 'faq', // => faq here
+        component: () => import('pages/admin/FaqManagerHeaderWeb.vue'),
+        children: [
+          //url of Keyword must to include "Keyword" keyword
+          { path: 'Keyword', component: () => import('pages/admin/FaqKeywordWeb.vue') },
+          { path: 'Keyword-insert', component: () => import('pages/admin/FaqKeywordInsert.vue') },
+          { path: 'Keyword-edit/:id', component: () => import('pages/admin/FaqKeywordEdit.vue') },
+          { path: 'Keyword-detail/:id', component: () => import('pages/admin/FaqKeywordDetail.vue') },
+
+           //url of Category must to include "Category" keyword
+          { path: 'Category', component: () => import('pages/admin/FaqCategoryWeb.vue') },
+
+          //url of FAQ must to include "FAQ" keyword
+          { path: 'FAQ', component: () => import('pages/admin/FaqFAQWeb.vue') },
+        ]
+
+      }
+
     ]
   }
 ]

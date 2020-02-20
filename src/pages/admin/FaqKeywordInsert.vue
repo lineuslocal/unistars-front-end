@@ -1,20 +1,5 @@
 <template>
-  <q-page style="margin-top:30px">
-    <q-tabs
-      v-model="tab"
-      dense
-      class="text-grey"
-      active-color="primary"
-      indicator-color="primary"
-      align="justify"
-      narrow-indicator
-      inline-label
-    >
-      <q-tab name="faq" label="Keyword" icon="keyboard"/>
-    </q-tabs>
-    <q-separator />
-    <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="faq">
+  <q-page class="cus-layout">
         <div class="cus-title">
           <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp;Keyword
         </div>
@@ -55,8 +40,6 @@
             <q-btn style="margin-left: 15px" label="Cancel"  color="primary" to="/admin/faq-keyword"/>
           </div>
     </q-form>
-      </q-tab-panel>
-    </q-tab-panels>
   </q-page>
 </template>
 
@@ -195,6 +178,8 @@ export default {
  .cus-selection {
    padding: 10px 15px;
    border: 1px solid rgba(0, 0, 0, 0.12);
-
  }
+ .cus-layout {
+    margin-top:20px;
+}
 </style>

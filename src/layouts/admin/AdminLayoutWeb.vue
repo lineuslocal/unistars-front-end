@@ -95,7 +95,7 @@
             </q-item-section>
           </template>
            <q-list>
-            <q-item clickable  class="cus-sub-menu">
+            <q-item clickable  class="cus-sub-menu" @click="toFaq('Category','collections_bookmark')">
               <q-item-section avatar>
                 <q-icon size="xs" name="collections_bookmark" />
               </q-item-section>
@@ -105,7 +105,7 @@
             </q-item>
           </q-list>
           <q-list>
-            <q-item clickable to="/admin/faq-keyword" class="cus-sub-menu">
+            <q-item clickable class="cus-sub-menu" @click="toFaq('Keyword','keyboard')">
               <q-item-section avatar>
                 <q-icon size="xs" name="keyboard" />
               </q-item-section>
@@ -115,7 +115,7 @@
             </q-item>
           </q-list>
           <q-list>
-            <q-item clickable  class="cus-sub-menu">
+            <q-item clickable  class="cus-sub-menu" @click="toFaq('FAQ','help')">
               <q-item-section avatar>
                 <q-icon size="xs" name="help" />
               </q-item-section>
@@ -158,7 +158,7 @@
 <script>
 
 export default {
-  name: 'MainLayout',
+  name: 'AdminLayout',
 
   data () {
     return {
@@ -180,20 +180,38 @@ export default {
       if(!(this.$store.state.allCurrentTab.includes(cat_id))){
         this.$store.commit("addTab", cat_id)
         this.$store.state.Catalogue.catalog.forEach((cat, index) => {
-          if( cat.id == cat_id ) {
+          if( cat.id == cat_id) {
             this.$store.commit("addCatalog", this.$store.state.Catalogue.catalog[index])
           }
         })
       }
       var historyExist = false
       this.$store.state.urlHistory.forEach( (e, index) => {
-        if (e.id == cat_id){
-          this.$router.push(this.$store.state.urlHistory[index].url)
+        if (e.id == cat_id ){
           historyExist = true
+          if(this.$route.path != this.$store.state.urlHistory[index].url){
+            this.$router.push(this.$store.state.urlHistory[index].url)
+          }
         }
       })
       if(!historyExist){
         this.$router.push('/admin/event/event-list/' + cat_id) 
+      }
+    },
+    toFaq(nameTopic, iconTopic) {
+      var existedTopic = false
+      var existedHistory = false
+      this.$store.state.faq.forEach( e=> {
+        if(e.name == nameTopic){
+          existedTopic = true
+          if(e.urlHistory != '' && e.urlHistory != this.$route.path){
+            this.$router.push(e.urlHistory)
+          }
+        }
+      })
+      if(!existedTopic) {
+        this.$store.commit("addFaq",{name: nameTopic, icon: iconTopic, urlHistory: '/admin/faq/' + nameTopic})
+        this.$router.push('/admin/faq/' + nameTopic)
       }
     }
   }

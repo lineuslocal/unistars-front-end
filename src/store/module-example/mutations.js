@@ -1,3 +1,4 @@
+//Event
 export function addTab (state, tabName) {
   state.allCurrentTab.push(tabName)
 }
@@ -15,4 +16,19 @@ export function changeUrl (state, {index, url}) {
 }
 export function addUrlHistory (state, history) {
   state.urlHistory.push(history)
+}
+
+//FAQ
+export function addFaq (state, topic) {
+  state.faq.push(topic)
+}
+export function removeFaq (state, indexTopic) {
+  state.faq.splice(indexTopic, 1)
+}
+export function changeUrlFaq (state, {name, url}) {
+  state.faq.forEach(f => {
+    if (f.name == name) {
+      f.urlHistory = url
+    }
+  });
 }

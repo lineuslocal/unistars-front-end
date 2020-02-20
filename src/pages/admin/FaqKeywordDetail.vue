@@ -1,48 +1,29 @@
 <template>
-  <q-page style="margin-top:30px">
-    <q-tabs
-      v-model="tab"
-      dense
-      class="text-grey"
-      active-color="primary"
-      indicator-color="primary"
-      align="justify"
-      narrow-indicator
-      inline-label
-    >
-      <q-tab name="faq" label="Keyword" icon="keyboard"/>
-    </q-tabs>
-    <q-separator />
-    <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="faq">
-        <div class="cus-title">
-          <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp;Keyword 
-        </div>
-        <div class="cus-title-table">
-          <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp; Keyword - {{title}}
-        </div>
-        <div class="cus-form">
-          <div class="row">
-
-
-            <!-- Input information of event -->
-            <div class="offset-sm-1 offset-0 col-sm-8 col-12 row">
-              <p class="col-2 cus-text">Keyword</p>
-              <p class="offset-1 col-9">{{faq.keyword}}</p>
-              <p class="col-2 cus-text">Reg.Date</p>
-              <p class="offset-1 col-9">{{faq.createdDate}}</p>
-              <p class="col-6 cus-text">Note ( For administrator )</p>
-              <p class="offset-1 col-9">{{faq.description}} </p>
-            </div> 
-          </div>
-          <div class="text-right" style="margin-top:70px">
-            <q-btn  label="List"  color="primary" to="/admin/faq-keyword"/>
-             <q-btn style="margin-left: 15px" label="Update"  color="primary" :to="'/admin/faq-edit/' + faq.id"   />
-              <q-btn style="margin-left: 15px" label="Delete"  color="primary" v-model="del" @click="deleteFaq"/>
-          </div>
+  <q-page class="cus-layout">
+    <div class="cus-title">
+      <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp;Keyword 
     </div>
-      </q-tab-panel>
-    </q-tab-panels>
+    <div class="cus-title-table">
+      <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp; Keyword - {{title}}
+    </div>
+    <div class="cus-form">
+      <div class="row">
+        <!-- Input information of event -->
+        <div class="offset-sm-1 offset-0 col-sm-8 col-12 row">
+          <p class="col-2 cus-text">Keyword</p>
+          <p class="offset-1 col-9">{{faq.keyword}}</p>
+          <p class="col-2 cus-text">Reg.Date</p>
+          <p class="offset-1 col-9">{{faq.createdDate}}</p>
+          <p class="col-6 cus-text">Note ( For administrator )</p>
+          <p class="offset-1 col-9">{{faq.description}} </p>
+        </div> 
+      </div>
+      <div class="text-right" style="margin-top:70px">
+        <q-btn  label="List"  color="primary" to="/admin/faq-keyword"/>
+          <q-btn style="margin-left: 15px" label="Update"  color="primary" :to="'/admin/faq-edit/' + faq.id"   />
+          <q-btn style="margin-left: 15px" label="Delete"  color="primary" v-model="del" @click="deleteFaq"/>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -174,4 +155,7 @@ export default {
  .cus-selection {
    padding: 0px 20px;
  }
+ .cus-layout {
+    margin-top:20px;
+}
 </style>

@@ -1,27 +1,12 @@
 <template>
-  <q-page style="margin-top:30px">
-    <q-tabs
-      v-model="tab"
-      dense
-      class="text-grey"
-      active-color="primary"
-      indicator-color="primary"
-      align="justify"
-      narrow-indicator
-      inline-label
-    >
-      <q-tab name="faq" label="Keyword" icon="keyboard"/>
-    </q-tabs>
-    <q-separator />
-    <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="faq">
-        <div class="cus-title">
-          <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp;Keyword
-        </div>
-        <div class="cus-title-table">
-          <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp;Keyword - {{title}}
-        </div>
-        <q-form @submit="onSubmit" @reset="onReset" class="cus-form">
+  <q-page class="cus-layout">
+    <div class="cus-title">
+      <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp;Keyword
+    </div>
+    <div class="cus-title-table">
+      <q-icon name="keyboard"/>&nbsp;&nbsp;&nbsp;Keyword - {{title}}
+    </div>
+    <q-form @submit="onSubmit" @reset="onReset" class="cus-form">
           <div class="row">
 
             <!-- Input information of event -->
@@ -138,8 +123,6 @@
             <q-btn style="margin-left: 15px" label="Delete"  color="primary" @click="deleteFaq" />
           </div>
     </q-form>
-      </q-tab-panel>
-    </q-tab-panels>
   </q-page>
 </template>
 
@@ -163,8 +146,6 @@ export default {
   },
    methods: {
     onSubmit() {
-      var a = new Date()
-      console.log(a.getMonth())
       this.faq.createdDate = a.getFullYear() + '-' 
                               + ( a.getMonth() + 1 < 10 ? '0' + (a.getMonth() + 1) : a.getMonth() +1 ) + '-'
                               + ( a.getDate() < 10 ? '0' + a.getDate() : a.getDate() ) + ' ' 
@@ -196,7 +177,7 @@ export default {
             persistent: true,
           })
           .onOk(() => {
-            this.$router.push("/admin/faq-keyword")
+            this.$router.push("/admin/faq/Keyword")
           })
           .onCancel(() => {
             
@@ -279,6 +260,8 @@ export default {
  .cus-selection {
    padding: 10px 15px;
    border: 1px solid rgba(0, 0, 0, 0.12);
-
  }
+ .cus-layout {
+    margin-top:20px;
+}
 </style>
