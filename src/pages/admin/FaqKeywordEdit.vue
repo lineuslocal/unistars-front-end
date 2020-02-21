@@ -8,7 +8,6 @@
     </div>
     <q-form @submit="onSubmit" @reset="onReset" class="cus-form">
           <div class="row">
-
             <!-- Input information of event -->
             <div class="offset-sm-1 col-sm-8 col-12 offset-0 row">
               <p class="col-sm-2 col-12 cus-text">Keyword *</p>
@@ -22,104 +21,21 @@
                 :rules="[ val =>  val !== null && val !== '' || 'Please type a name']"
               />
               <div class="col-sm-2 col-12" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">Note*</div>
-      <q-editor class="col-sm-10 col-12"
-      v-model="faq.description"
-      :dense="$q.screen.lt.md"
-      :toolbar="[
-        [
-          {
-            label: $q.lang.editor.align,
-            icon: $q.iconSet.editor.align,
-            fixedLabel: true,
-            list: 'only-icons',
-            options: ['left', 'center', 'right', 'justify']
-          },
-          {
-            label: $q.lang.editor.align,
-            icon: $q.iconSet.editor.align,
-            fixedLabel: true,
-            options: ['left', 'center', 'right', 'justify']
-          }
-        ],
-        ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-        ['token', 'hr', 'link', 'custom_btn'],
-        ['print', 'fullscreen'],
-        [
-          {
-            label: $q.lang.editor.formatting,
-            icon: $q.iconSet.editor.formatting,
-            list: 'no-icons',
-            options: [
-              'p',
-              'h1',
-              'h2',
-              'h3',
-              'h4',
-              'h5',
-              'h6',
-              'code'
-            ]
-          },
-          {
-            label: $q.lang.editor.fontSize,
-            icon: $q.iconSet.editor.fontSize,
-            fixedLabel: true,
-            fixedIcon: true,
-            list: 'no-icons',
-            options: [
-              'size-1',
-              'size-2',
-              'size-3',
-              'size-4',
-              'size-5',
-              'size-6',
-              'size-7'
-            ]
-          },
-          {
-            label: $q.lang.editor.defaultFont,
-            icon: $q.iconSet.editor.font,
-            fixedIcon: true,
-            list: 'no-icons',
-            options: [
-              'default_font',
-              'arial',
-              'arial_black',
-              'comic_sans',
-              'courier_new',
-              'impact',
-              'lucida_grande',
-              'times_new_roman',
-              'verdana'
-            ]
-          },
-          'removeFormat'
-        ],
-        ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
-
-        ['undo', 'redo'],
-        ['viewsource']
-      ]"
-      :fonts="{
-        arial: 'Arial',
-        arial_black: 'Arial Black',
-        comic_sans: 'Comic Sans MS',
-        courier_new: 'Courier New',
-        impact: 'Impact',
-        lucida_grande: 'Lucida Grande',
-        times_new_roman: 'Times New Roman',
-        verdana: 'Verdana'
-      }"
-      lazy-rules
+      <q-input
+                class="col-sm-10 col-12"
+                outlined
+                v-model="faq.note"
+                dense
+                lazy-rules
                 type="textarea"
-                placeholder="Enter description for keyword (0/1500)"
+                placeholder="Note ( For administrator)"
                 :rules="[ val => val !== null && val !== '' || 'Please type something']"
-    /> 
+              />
             </div>
           </div>
           <div class="text-right" style="margin-top:30px">
-            <q-btn label="Save"  color="primary" v-if="role == 'edit'" @click="saveFaq" to="/admin/faq-keyword"/>
-            <q-btn style="margin-left: 15px" label="Cancel"  color="primary" to="/admin/faq-keyword"/>
+            <q-btn label="Save"  color="primary" v-if="role == 'edit'" @click="saveFaq" to="/admin/faq/Keyword/list"/>
+            <q-btn style="margin-left: 15px" label="Cancel"  color="primary" to="/admin/faq/Keyword/list"/>
             <q-btn style="margin-left: 15px" label="Delete"  color="primary" @click="deleteFaq" />
           </div>
     </q-form>
@@ -139,7 +55,7 @@ export default {
         keyword: "",
         maxParticipant: null,
         currentParticipant: null,
-        description: "",
+        note: "",
         createdDate: ""
       },
     }
@@ -164,7 +80,7 @@ export default {
         keyword: null,
         maxParticipant: null,
         currentParticipant: null,
-        description: null,
+        note: null,
       }
     },
     onReset() {
@@ -177,7 +93,7 @@ export default {
             persistent: true,
           })
           .onOk(() => {
-            this.$router.push("/admin/faq/Keyword")
+            this.$router.push("/admin/faq/Keyword/list")
           })
           .onCancel(() => {
             
@@ -210,7 +126,7 @@ export default {
           this.faq.keyword = faq.keyword
           this.faq.maxParticipant = faq.maxParticipant
           this.faq.currentParticipant = faq.currentParticipant
-          this.faq.description = faq.description
+          this.faq.note = faq.note
           this.faq.createdDate = faq.createdDate
         }
       })

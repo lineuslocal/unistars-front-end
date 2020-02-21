@@ -9,13 +9,13 @@
     <div class="cus-container">
       <div class="row flex justify-between">
         <div>
-          <q-btn @click="reloadPage" color="white" text-color="black" icon="sync" class="cus-btn"/>
+          <q-btn @click="reloadPage" ref="reload" color="white" text-color="black" icon="sync" class="cus-btn"/>
           <q-btn
             color="white"
             text-color="black"
             icon="add"
             style="width:35px; height:35px; margin-right: 12px;"
-            to="/admin/faq/Keyword-insert"
+            to="/admin/faq/Keyword/insert"
           />
           <q-btn
             color="white"
@@ -49,7 +49,7 @@
       </q-item>
         <q-list class="bg-white" separator bordered>
         <q-item
-          v-for="(faq, index) in faqs"
+          v-for="(faq, index) in pagingEvent"
           :key="faq.id"
           v-ripple
           class="row"
@@ -86,7 +86,7 @@
               color="primary"
               label="Update"
               icon="edit"
-              :to="'/admin/faq/Keyword-edit/' + faq.id"
+              :to="'/admin/faq/Keyword/edit/' + faq.id"
               style="width:50%"
             />
             <q-btn
@@ -119,11 +119,7 @@ export default {
   name: "FaqKeyword",
   data() {
     return {
-      temp:[],
       Name: 'Keyword',
-      catalogs:[
-      ],
-
       current: 1,
       tab: 'Keyword',
       filterFaq: "",
@@ -163,11 +159,19 @@ export default {
          faq.keyword.toLowerCase().match(this.filterFaq.toLowerCase())
        );
      });
-   }
+   },
+    maxPage() {
+      return Math.ceil(this.faqs.length / 5)
+    },
+    pagingEvent() {
+      var startIndex = (this.current-1) * 5
+      var endIndex = this.current*5 -1 
+      return this.faqs.slice(startIndex, endIndex + 1)
+    }
   },
   methods: {
      reloadPage(){
-    window.location.refresh()
+       
   },
     deleteFaq() {
       var delList = [];
@@ -238,7 +242,7 @@ export default {
       }
      },
      toFaqDetail( id ) {
-      this.$router.push('/admin/faq/Keyword-detail/' + id)
+      this.$router.push('/admin/faq/Keyword/detail/' + id)
     },
       alertUpdate(index) {
       this.$q

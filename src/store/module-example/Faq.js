@@ -3,42 +3,26 @@ const state = {
         { 
             id: 1,
             keyword: "Synonymous",
-            createdDate: "2020-08-28 11:00",
-            currentParticipant: 0,
-            description: `Open the evening with a brief welcome and thank all the people and organizations who helped
-            put this event together. If cast/crew members are in attendance be sure to mention that there will"
-            be a Q&A following the screening`,
-            catalog_id: 999999
+            createdDate: "2020-02-20 11:00",
+            note: `Synonymous`,
         },
         { 
             id: 2,
             keyword: "Antioxidant",
-            createdDate: "2020-08-28 11:00",
-            currentParticipant: 0,
-            description: `Open the evening with a brief welcome and thank all the people and organizations who helped
-            put this event together. If cast/crew members are in attendance be sure to mention that there will"
-            be a Q&A following the screening`,
-            catalog_id: 999999
+            createdDate: "2020-02-20 11:00",
+            note: `Antioxidant`,
         },
         { 
             id: 3,
             keyword: "Cell",
-            createdDate: "2020-08-28 11:00",
-            currentParticipant: 0,
-            description: `Open the evening with a brief welcome and thank all the people and organizations who helped
-            put this event together. If cast/crew members are in attendance be sure to mention that there will"
-            be a Q&A following the screening`,
-            catalog_id: 999999
+            createdDate: "2020-02-20 11:00",
+            note: `Cell`,
         },
         { 
             id: 4,
             keyword: "Essentials",
-            createdDate: "2020-08-28 11:00",
-            currentParticipant: 0,
-            description: `Open the evening with a brief welcome and thank all the people and organizations who helped
-            put this event together. If cast/crew members are in attendance be sure to mention that there will"
-            be a Q&A following the screening`,
-            catalog_id: 999999
+            createdDate: "2020-02-20 11:00",
+            note: `Essentials`,
         }
     ],
     currentFaq: {}
@@ -48,7 +32,7 @@ const mutations = {
         state.faqs.forEach(faq => {
             if ( faq.id ==  changedFaq.id ) {
               faq.keyword = changedFaq.keyword
-              faq.description = changedFaq.description
+              faq.note = changedFaq.note
               faq.createdDate = changedFaq.createdDate
             }
           })
@@ -101,16 +85,6 @@ const mutations = {
            return  parseInt(b.createdDate.split('-').join('')) -  parseInt(a.createdDate.split('-').join(''))
         })
     },
-    sortAscByCurParticipant (state) {
-        state.faqs.sort( (a, b) => {
-            return a.currentParticipant - b.currentParticipant
-        } )
-    },
-    sortDesByCurParticipant (state) {
-        state.faqs.sort( (a, b) => {
-            return b.currentParticipant - a.currentParticipant
-        } )
-    }
 }
 
 export default {
@@ -118,5 +92,3 @@ export default {
     state,
     mutations
 }
-
-  

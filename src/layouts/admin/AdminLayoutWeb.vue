@@ -210,8 +210,8 @@ export default {
         }
       })
       if(!existedTopic) {
-        this.$store.commit("addFaq",{name: nameTopic, icon: iconTopic, urlHistory: '/admin/faq/' + nameTopic})
-        this.$router.push('/admin/faq/' + nameTopic)
+        this.$store.commit("addFaq",{name: nameTopic, icon: iconTopic, urlHistory: '/admin/faq/' + nameTopic + '/list' })
+        this.$router.push('/admin/faq/' + nameTopic + '/list' )
       }
     }
   }

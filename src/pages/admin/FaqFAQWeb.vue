@@ -15,7 +15,7 @@
             text-color="black"
             icon="add"
             style="width:35px; height:35px; margin-right: 12px;"
-            to="/admin/faq/Keyword-insert"
+            to="/admin/faq/Keyword/insert"
           />
           <q-btn
             color="white"
@@ -86,7 +86,7 @@
               color="primary"
               label="Update"
               icon="edit"
-              :to="'/admin/faq/Keyword-edit/' + faq.id"
+              :to="'/admin/faq/Keyword/edit/' + faq.id"
               style="width:50%"
             />
             <q-btn
@@ -238,7 +238,7 @@ export default {
       }
      },
      toFaqDetail( id ) {
-      this.$router.push('/admin/faq/Keyword-detail/' + id)
+      this.$router.push('/admin/api/faq/Keyword-detail/' + id)
     },
       alertUpdate(index) {
       this.$q

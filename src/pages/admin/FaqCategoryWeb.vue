@@ -8,13 +8,12 @@
           </div>
           <div class="cus-container">
             <div class="row">
-    <q-list bordered class="col-2">
+    <q-list bordered class="col-3">
       <q-item-label header  >
           <div>
                 <q-btn color="white" text-color="black" icon="sync" class="cus-btn"/>
                 <q-btn
-                  v-model="currentcates"
-                  @click="add"
+                @click="add"
                   color="white"
                   text-color="black"
                   icon="add"
@@ -25,6 +24,7 @@
                   text-color="black"
                   icon="delete"
                   style="width:35px; height:35px"
+                   @click="deleteCate()"
                 />
               </div>
               <br>
@@ -33,22 +33,43 @@
                 </template>
               </q-input>
       </q-item-label>
-      <q-item tag="label" v-for="cate in cates" >
-        <q-item-section avatar>
-   <q-checkbox size="md" v-model="del"/>
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>{{cate}}</q-item-label>
-        </q-item-section>
-        <q-btn round flat  icon="add" />
-      </q-item>
+      <q-list class="bg-white q-mt-md" separator bordered>
+              <q-item
+                v-for="(category, index) in cates"
+                :key="category.id"
+                class="row"
+                clickable
+               @click.stop="showCate(category.id)"
+              >
+                <q-fab size="md" flat icon="keyboard_arrow_down" direction="down">
+                </q-fab>
+                <q-item-section class="col-1">
+                  <q-checkbox
+                    size="md"
+                    v-model="canDelFaq[index].chosen"
+                  />
+                </q-item-section>
+                   <q-item-section class="col-2"> 
+          </q-item-section>
+                <q-item-section class="col-5">
+                  <q-item-label >{{category.name}}</q-item-label>
+                </q-item-section>
+                  <q-btn flat round icon="add" @click.stop="add" />
+              </q-item>
+            </q-list>
+             <q-list>
+               
+      </q-list>
     </q-list>
+     
+   <q-form @submit="onSubmit" @reset="onReset" class=" offset-2 flex flex-center margin-right">
       <div class="row offset-2 col-6">
           <p class="col-sm-3 col-12 cus-text"> Category Name * </p>
             <div class="offset-sm-0 col-sm-12 col-10 offset-0 row">
               <p class="col-sm-2 col-12 cus-text text-center">English </p>
               <br>
               <q-input
+                v-model="cate.name"
                 class="col-sm-10 col-12"
                 outlined
                 dense
@@ -59,6 +80,7 @@
               <br>
               <p class="col-sm-2 col-12 cus-text text-center">Korean</p>
                <q-input
+                v-model="cate.kr_Name"
                 class="col-sm-10 col-12"
                 outlined
                 dense
@@ -66,10 +88,11 @@
                 placeholder="Category Name"
                 :rules="[ val =>  val !== null && val !== '' || 'Please type a name']"
               />
-              <div class="col-sm-5 col-12" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">Note ( For administrator)*</div>
+              <div class="col-sm-3 col-11" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">Note ( For administrator)*</div>
               <q-input
                 class="col-sm-12 col-12"
                 outlined
+                v-model="cate.note"
                 dense
                 lazy-rules
                 type="textarea"
@@ -78,10 +101,11 @@
               />
             </div>
             </div>
+       </q-form>
   </div>
   </div>
     <div class="text-right" style="margin-top:30px">
-            <q-btn label="Save"  color="primary" />
+            <q-btn label="Save"  color="primary" @click="saveCate" />
           </div>
             <br>    
   </q-page>
@@ -92,24 +116,27 @@ export default {
   name: "FaqCategory",
   data() {
     return {
-      temp:[],
       Name: 'Category',
       current: 1,
+      cate: {
+      id: 0,
+      name: '',
+      kr_Name: '',
+      note: '',
+      },
       tab: 'Category',
       filterFaq: "",
       canDelFaq: [],
       del: false,
-      cates: [''],
-      currentcates: ''
     };
   },
   computed: {
-   faqs() {
+   cates() {
      this.canDelFaq = [];
-     this.$store.state.Faq.faqs
-     .filter(faq => {
+     this.$store.state.FaqCate.cates
+     .filter(sate => {
        return(
-         faq.keyword.toLowerCase().match(this.filterFaq.toLowerCase())
+         sate.name.toLowerCase().match(this.filterFaq.toLowerCase())
        );
      })
      .forEach(element => {
@@ -127,19 +154,89 @@ export default {
          })
        }
      });
-     return this.$store.state.Faq.faqs.filter(faq => {
+     return this.$store.state.FaqCate.cates.filter( cate => {
        return (
-         faq.keyword.toLowerCase().match(this.filterFaq.toLowerCase())
+         cate.name.toLowerCase().match(this.filterFaq.toLowerCase())
        );
      });
+   },
+   created() {
+     if( this.$route.params.id === undefined ){
+       this.name = 'Insert'
+       this.role = 'create'
+     }
+     else {
+       this.$store.state.FaqCate.cates.forEach(cate => {
+         if (cate.id == this.$route.params.id) {
+           this.cate.id = cate.id
+           this.cate.name = cate.name
+           this.cate.kr_Name = cate.kr_Name
+           this.cate.note = cate.note
+         }
+       })
+       this.role = 'edit'
+        this.name = 'Update'
+     }
    }
   },
   methods: {
-   add: function(){
-     this.cates.push(this.currentcates)
-     this.currentcates = ''
+    onSubmit() {
+    
+    },
+    onReset() {
+      this.$q
+          .dialog({
+            title: "Alert",
+            message:
+              "Canceling will delete all entered values. Do you really want to cancel?",
+            cancel: true,
+            persistent: true,
+          })
+          .onOk(() => {
+            this.$router.push("/admin/faq/Category/list")
+          })
+          .onCancel(() => {
+            
+          })
+    },
+    //Add
+    add: function(){
+     var x = this.$store.state.FaqCate.cates.length + 1
+      this.$store.commit("FaqCate/createCate", { 
+            id: x,
+            name: "",
+            kr_Name: '',
+            note: '',
+        })
+
    },
-    deleteFaq() {
+   //Save
+    saveCate(){
+      console.log('save: ')
+      console.log( this.cate)
+      this.$store.commit('FaqCate/saveCate', this.cate)
+      this.$q.notify({
+        color: "green-4",
+        textColor: "white",
+        icon: "cloud_done",
+        timeout: 1000,
+        message: "Save Successfully"
+      })
+    },
+  showCate(id){
+    var x
+    this.cates.forEach( (e, index) => {
+      if(e.id == id){
+       // this.cat = e
+      x= index
+      }
+    })
+    this.cate.id = this.cates[x].id
+    this.cate.name = this.cates[x].name 
+    this.cate.kr_Name = this.cates[x].kr_Name 
+    this.cate.note = this.cates[x].note 
+  },
+    deleteCate() {
       var delList = [];
       this.canDelFaq.forEach(faq => {
         if (faq.chosen == true) {
@@ -149,9 +246,9 @@ export default {
       console.log (delList)
       if (delList.length > 0) {
         if (delList.length > 1) {
-          var text = delList.length + "faqs";
+          var text = delList.length + "cates";
         } else {
-          var text = delList.length + "faqs";
+          var text = delList.length + "cates";
         }
       
       this.$q
@@ -166,7 +263,7 @@ export default {
       .onOk(() =>{
         console.log(">>>> Ok");
         console.log(delList);
-        this.$store.commit("Faq/deleteFaq", delList);
+        this.$store.commit("FaqCate/deleteCate", delList);
         this.canDelFaq = [];
       })
       .onCancel(() =>{
@@ -182,69 +279,32 @@ export default {
           .onOk(() => {})
       } 
     },
-     sortByKeyword() {
+     sortByCate() {
        if (this.sortkey == "ascending") {
-         this.$store.commit("Faq/sortAscByName");
+         this.$store.commit("FaqCate/sortAscByName");
          this.sortkey = "descending";
        }else {
-         this.$store.commit("Faq/sortDesByName");
+         this.$store.commit("FaqCate/sortDesByName");
          this.sortkey = "ascending";
        }
      },
-     sortByDate() {
-       if (this.sortDate == "ascending") {
-         this.$store.commit("Faq/sortAscByDate");
-         this.sortDate = "ascending";
-       }
-     },
-     sortByOrder() {
-        if (this.sortOrder == 'ascending') {
-        this.$store.commit('Applicant/sortAscByOrder')
-        this.sortOrder = 'descending'
-      }
-      else{
-        this.$store.commit('Applicant/sortDesByOrder')
-        this.sortOrder = 'ascending'
-      }
-     },
-     toFaqDetail( id ) {
-      this.$router.push('/admin/faq-detail/' + id)
-    },
-      alertUpdate(index) {
-      this.$q
-          .dialog({
-            title: "Alert",
-            message:
-              `You cannot update this event because there 
-              ${this.faqs[index].currentParticipant > 1 ? 'are ' : 'is '} 
-              ${this.faqs[index].currentParticipant}
-              ${this.faqs[index].currentParticipant > 1 ? ' persons' : ' person'} applied.`,
-            persistent: true,
-          })
-    }
   },
   watch: {
     del: function(val) {
       if (val == true) {
         this.canDelFaq.forEach(faq => {
-          if (faq.canDel == true) {
-            faq.chosen = true;
-          }
+          faq.chosen = true;
         });
       } else {
         this.canDelFaq.forEach(faq => {
-          if (faq.canDel == true) {
-            faq.chosen = false;
-          }
+          faq.chosen = false;
         });
       }
     },
     $route(to, from) {
       //this.tab= this.$route.params.cat_id
-    }
+    },
   },
-  created() {
-  }
 }
 </script>
 

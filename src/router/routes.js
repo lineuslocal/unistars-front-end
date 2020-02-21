@@ -5,28 +5,33 @@ const routes = [
     component: () => import('layouts/client/Auth.vue'),
     children: [
       {
-        path: '',
+        path: '/',
         name: 'Login',
         component: () => import('pages/client/Login.vue'),
         meta: { showHeader: true }
       },
       {
-        path: '/register',
+        path: '/user/register',
         name: 'Register',
         component: () => import('pages/client/Register.vue'),
         meta: { showHeader: true, showBack: true }
       },
       {
-        path: '/reset',
+        path: '/user/reset',
         name: 'Reset',
         component: () => import('pages/client/Reset.vue'),
         meta: { showHeader: true, showBack: true }
       },
       {
-        path: '/verify',
+        path: '/user/verify',
         name: 'verify',
         component: () => import('pages/client/Verify.vue'),
         meta: { showHeader: true, showBack: true }
+      },
+      {
+        path: '/user/home',
+        name: 'HomePage',
+        component: () => import('pages/client/Index.vue')
       }
     ]
   },
@@ -34,11 +39,6 @@ const routes = [
     path: '/',
     component: () => import('layouts/client/Main.vue'),
     children: [
-      {
-        path: 'index',
-        name: 'Index',
-        component: () => import('pages/client/Index.vue')
-      },
       { path: '/event', component: () => import('pages/client/Event.vue') },
       { path: '/event-style', component: () => import('pages/client/Event-style.vue') },
       { path: '/event-detail', component: () => import('pages/client/Event-detail.vue') },
@@ -76,13 +76,13 @@ const routes = [
         component: () => import('pages/admin/FaqManagerHeaderWeb.vue'),
         children: [
           //url of Keyword must to include "Keyword" keyword
-          { path: 'Keyword', component: () => import('pages/admin/FaqKeywordWeb.vue') },
-          { path: 'Keyword-insert', component: () => import('pages/admin/FaqKeywordInsert.vue') },
-          { path: 'Keyword-edit/:id', component: () => import('pages/admin/FaqKeywordEdit.vue') },
-          { path: 'Keyword-detail/:id', component: () => import('pages/admin/FaqKeywordDetail.vue') },
+          { path: 'Keyword/list', component: () => import('pages/admin/FaqKeywordWeb.vue') },
+          { path: 'Keyword/insert', component: () => import('pages/admin/FaqKeywordInsert.vue') },
+          { path: 'Keyword/edit/:id', component: () => import('pages/admin/FaqKeywordEdit.vue') },
+          { path: 'Keyword/detail/:id', component: () => import('pages/admin/FaqKeywordDetail.vue') },
 
            //url of Category must to include "Category" keyword
-          { path: 'Category', component: () => import('pages/admin/FaqCategoryWeb.vue') },
+          { path: 'Category/list', component: () => import('pages/admin/FaqCategoryWeb.vue') },
 
           //url of FAQ must to include "FAQ" keyword
           { path: 'FAQ', component: () => import('pages/admin/FaqFAQWeb.vue') },

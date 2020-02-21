@@ -21,15 +21,15 @@
                 placeholder="Enter Keyword's"
                 :rules="[ val =>  val !== null && val !== '' || 'Please type a name']"
               />
-              <div class="col-sm-2 col-12" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">Description*</div>
+              <div class="col-sm-2 col-12" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">Note*</div>
               <q-input
                 class="col-sm-10 col-12"
                 outlined
-                v-model="faq.description"
+                v-model="faq.note"
                 dense
                 lazy-rules
                 type="textarea"
-                placeholder="Enter description for keyword (0/1500)"
+                placeholder="Enter Note for keyword (0/1500)"
                 :rules="[ val => val !== null && val !== '' || 'Please type something']"
               />
             </div>
@@ -37,7 +37,7 @@
 
           <div class="text-right" style="margin-top:30px">
           <q-btn label="Insert" type="submit" color="primary" v-if="role == 'create'"/>
-            <q-btn style="margin-left: 15px" label="Cancel"  color="primary" to="/admin/faq-keyword"/>
+            <q-btn style="margin-left: 15px" label="Cancel"  color="primary" to="/admin/faq/Keyword/list"/>
           </div>
     </q-form>
   </q-page>
@@ -52,11 +52,9 @@ export default {
       title: 'Update',
       tab: "faq",
       faq: {
-        id: 20,
+        id: 0,
         keyword: "",
-        maxParticipant: null,
-        currentParticipant: null,
-        description: "",
+        note: "",
         createdDate: ""
       },
     }
@@ -81,9 +79,7 @@ export default {
       this.faq  = {
         id: this.faq.id + 1,
         keyword: null,
-        maxParticipant: null,
-        currentParticipant: null,
-        description: null,
+        note: null,
       }
     },
     onReset() {
@@ -96,7 +92,7 @@ export default {
             persistent: true,
           })
           .onOk(() => {
-            this.$router.push("/admin/faq-keyword")
+            this.$router.push("/admin/faq/keyword/list")
           })
           .onCancel(() => {
             
@@ -125,9 +121,7 @@ export default {
         if ( faq.id == this.$route.params.id ) {
           this.faq.id = faq.id
           this.faq.keyword = faq.keyword
-          this.faq.maxParticipant = faq.maxParticipant
-          this.faq.currentParticipant = faq.currentParticipant
-          this.faq.description = faq.description
+          this.faq.note = faq.note
           this.faq.createdDate = faq.createdDate
         }
       })

@@ -15,13 +15,13 @@
           <p class="col-2 cus-text">Reg.Date</p>
           <p class="offset-1 col-9">{{faq.createdDate}}</p>
           <p class="col-6 cus-text">Note ( For administrator )</p>
-          <p class="offset-1 col-9">{{faq.description}} </p>
+          <p class="offset-1 col-9">{{faq.note}} </p>
         </div> 
       </div>
       <div class="text-right" style="margin-top:70px">
-        <q-btn  label="List"  color="primary" to="/admin/faq-keyword"/>
-          <q-btn style="margin-left: 15px" label="Update"  color="primary" :to="'/admin/faq-edit/' + faq.id"   />
-          <q-btn style="margin-left: 15px" label="Delete"  color="primary" v-model="del" @click="deleteFaq"/>
+        <q-btn  label="List"  color="primary" to="/admin/faq/keyword/list"/>
+          <q-btn style="margin-left: 15px" label="Update"  color="primary" :to="'/admin/faq/Keyword/edit/' + faq.id"   />
+          <q-btn style="margin-left: 15px" label="Delete"  color="primary" @click="deleteFaq"/>
       </div>
     </div>
   </q-page>
@@ -30,7 +30,6 @@
 <script>
 export default {
   name: "FaqKeyword",
-  
   data() {
     return {
       title: 'Detail',
@@ -38,9 +37,7 @@ export default {
       faq: {
         id: 0,
         keyword: "",
-        maxParticipant: null,
-        currentParticipant: null,
-        description: "",
+        note: "",
         createdDate: ""
       },
     }
@@ -51,9 +48,7 @@ export default {
       if ( faq.id == id ) {
         this.faq.id = faq.id
         this.faq.keyword = faq.keyword
-        this.faq.maxParticipant = faq.maxParticipant
-        this.faq.currentParticipant = faq.currentParticipant
-        this.faq.description = faq.description
+        this.faq.note = faq.note
         this.faq.createdDate = faq.createdDate
       }
     })
@@ -65,7 +60,6 @@ export default {
           delList.push(faq.id);
         }
       });
-      console.log (delList)
       if (delList.length > 0) {
         if (delList.length > 1) {
           var text = delList.length + "faqs";
@@ -83,13 +77,10 @@ export default {
             persistent: true
       })
       .onOk(() =>{
-        console.log(">>>> Ok");
-        console.log(delList);
         this.$store.commit("Faq/deleteFaq", delList);
         this.canDelFaq = [];
       })
       .onCancel(() =>{
-        console.log(">>>> Cancel");
       });
       } else {
         this.$q
