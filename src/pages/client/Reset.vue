@@ -58,7 +58,7 @@
     </div>
  <div >
  <div >
-          <q-btn  label="Cancel" color="grey-6" v-close-popup />
+          <q-btn  label="Cancel" color="grey-6" to="/" />
           <q-btn
           :disable="isDisabled()"
           :outline="isDisabled()"

@@ -89,7 +89,7 @@
         <div class="row">
           <q-btn class="col-6" label="Cancel" color="grey-6" v-close-popup />
           <q-btn
-           class="col-6" label="Confirm" color="primary" to="api/user/Verify"  />
+           class="col-6" label="Confirm" color="primary" to="/user/Verify"  />
         </div>
       </q-card>
     </q-dialog>
@@ -171,7 +171,7 @@ export default {
         .then((user) => {
           if (user) {
             this.$q.notify({ message: 'Authenticated with success', color: 'positive', timeout: 1000 })
-            this.$router.replace('api/user/home')
+            this.$router.replace('/user/home')
           }
         })
         .catch((err) => {
@@ -183,7 +183,7 @@ export default {
       return this.$v.form.$invalid || this.$v.form.$error
     },
     signup () {
-      this.$router.push('api/user/register')
+      this.$router.push('/user/register')
     }
   },
   validations: {
