@@ -75,7 +75,7 @@
           </div>
 
           <div class="text-center" style="margin-top:30px">
-            <q-btn label="OK"  color="primary" :to="'/admin/event/event-list/' + this.$route.params.cat_id"/>
+            <q-btn label="OK"  color="primary" :to="'/admin/event/list/' + this.$route.params.cat_id"/>
           </div>
     </div>
   </q-page>

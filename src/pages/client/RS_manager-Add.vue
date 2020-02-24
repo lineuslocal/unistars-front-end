@@ -232,6 +232,10 @@ export default {
     };
   },
   created: function() {
+    this.$store.commit("changeTitle", "Reset Manager")
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
+
     this.$store.state.Business.products_add.forEach(e => {
       if (e.cb_product) {
         this.pd_true.push(e);

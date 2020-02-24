@@ -92,6 +92,10 @@ export default {
     }
   },
   created: function() {
+    this.$store.commit("changeTitle", "Study Manager")
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
+
     this.$store.state.Business.products_add.forEach(e => {
       var tms = {
         id: "",

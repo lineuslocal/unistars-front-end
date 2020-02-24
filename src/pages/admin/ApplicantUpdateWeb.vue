@@ -3,45 +3,52 @@
     <div class="cus-title-table">
       <q-icon name="perm_contact_calendar"/>&nbsp;&nbsp;&nbsp;Applicant - Update
     </div>
-    <div class="cus-form">
+    <q-form @submit="onSubmit" @reset="onReset" class="cus-form">
       <div class="row">
         <!-- main picture of event -->
         <div class="col-sm-3 col-12 ">
             <p class="cus-text">Profile Picture</p>
-            <img src="https://cdn.quasar.dev/img/avatar.png" style="width:100%; max-width:300px;">
+            <div class="text-center">
+              <img src="https://cdn.quasar.dev/img/avatar.png" class="cus-avatar">
+            </div>
         </div>
 
         <!-- Input information of event -->
         <div class="offset-sm-1 col-sm-8 offset-0 col-12 row">
-          <p class="col-2 cus-text">Name</p>
-          <p class="offset-1 col-9">{{applicant.name}}</p>
-          <p class="col-2 cus-text" >Email</p>
-          <p class="offset-1 col-9">{{applicant.email}}</p>
-          <p class="col-2 cus-text">Phone No.</p>
-          <p class="offset-1 col-9">{{applicant.phone}}</p>
-          <p class="col-2 cus-text">Belongs</p>
-          <p class="offset-1 col-9">{{applicant.belongs}}</p>
-          <div class="col-11" style="border-bottom: 2px solid rgba(0, 0, 0, 0.12); margin-bottom:14px"></div>
-
-          <q-item v-for="(infor, index) in applicant.addInfors" :key="index" style="padding:0;" class="col-12" v-if="haveAddInfor=='yes'">
-            <p class="col-5 cus-text">{{infor.question}}<span v-if="infor.isRequired" >*</span></p>
-            <q-input dense class="offset-1 col-6" outlined v-model="infor.answer"/>
-          </q-item>
-          
-           <div class="col-11" style="border-bottom: 2px solid rgba(0, 0, 0, 0.12); margin-bottom:14px"></div>
-        
-           <p class="col-5 cus-text" >Number of tickets</p>
-           <p class="offset-1 col-6">{{applicant.NumOfTicket}}</p>
-           <p class="col-12 cus-text" style="margin-bottom:5px" >Pull Results</p>
-          <q-item v-for="(survey, index) in applicant.surveys" :key="survey.id" class="col-12">
-            <div style="width:100%">
-              <p class="cus-text col-12" style="margin-bottom:5px">Q{{index + 1}}. {{survey.queSurvey}}</p>
-              <q-select dense outlined v-model="survey.selected" :options="survey.selections" class="col-sm-6 col-12"/>
-            </div>
-          </q-item>
+          <div style="max-width: 700px" class="row">
+            <p class="col-2 text-bold">Name</p>
+            <p class="offset-1 col-9">{{applicant.name}}</p>
+            <p class="col-2 text-bold" >Email</p>
+            <p class="offset-1 col-9">{{applicant.email}}</p>
+            <p class="col-2 text-bold">Phone No.</p>
+            <p class="offset-1 col-9">{{applicant.phone}}</p>
+            <p class="col-2 text-bold">Belongs</p>
+            <p class="offset-1 col-9">{{applicant.belongs}}</p>
+          </div>
+          <div v-if="applicant.addInfors.length > 0" style="margin-bottom:16px; width:100%; max-width: 700px" >
+            <div class="col-11" style="border-bottom: 2px solid rgba(0, 0, 0, 0.12); margin-bottom:14px"></div>
+            <q-item v-for="infor in applicant.addInfors" :key="infor.question" style="padding:0; " class="col-12 " >
+              <p class="col-5 text-bold">{{infor.question}}<span v-if="infor.isRequired" >*</span></p>
+              <q-input dense class="offset-1 col-6" outlined v-model="infor.answer"></q-input>
+              <!-- <q-input dense class="offset-1 col-6" outlined v-model="applicant.name"></q-input>
+              <q-input dense class="offset-1 col-6" outlined v-model="infor.answer" lazy-rules placeholder="Enter your question" :rules="[ val => val !== null && val !== '' || 'Please type something']"></q-input> -->
+            </q-item>
+          </div>
+          <div style="margin-bottom:16px; width: 100%; max-width: 700px; " class="col-12 row" >
+            <div class="col-12" style="border-bottom: 2px solid rgba(0, 0, 0, 0.12); margin-bottom:14px;"></div>
+            <p class="col-5 text-bold" >Number of tickets</p>
+            <p class="offset-1 col-6">{{applicant.NumOfTicket}}</p>
+            <p class="col-12 text-bold" style="margin-bottom:5px" v-if="applicant.surveys.length > 0">Pull Results</p>
+            <q-item v-for="(survey, index) in applicant.surveys" :key="survey.id" class="col-12">
+              <div style="width:100%">
+                <p class="text-bold col-12" style="margin-bottom:5px">Q{{index + 1}}. {{survey.queSurvey}}</p>
+                <q-select dense outlined v-model="survey.selected" :options="survey.selections" class="col-sm-6 col-12"/>
+              </div>
+            </q-item>
+          </div>
         </div>
       </div>
-    </div>
+    </q-form>
     <div class="text-center" style="margin-top:15px">
         <q-btn label="Save"  color="primary" style="margin-right:10px" @click="saveApplicant"/>
         <q-btn label="Cancel"  color="primary" @click="alertCancel"/>
@@ -73,6 +80,12 @@ export default {
     }
   },
   methods: {
+    onSubmit(){
+
+    },
+    onReset() {
+
+    },
    loadApplicant(id) {
      this.$store.state.Applicant.applicants.forEach(applicant => {
       if ( applicant.id == id ) {
@@ -121,7 +134,7 @@ export default {
         persistent: true,
       })
       .onOk(() => {
-        this.$router.push("/admin/event/event-list/" + this.$route.params.cat_id + "/applicant-list/" + this.$route.params.event_id)
+        this.$router.push("/admin/event/list/" + this.$route.params.cat_id + "/applicant/list/" + this.$route.params.event_id)
       })
    },
    saveApplicant(){
@@ -148,8 +161,9 @@ export default {
 </script>
 
 <style scoped>
-.cus-text{
- font-weight: bold;
+.cus-text-infor{
+ /* height: 40px;
+ line-height: 40px; */
 }
  .cus-btn{
     width: 35px;
@@ -185,4 +199,14 @@ export default {
  .cus-selection {
    padding: 0px 20px;
  }
+ .cus-avatar{
+   width:100%; 
+   max-width:300px;
+ }
+ @media only screen and (max-width: 700px) {
+    .cus-avatar{
+      max-width:200px;
+      margin-bottom: 20px;
+    }
+  }
 </style>

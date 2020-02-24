@@ -138,6 +138,16 @@ export default {
     },
   },
   created() {
+    var title = ''
+    this.$store.state.Catalog.catalog.forEach(e =>{
+      if( e.id == +this.$route.params.id ){
+        title = e.Name_event
+      }
+    })
+    this.$store.commit("changeTitle", title )
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
+ 
     var key = this.$route.params.key;
     //var id = +this.$route.params.id;
     if (key == null) {

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import History from './module-example/History'
 import Faq from './module-example/Faq'
 import FaqCate  from './module-example/FaqCate'
 import Catalogue from './module-example/Catalogue'
@@ -33,7 +34,8 @@ export default function (/* { ssrContext } */) {
       Faq,
       FaqCate,
       Business,
-      Catalog
+      Catalog, 
+      History
     },
 
     // enable strict mode (adds overhead!)

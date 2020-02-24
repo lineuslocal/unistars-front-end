@@ -190,6 +190,10 @@ export default {
     };
   },
   created() {
+    this.$store.commit("changeTitle", "Apply")
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
+
     this.$store.state.Applicant.applicants.forEach(applicant => {
       if (applicant.id == 1) {
         this.applicant.id = applicant.id;

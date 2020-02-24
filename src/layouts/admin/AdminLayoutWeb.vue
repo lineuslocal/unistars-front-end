@@ -74,7 +74,7 @@
             </q-item-section>
           </template>
           <q-list>
-            <q-item clickable v-for="catalog in catalogs" :key="catalog.id" class="cus-sub-menu" @click="toEvenList(catalog.id)">
+            <q-item clickable v-for="(catalog, index) in catalogs" :key="catalog.id" class="cus-sub-menu" @click="toEvenList(catalog.id, index)" :class="{'clickMenu': isClick[index]}">
               <q-item-section avatar>
                 <q-icon size="xs" name="event_available" />
               </q-item-section>
@@ -95,7 +95,7 @@
             </q-item-section>
           </template>
            <q-list>
-            <q-item clickable  class="cus-sub-menu" @click="toFaq('Category','collections_bookmark')">
+            <q-item clickable  class="cus-sub-menu" @click="toFaq('Category','collections_bookmark', catalogs.length + 0)" :class="{'clickMenu': isClick[catalogs.length + 0]}">
               <q-item-section avatar>
                 <q-icon size="xs" name="collections_bookmark" />
               </q-item-section>
@@ -105,7 +105,7 @@
             </q-item>
           </q-list>
           <q-list>
-            <q-item clickable class="cus-sub-menu" @click="toFaq('Keyword','keyboard')">
+            <q-item clickable class="cus-sub-menu" @click="toFaq('Keyword','keyboard', catalogs.length + 1)" :class="{'clickMenu': isClick[catalogs.length + 1]}">
               <q-item-section avatar>
                 <q-icon size="xs" name="keyboard" />
               </q-item-section>
@@ -115,7 +115,7 @@
             </q-item>
           </q-list>
           <q-list>
-            <q-item clickable  class="cus-sub-menu" @click="toFaq('FAQ','help')">
+            <q-item clickable  class="cus-sub-menu" @click="toFaq('FAQ','help', catalogs.length + 2)" :class="{'clickMenu': isClick[catalogs.length + 2]}">
               <q-item-section avatar>
                 <q-icon size="xs" name="help" />
               </q-item-section>
@@ -171,12 +171,26 @@ export default {
     }
   },
   computed: {
+    isClick() {
+      return this.$store.state.isClick
+    },
     catalogs() {
+      this.$store.state.Catalogue.catalog.forEach(e=>{
+        //this.isClick.push(false)
+        this.$store.commit("addIsClick")
+      })
+      // Faq sub menu is static, with 3 elements 
+      this.$store.commit("addIsClick")
+      this.$store.commit("addIsClick")
+      this.$store.commit("addIsClick")
       return this.$store.state.Catalogue.catalog
     }
   },
   methods: {
-    toEvenList( cat_id) {
+    toEvenList( cat_id, indexClick) {
+      this.$store.commit("changeStateIsClick", {index: this.$store.state.currentMenu, val: false})
+      this.$store.commit("setCurrentMenu", indexClick)
+      this.$store.commit("changeStateIsClick", {index: indexClick, val: true})
       if(!(this.$store.state.allCurrentTab.includes(cat_id))){
         this.$store.commit("addTab", cat_id)
         this.$store.state.Catalogue.catalog.forEach((cat, index) => {
@@ -195,10 +209,14 @@ export default {
         }
       })
       if(!historyExist){
-        this.$router.push('/admin/event/event-list/' + cat_id) 
+        this.$router.push('/admin/event/list/' + cat_id) 
       }
     },
-    toFaq(nameTopic, iconTopic) {
+    toFaq(nameTopic, iconTopic, indexClick) {
+      this.$store.commit("changeStateIsClick", {index: this.$store.state.currentMenu, val: false})
+      this.$store.commit("setCurrentMenu", indexClick)
+      this.$store.commit("changeStateIsClick", {index: indexClick, val: true})
+
       var existedTopic = false
       var existedHistory = false
       this.$store.state.faq.forEach( e=> {
@@ -230,5 +248,10 @@ export default {
   .active{
     font-weight: bold;
     color: #1976D2;
+  }
+  .clickMenu{
+    background-color: #E6F1Fc;
+    color: #1976D2;
+    border-radius: 15px;
   }
 </style>

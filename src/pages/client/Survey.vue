@@ -58,6 +58,10 @@ export default {
     };
   },
   created() {
+    this.$store.commit("changeTitle", "Survey")
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
+
     this.$store.state.History.events.forEach(history => {
       if(history.id == this.$route.params.id){
         this.history.eventName = history.eventName

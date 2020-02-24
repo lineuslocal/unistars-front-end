@@ -151,6 +151,11 @@ export default {
   mounted () {
     this.$v.form.$touch()
   },
+  created(){
+    this.$store.commit("changeTilte", "Unistar App")
+    this.$store.commit("changeShowBack", false)
+    this.$store.commit("changeShowMenu", false)
+  },
   methods: {
     ...mapActions('Auth', ['AuthLogin']),
     authSocialNetwork (network) {

@@ -16,7 +16,7 @@
     <!-- <q-separator /> -->
    
     <q-tab-panels v-model="tab" animated class="cus-tab-section"> 
-        <q-tab-panel v-for="catalog in catalogs" :key="catalog.id" :name="catalog.id">
+        <q-tab-panel v-for="catalog in catalogs" :key="catalog.id" :name="catalog.id" class="cus-tab-panel">
           <router-view></router-view>
         </q-tab-panel>
     </q-tab-panels>
@@ -157,4 +157,10 @@ export default {
   .cus-tab-section {
     border-top: 1px solid rgba(0, 0, 0, 0.12)
   }
+  @media only screen and (max-width: 500px) {
+    .cus-tab-panel{
+      padding: 16px 8px;
+    }
+  }
+
 </style>

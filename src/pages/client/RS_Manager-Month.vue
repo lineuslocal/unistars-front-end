@@ -114,8 +114,13 @@ export default {
       });
       return events;
     }
+  },
+  created(){
+    this.$store.commit("changeTitle", "Reset Manager")
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .s_border {

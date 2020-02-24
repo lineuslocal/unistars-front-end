@@ -320,6 +320,11 @@ export default {
     }
   },
   created() {
+    this.$store.commit("changeTitle", "Education Details" )
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
+
+
     var id = this.$route.params.id;
     var labelArr = [];
     this.$store.state.Applicant.applicants[0].surveys.forEach(elment_survey => {

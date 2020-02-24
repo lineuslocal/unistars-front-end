@@ -7,21 +7,19 @@
             <q-icon name="event_available" />&nbsp;&nbsp;&nbsp;{{catalog.Name_event}} - List
           </div>
           <div class="cus-container">
-            <div class="row flex justify-between">
+            <div class="row flex justify-between res-menu">
               <div>
                 <q-btn color="white" text-color="black" icon="refresh" class="cus-btn"/>
                 <q-btn
-                  color="white"
+                  class="cus-btn"
                   text-color="black"
                   icon="add"
-                  style="width:35px; height:35px; margin-right: 12px;"
-                  :to="'/admin/event/event-create/' + catalog.id"
+                  :to="'/admin/event/create/' + catalog.id"
                 />
                 <q-btn
-                  color="white"
+                  class="cus-btn"
                   text-color="black"
                   icon="delete"
-                  style="width:35px; height:35px"
                   @click="deleteEvent()"
                 />
               </div>
@@ -31,51 +29,51 @@
                 </template>
               </q-input>
             </div>
-            <q-item v-ripple class="row" style="font-weight:bold">
-              <q-item-section class="col-1">
+            <q-item v-ripple class="row cus-event-row text-center" style="font-weight: bold" >
+              <q-item-section class="col-1 res-col" >
                 <q-checkbox size="xs" v-model="del" />
               </q-item-section>
-              <q-item-section class="col-1">#</q-item-section>
-              <q-item-section class="col-4">
-                <q-item-label @click="sortByName">Title</q-item-label>
+              <q-item-section class="col-1 res-col" style="max-width: 50px">#</q-item-section>
+              <q-item-section class="col-4 res-update">
+                <q-item-label @click="sortByName" class="cursor-pointer">Title</q-item-label>
               </q-item-section>
               <q-item-section class="col-2">
-                <q-item-label @click="sortByDate">Personnel</q-item-label>
+                <q-item-label @click="sortByDate" class="cursor-pointer">Personnel</q-item-label>
               </q-item-section>
               <q-item-section class="col-2">
-                <q-item-label @click="sortByDate">Reg.date</q-item-label>
+                <q-item-label @click="sortByDate" class="cursor-pointer">Reg.date</q-item-label>
               </q-item-section>
-              <q-item-section class="col-2">
+              <q-item-section class="col-2 res-update">
                 <q-item-label>Update</q-item-label>
               </q-item-section>
             </q-item>
-            <q-list class="bg-white" separator bordered>
+            <q-list class="bg-white cus-list" separator>
               <q-item
                 v-for="(event, index) in pagingEvent"
                 :key="event.id"
                 v-ripple
-                class="row"
+                class="row text-center cus-event-row"
                 clickable
                 @click="toAppplicantList(event.id)"
               >
-                <q-item-section class="col-1">
+                <q-item-section class="col-1 res-col" >
                   <q-checkbox
                     size="xs"
-                    v-model="canDelEvent[index].chosen"
-                    v-if="canDelEvent[index].canDel"
+                    v-model="canDelEvent[index + (current-1)*5].chosen"
+                    v-if="canDelEvent[index + (current-1)*5].canDel"
                   />
                   <q-checkbox
                     size="xs"
-                    v-model="canDelEvent[index].chosen"
+                    v-model="canDelEvent[index + (current-1)*5].chosen"
                     disable
-                    v-if="!(canDelEvent[index].canDel)"
+                    v-if="!(canDelEvent[index + (current-1)*5].canDel)"
                   />
                 </q-item-section>
-                <q-item-section class="col-1">
+                <q-item-section class="col-1 res-col" style="max-width: 50px">
                   <q-item-label>{{index+1 + (current-1)*5}}</q-item-label>
                 </q-item-section>
-                <q-item-section class="col-4">
-                  <q-item-label style="color:#1976D2" @click.stop="toEventDetail(event.id)">{{event.title}}</q-item-label>
+                <q-item-section class="col-4 res-update">
+                  <q-item-label style="color:#1976D2" @click.stop="toEventDetail(event.id)">{{event.name}}</q-item-label>
                 </q-item-section>
                 <q-item-section class="col-2">
                   <q-item-label>{{event.maxParticipant}}</q-item-label>
@@ -85,14 +83,16 @@
                 </q-item-section>
                 <q-item-section class="col-2">
                   <q-btn
+                    class="cus-btn-update"
                     v-if="!(event.currentParticipant > 0)"
                     size="xs"
                     color="primary"
                     label="Update"
-                    :to="'/admin/event/event-update/' + catalog.id + '/' + event.id"
+                    :to="'/admin/event/update/' + catalog.id + '/' + event.id"
                     style="width:50%"
                   />
                   <q-btn
+                    class="cus-btn-update"
                     v-if="event.currentParticipant > 0"
                     size="xs"
                     color="primary"
@@ -137,7 +137,7 @@ export default {
       this.$store.state.Event.events
         .filter(event => {
           return (
-            event.title.toLowerCase().match(this.filterEvent.toLowerCase())
+            event.name.toLowerCase().match(this.filterEvent.toLowerCase())
           );
         })
         .forEach(element => {
@@ -157,7 +157,7 @@ export default {
         });
       return this.$store.state.Event.events.filter(event => {
         return (
-          event.title.toLowerCase().match(this.filterEvent.toLowerCase())
+          event.name.toLowerCase().match(this.filterEvent.toLowerCase())
         );
       });
       // var x = []
@@ -200,7 +200,7 @@ export default {
       var startIndex = (this.current-1) * 5
       var endIndex = this.current*5 -1 
       return this.events.slice(startIndex, endIndex + 1)
-    }
+    },
   },
   methods: {
     deleteEvent() {
@@ -231,9 +231,6 @@ export default {
             this.$store.commit("Event/deleteEvent", delList);
             this.canDelEvent = [];
           })
-          .onCancel(() => {
-            console.log(">>>> Cancel");
-          });
       } else {
         this.$q
           .dialog({
@@ -241,7 +238,6 @@ export default {
             message: "Please check event that you want to delete",
             persistent: true
           })
-          .onOk(() => {});
       }
     },
     sortByName() {
@@ -273,10 +269,10 @@ export default {
       }
     },
     toAppplicantList( id ){
-      this.$router.push('/admin/event/event-list/' + this.catalog.id + '/applicant-list/' +  id)
+      this.$router.push('/admin/event/list/' + this.catalog.id + '/applicant/list/' +  id)
     },
     toEventDetail( id ) {
-      this.$router.push('/admin/event/event-detail/' + this.catalog.id + '/' + id)
+      this.$router.push('/admin/event/detail/' + this.catalog.id + '/' + id)
     },
     alertUpdate(index) {
       this.$q
@@ -316,9 +312,10 @@ export default {
 
 <style scoped>
   .cus-container {
-    padding: 20px 15px;
+    padding: 20px 15px 8px 15px;
     border: 1px solid rgba(0, 0, 0, 0.12);
     font-size: 12px;
+    border-top: none;
   }
   .cus-btn {
     width: 35px;
@@ -342,5 +339,37 @@ export default {
   .cus-layout {
     margin-top:20px;
   }
+  .cus-btn-update{
+    max-width: 80px;
+    min-width: 34px;
+    margin: 0 auto;
+  }
+  .cus-list{
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
   
+  @media only screen and (max-width: 700px) {
+    .cus-container{
+      padding:20px 0 8px 0;
+    }
+    .cus-list{
+      border-left: none;
+      border-right: none;
+    }
+    .cus-event-row{
+      padding: 8px;
+    }
+    .res-col{
+      max-width: 20px;
+    }
+    .res-menu{
+      padding: 0 8px;
+    }
+    .res-update{
+      text-align: left;
+    }
+    .cus-btn-update{
+      margin: 0;
+    }
+  }
 </style>

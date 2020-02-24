@@ -61,6 +61,11 @@ export default {
       }
       return a;
     }
+  },
+  created(){
+    this.$store.commit("changeTitle", "Education Event")
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
   }
 }
 </script>

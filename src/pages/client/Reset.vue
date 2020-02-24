@@ -93,6 +93,11 @@ export default {
     this.formReset = { ...this.form }
     this.$v.form.$touch()
   },
+  created(){
+    this.$store.commit("changeTitle", "Unistar App")
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", false)
+  },
   methods: {
     ...mapActions('Auth', ['Register']),
     isDisabled () {

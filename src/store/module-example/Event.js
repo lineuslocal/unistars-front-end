@@ -6,13 +6,13 @@ const state = {
             place: "89 tran van du, phuong 13, tan binh, tphcm",
             lecturer: "James Gosling",
             maxParticipant: 50,
-            currentParticipant: 30,
+            currentParticipant: 0,
             startTime: "2020-1-2 08:30",
             endTime: "2020-2-28 11:30",
             starRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
-            addInfor: [
+            addInfors: [
                 
             ],
             surveys:[ 
@@ -43,7 +43,7 @@ const state = {
             starRegTime: "2020-01-01 00:00",
             endRegTime: "2020-01-28 23:59",
             price: 25000,
-            addInfor: [
+            addInfors: [
                 { question: "How old are you?", isRequired: true },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: true },
                 { question: "what is your weight?", isRequired: true }
@@ -75,7 +75,7 @@ const state = {
             starRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 0,
-            addInfor: [
+            addInfors: [
                 { question: "How old are you?", isRequired: true },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: true },
                 { question: "what is your weight?", isRequired: true }
@@ -100,13 +100,13 @@ const state = {
             place: "dong nai",
             lecturer: "James Gosling",
             maxParticipant: 50,
-            currentParticipant: 10,
+            currentParticipant: 0,
             startTime: "2020-1-30 08:30",
             endTime: "2020-2-27 11:30",
             starRegTime: "2020-2-30 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
-            addInfor: [
+            addInfors: [
                 { question: "How old are you?", isRequired: true },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: true },
                 { question: "what is your weight?", isRequired: true }
@@ -138,7 +138,7 @@ const state = {
             starRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
-            addInfor: [
+            addInfors: [
                 { question: "How old are you?", isRequired: true },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: true },
                 { question: "what is your weight?", isRequired: true }
@@ -164,13 +164,13 @@ const state = {
             place: "Busan",
             lecturer: "James Gosling",
             maxParticipant: 50,
-            currentParticipant: 20,
+            currentParticipant: 10,
             startTime: "2020-2-2 08:30",
             endTime: "2020-2-25 11:30",
             starRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
-            addInfor: [
+            addInfors: [
                 { question: "How old are you?", isRequired: true },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: true },
                 { question: "what is your weight?", isRequired: true }
@@ -191,17 +191,17 @@ const state = {
         },
         { 
             id: 7,
-            name: "<Tokyo> cuccess Core 5th Recruitment",
+            name: "<HCM> cuccess Core 5th Recruitment",
             place: "Busan",
             lecturer: "James Gosling",
             maxParticipant: 50,
-            currentParticipant: 20,
+            currentParticipant: 0,
             startTime: "2020-1-15 08:30",
             endTime: "2020-1-30 11:30",
             starRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
-            addInfor: [
+            addInfors: [
                 { question: "How old are you?", isRequired: true },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: true },
                 { question: "what is your weight?", isRequired: true }
@@ -233,7 +233,7 @@ const state = {
             starRegTime: "2020-09-01 00:00",
             endRegTime: "2020-09-28 23:59",
             price: 25000,
-            addInfor: [
+            addInfors: [
                 { question: "How old are you?", isRequired: true },
                 { question: "How long do you spend to exercise in every weekend?", isRequired: true },
                 { question: "what is your weight?", isRequired: true }

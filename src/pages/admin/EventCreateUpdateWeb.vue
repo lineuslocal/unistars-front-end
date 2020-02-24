@@ -12,9 +12,10 @@
             <!-- main picture of event -->
             <div class="col-sm-3 col-12">
               <q-uploader
+                class="res-upload"
                 url="http://localhost:4444/upload"
                 label="Add main photo for 'Event'"
-                style=" width: 100%; height:auto; "
+                style=" width: 100%; height:auto"
                 accept=".jpg, image/*"
               />
             </div>
@@ -41,7 +42,7 @@
                 placeholder="Enter a Place"
                 :rules="[ val =>val !== null && val !== '' || 'Please type a place']"
               />
-              <p class="col-sm-2 col-12 cus-text">Personnel*</p>
+              <p class="col-sm-2 col-12 cus-text overflow-text">Personnel*</p>
               <q-input
                 class="col-sm-10 col-12"
                 outlined
@@ -55,7 +56,7 @@
                   val => val > 0  || 'number is not correct'
                 ]"
               />
-              <p class="col-sm-2 col-12 cus-text">Lecturer*</p>
+              <p class="col-sm-2 col-12 cus-text overflow-text">Lecturer*</p>
               <q-input
                 class="col-sm-10 col-12"
                 outlined
@@ -65,7 +66,7 @@
                 placeholder="Enter lecturer' name"
                 :rules="[ val => val !== null && val !== '' || 'Please type a place']"
               />
-               <p class="col-sm-2 col-12 cus-text">Start Time*</p>
+               <p class="col-sm-2 col-12 cus-text overflow-text">Start Time*</p>
               <q-input class="col-sm-10 col-12" outlined dense v-model="event.startTime" style="margin-bottom:20px" placeholder="Enter Date and Time (YYYY-MM-DD HH:mm)">
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
@@ -82,7 +83,7 @@
                   </q-icon>
                 </template>
               </q-input>
-               <p class="col-sm-2 col-12 cus-text" >End Time*</p>
+               <p class="col-sm-2 col-12 cus-text overflow-text" >End Time*</p>
               <q-input class="col-sm-10 col-12" outlined dense v-model="event.endTime" style="margin-bottom:20px" placeholder="Enter Date and Time (YYYY-MM-DD HH:mm)">
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
@@ -99,7 +100,7 @@
                   </q-icon>
                 </template>
               </q-input>
-               <p class="col-sm-2 col-12 cus-text" >Deadline*</p>
+               <p class="col-sm-2 col-12 cus-text overflow-text" >Deadline*</p>
               <q-input class="col-sm-10 col-12" dense outlined v-model="event.endRegTime" style="margin-bottom:20px" placeholder="Enter Date and Time (YYYY-MM-DD HH:mm)">
                 <template v-slot:prepend>
                   <q-icon name="event" class="cursor-pointer">
@@ -142,8 +143,9 @@
                 <q-btn flat round color="primary"  icon="add_circle" style="height:40px; line-height:40px;" v-if="!(index < event.addInfors.length -1)" @click="addMoreInfor"/>
                 <q-btn flat round color="negative"  icon="remove_circle" style="height:40px; line-height:40px;" v-if="index < event.addInfors.length -1" @click="removeInfor(index)"/>
               </q-item>
-              <div class="col-sm-2 col-12" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">Description*</div>
+              <div class="col-sm-2 col-12 overflow-text" style="margin-top: 14px">Description*</div>
               <q-input
+                style="margin-top: 14px"
                 class="col-sm-10 col-12"
                 outlined
                 v-model="event.description"
@@ -156,21 +158,21 @@
             </div>
 
             <!-- picture of event -->
-            <div class="col-12 row flex justify-between" style="margin-top: 30px">
+            <div class="col-12 row flex justify-between" style="margin-top: 20px">
                 <q-uploader
-                  class="col-sm-3 col-12"
+                  class="col-sm-3 col-12 res-upload"
                   url="http://localhost:4444/upload"
                   label="How to register"
                   accept=".jpg, image/*"
                 />
                 <q-uploader
-                  class="col-sm-3 col-12"
+                  class="col-sm-3 col-12 res-upload"
                   url="http://localhost:4444/upload"
                   label="Attendance Guide"
                   accept=".jpg, image/*"
                 />
                 <q-uploader
-                  class="col-sm-3 col-12"
+                  class="col-sm-3 col-12 res-upload"
                   url="http://localhost:4444/upload"
                   label="Lecturer Information"
                   accept=".jpg, image/*"
@@ -178,7 +180,7 @@
             </div>
 
             <!-- survey -->
-            <div class="col-12 row flex justify-between" style="margin-top: 30px">
+            <div class="col-12 row flex justify-between cus-survey">
               <p class="col-7 cus-text">Survey</p>
               <q-btn-toggle
                 style="height:37px;"
@@ -210,9 +212,9 @@
                   <!-- selection -->
                   <div class="col-11 cus-selection">
                     <q-item v-for="(selection, index) in survey.selections" :key="index" style="padding: 0">
-                      <p class="col-2" style="height:40px; line-height:40px; margin-bottom:0px">Selection&nbsp; {{index+1}}</p>
+                      <p class="col-2 res-selection" >Selection&nbsp; {{index+1}}</p>
                       <q-input
-                        class="col-9"
+                        class="col-11 col-sm-9"
                         outlined
                         v-model="survey.selections[index]"
                         dense
@@ -222,7 +224,6 @@
                       />
                       <q-btn class="col-1" flat round color="primary"  icon="add_circle" style="height:40px; line-height:40px;" v-if="!(index < survey.selections.length -1)" @click="addSelect(survey_index)"/>
                       <q-btn class="col-1" flat round color="negative"  icon="remove_circle" style="height:40px; line-height:40px;" v-if="index < survey.selections.length -1" @click="removeSelect(survey_index, index)"/>
-                 
                     </q-item>
                   </div>
                 </div>
@@ -319,7 +320,7 @@ export default {
             persistent: true,
           })
           .onOk(() => {
-            this.$router.push("/admin/event/event-list/" + this.$route.params.cat_id)
+            this.$router.push("/admin/event/list/" + this.$route.params.cat_id)
           })
           .onCancel(() => {
             
@@ -448,47 +449,78 @@ export default {
 </script>
 
 <style scoped>
-.cus-text{
-  height: 40px;
-  line-height: 40px;
-}
- .cus-btn{
+  .cus-text{
+    height: 40px;
+    line-height: 40px;
+  }
+  .cus-btn{
     width: 35px;
     height:35px; 
     margin-right: 12px;
     color: rgba(0, 0, 0, 0.12);
- }
- .cus-title-table{
-   width: 100%;
-   border: 1px solid rgba(0, 0, 0, 0.12);
-   height: 48px;
-   line-height: 48px;
-   font-size: 18px;
-   margin-top: 15px;
-   padding-left: 15px;
- }
- .cus-title{
-   font-size: 18px;
-   font-weight: bold;
- }
- .cus-form{
-   border: 1px solid rgba(0, 0, 0, 0.12);
-   padding: 30px 15px;
- }
- .cus-col{
-   padding-right: 15px;
- }
- .cus-question {
-   margin-top: 15px;
-   padding: 10px 15px;
-   border: 1px solid rgba(0, 0, 0, 0.12);
- }
- .cus-selection {
-   padding: 10px 15px;
-   border: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  .cus-title-table{
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    height: 48px;
+    line-height: 48px;
+    font-size: 18px;
+    margin-top: 15px;
+    padding-left: 15px;
+  }
+  .cus-title{
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .cus-form{
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 30px 15px;
+  }
+  .cus-col{
+    padding-right: 15px;
+  }
+  .cus-question {
+    margin-top: 15px;
+    padding: 10px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  .cus-selection {
+    padding: 20px 14px 0px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
 
- }
- .cus-layout {
+  }
+  .cus-layout {
     margin-top:20px;
   }
+  .cus-survey{
+    margin-top: 20px
+  }
+  .overflow-text{
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+  }
+  .res-selection{
+    height:40px; 
+    line-height:40px;
+    margin-bottom:0px
+  }
+  .res-upload{
+    max-width: 300px;
+  }
+@media only screen and (max-width: 700px) {
+  .cus-text{
+    margin-bottom: 0px;
+  }
+  .res-upload{
+    max-width: 100%;
+    /* margin: 0px auto 20px; */
+    margin-bottom: 20px;
+  }
+  .res-selection{
+    display: none;
+    margin: 0 auto;
+  }
+}
+
 </style>

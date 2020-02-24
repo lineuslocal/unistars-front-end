@@ -1,3 +1,14 @@
+
+//Title bar
+export function changeTitle (state, name) {
+  state.title = name
+}
+export function changeShowBack (state, val) {
+  state.showBack = val
+}
+export function changeShowMenu (state, val) {
+  state.showMenu = val
+}
 //Event
 export function addTab (state, tabName) {
   state.allCurrentTab.push(tabName)
@@ -16,6 +27,15 @@ export function changeUrl (state, {index, url}) {
 }
 export function addUrlHistory (state, history) {
   state.urlHistory.push(history)
+}
+export function addIsClick (state) {
+  state.isClick.push(false)
+}
+export function changeStateIsClick(state, {index,val})  {
+  state.isClick[index] = val
+}
+export function setCurrentMenu(state, val) {
+  state.currentMenu = val
 }
 
 //FAQ

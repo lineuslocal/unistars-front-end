@@ -147,6 +147,9 @@ export default {
     }
   },
   created() {
+    this.$store.commit("changeTitle", "Application History")
+    this.$store.commit("changeShowBack", true)
+    this.$store.commit("changeShowMenu", true)
     this.currentTime = new Date();
     // this.date = new Date()
   },
