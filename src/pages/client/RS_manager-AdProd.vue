@@ -1,81 +1,78 @@
 <template>
-  <div>
-    <q-list >
-      <q-item>
-        <q-item-section>
-          <q-input
-            rounded
-            color="grey-3"
-            outlined
-            v-model="search"
-            label="Product search"
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <div class="q-pa-md">
-            <div class="row">
-              <div class="col ">
-                <q-btn push color="dark" label="All" class="sz_btn" />
-              </div>
-              <div class="col">
-                <q-btn
-                  push
-                  color="green"
-                  label="Dietary supplement"
-                  class="sz_btn"
-                />
-              </div>
-              <div class="col">
-                <q-btn
-                  push
-                  color="pink"
-                  label="Functional fodd"
-                  class="sz_btn"
-                />
-              </div>
-              <div class="col">
-                <q-btn push color="blue" label="Medicine" class="sz_btn" />
-              </div>
-            </div>
-          </div>
-        </q-item-section>
-      </q-item>
-      <div >
-        <q-item class="s_border" v-for="pd in filteredList" :key="pd.id">
+  <form @submit.prevent="simulateSubmit" class="q-pa-md">
+    <div>
+      <q-list>
+        <q-item>
           <q-item-section>
-            <q-checkbox class="checkbox" v-model="pd.cb_product" color="teal" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>
-              {{ pd.name }}
-            </q-item-label>
-          </q-item-section>
-          <q-item-section>
-            <img v-bind:src="pd.images" alt="" />
-          </q-item-section>
-          <q-item-section class="q-pa-md q-gutter-sm">
-            <q-btn round v-bind:color="pd.id_color" class="s_btn" />
+            <q-input
+              rounded
+              color="grey-3"
+              outlined
+              type="search"
+              v-model="search"
+              label="Product search"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
           </q-item-section>
         </q-item>
-      </div>
-    </q-list>
-    <div class="q-pa-md">
-      <div class="row">
-        <div class="col">
-          <q-btn class="primary absolute-bottom">Cancel</q-btn>
+        <q-item>
+          <q-item-section>
+            <div class="q-pa-md">
+              <div class="row">
+                <div class="col">
+                  <q-btn push color="dark" label="All" class="sz_btn" />
+                </div>
+                <div class="col">
+                  <q-btn push color="green" label="Dietary supplement" class="sz_btn" />
+                </div>
+                <div class="col">
+                  <q-btn push color="pink" label="Functional fodd" class="sz_btn" />
+                </div>
+                <div class="col">
+                  <q-btn push color="blue" label="Medicine" class="sz_btn" />
+                </div>
+              </div>
+            </div>
+          </q-item-section>
+        </q-item>
+        <div>
+          <q-item class="s_border" v-for="pd in filteredList" :key="pd.id">
+            <q-item-section>
+              <q-checkbox class="checkbox" v-model="pd.cb_product" color="teal" />
+              <!-- <q-radio name="shape" v-model="shape" val="line" label="Line" /> -->
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ pd.name }}</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              <img v-bind:src="pd.images" alt />
+            </q-item-section>
+            <q-item-section class="q-pa-md q-gutter-sm">
+              <q-btn round v-bind:color="pd.id_color" class="s_btn" />
+            </q-item-section>
+          </q-item>
         </div>
-        <div class="col">
-          <q-btn class="dark absolute-bottom-right">Save</q-btn>
+      </q-list>
+      <div class="q-pa-md">
+        <div class="row">
+          <div class="col">
+            <q-btn class="absolute-bottom" color="primary" style="width:50%;">Cancel</q-btn>
+          </div>
+          <div class="col">
+            <q-btn
+              class="absolute-bottom-right"
+              color="primary"
+              style="width:50%;"
+              @click="saveProducts"
+            >Save</q-btn>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -83,180 +80,54 @@ export default {
   data() {
     return {
       search: "",
-      pds: [],
-      business: [
-        {
-          month: "01/2020",
-          value: [
-            {
-              id: 1,
-              date: "Thurday,january,9",
-              summary: "0%",
-              products: [
-                {
-                  id: 1,
-                  images: "../../statics/img/nutri.png",
-                  name: "Nutrimil",
-                  id_color: "green",
-                  cb_product: false,
-                  checkbox: [
-                    {
-                      id: 1,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 2,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 3,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    }
-                  ]
-                },
-                {
-                  id: 2,
-                  images: "../../statics/img/fiber.png",
-                  name: "Fiber",
-                  id_color: "blue",
-                  cb_product: false,
-                  checkbox: [
-                    {
-                      id: 4,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 5,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 6,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    }
-                  ]
-                },
-                {
-                  id: 3,
-                  images: "../../statics/img/health.png",
-                  name: "Health Pack",
-                  id_color: "yellow",
-                  cb_product: false,
-                  checkbox: [
-                    {
-                      id: 7,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 8,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 9,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              id: 2,
-              date: "Thurday,january,9",
-              summary: "0%",
-              products: [
-                {
-                  id: 5,
-                  images: "../../statics/img/nutri.png",
-                  name: "Nutrimil",
-                  id_color: "green",
-                  cb_product: false,
-                  checkbox: [
-                    {
-                      id: 10,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 11,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 12,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    }
-                  ]
-                },
-                {
-                  id: 6,
-                  images: "../../statics/img/fiber.png",
-                  name: "Fiber",
-                  id_color: "blue",
-                  cb_product: false,
-                  checkbox: [
-                    {
-                      id: 13,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 14,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    },
-                    {
-                      id: 15,
-                      time: "09h30 11/02/2020",
-                      teal: false,
-                      uncheck: false
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      pds: []
     };
   },
   // làm duyệt qua các cấp để vào mảng để làm tìm kiếm
-  created: function(){
-    this.business.forEach(bs =>{
-      bs.value.forEach(vl => {
-        vl.products.forEach(pd=>{
-          this.pds.push(pd);
-        })
-      })
-    })
-  },
   computed: {
-    filteredList(){
+    filteredList() {
       return this.pds.filter(pd => {
         return pd.name.toLowerCase().includes(this.search.toLowerCase());
-      })
+      });
+    }
+  },
+  created: function() {
+    this.$store.state.Business.products_add.forEach(e => {
+      var tms = {
+        id: "",
+        images: "",
+        name: "",
+        id_color: "",
+        cb_product: "",
+        saveActive: ""
+      };
+      tms.id = e.id;
+      tms.images = e.images;
+      (tms.name = e.name), (tms.id_color = e.id_color);
+      tms.cb_product = e.cb_product;
+      tms.saveActive = e.saveActive;
+      this.pds.push(tms);
+    });
+  },
+  methods: {
+    saveProducts() {
+      var count = 0;
+      this.pds.forEach(e => {
+        if (e.cb_product === true) {
+          count += 1;
+        }
+      });
+      if (count === 1) {
+        this.pds.forEach(e => {
+          this.$store.commit("Business/saveStatusCheck", {
+            statuscheck: e.cb_product,
+            id_cb: e.id
+          });
+          this.$router.push("/reset-manager-add");
+        });
+      } else if (count > 1) {
+        this.$q.notify("Chỉ được chọn 1 sản phẩm");
+      }
     }
   }
 };

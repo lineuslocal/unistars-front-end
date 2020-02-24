@@ -5,6 +5,7 @@ import FaqCate  from './module-example/FaqCate'
 import Catalogue from './module-example/Catalogue'
 import Event from './module-example/Event'
 import Applicant from './module-example/Applicant'
+import Business from './module-example/Business'
 import state from './module-example/state'
 import * as mutations from './module-example/mutations'
 import Auth from './auth'
@@ -29,7 +30,8 @@ export default function (/* { ssrContext } */) {
       Auth, 
       Catalogue,
       Faq,
-      FaqCate
+      FaqCate,
+      Business
     },
 
     // enable strict mode (adds overhead!)
