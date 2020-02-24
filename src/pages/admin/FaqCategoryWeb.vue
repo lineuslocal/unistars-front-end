@@ -1,5 +1,5 @@
 <template>
-  <q-page style="margin-top:30px">
+  <q-page>
           <div class="cus-title">
             <q-icon name="collections_bookmark" />&nbsp;&nbsp;&nbsp;Category
           </div>
@@ -33,7 +33,9 @@
                 </template>
               </q-input>
       </q-item-label>
-      <q-list class="bg-white q-mt-md" separator bordered>
+      <div class="q-pa-md q-gutter-sm">
+
+  </div>
               <q-item
                 v-for="(category, index) in cates"
                 :key="category.id"
@@ -41,8 +43,6 @@
                 clickable
                @click.stop="showCate(category.id)"
               >
-                <q-fab size="md" flat icon="keyboard_arrow_down" direction="down">
-                </q-fab>
                 <q-item-section class="col-1">
                   <q-checkbox
                     size="md"
@@ -54,17 +54,13 @@
                 <q-item-section class="col-5">
                   <q-item-label >{{category.name}}</q-item-label>
                 </q-item-section>
-                  <q-btn flat round icon="add" @click.stop="add" />
-              </q-item>
+                  <q-btn flat round icon="add" @click.stop="" />
+              </q-item>  
             </q-list>
-             <q-list>
-               
-      </q-list>
-    </q-list>
-     
-   <q-form @submit="onSubmit" @reset="onReset" class=" offset-2 flex flex-center margin-right">
+      <div class="form">
+   <q-form @submit="onSubmit" @reset="onReset">
       <div class="row offset-2 col-6">
-          <p class="col-sm-3 col-12 cus-text"> Category Name * </p>
+          <p class="col-sm-4 col-12 cus-text"> Category Name * </p>
             <div class="offset-sm-0 col-sm-12 col-10 offset-0 row">
               <p class="col-sm-2 col-12 cus-text text-center">English </p>
               <br>
@@ -88,7 +84,7 @@
                 placeholder="Category Name"
                 :rules="[ val =>  val !== null && val !== '' || 'Please type a name']"
               />
-              <div class="col-sm-3 col-11" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">Note ( For administrator)*</div>
+              <div class="col-sm-4 col-12" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">Note ( For administrator)*</div>
               <q-input
                 class="col-sm-12 col-12"
                 outlined
@@ -102,6 +98,7 @@
             </div>
             </div>
        </q-form>
+      </div>
   </div>
   </div>
     <div class="text-right" style="margin-top:30px">
@@ -310,14 +307,14 @@ export default {
 
 <style scoped>
 .cus-container {
-  padding: 20px 15px;
+  padding: -1px -1px;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  font-size: 12px;
+  font-size: 15px;
 }
 .cus-btn {
   width: 35px;
   height: 35px;
-  margin-right: 12px;
+  margin-right: 15px;
   color: rgba(0, 0, 0, 0.12);
 }
 .cus-title-table {
@@ -332,5 +329,11 @@ export default {
 .cus-title {
   font-size: 18px;
   font-weight: bold;
+}
+.form {
+  width: 70%;
+  height: 500px;
+  margin-top: 50px;
+  padding-left: 150px;
 }
 </style>
