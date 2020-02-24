@@ -1,4 +1,3 @@
-
 const routes = [
   {
     path: '/',
@@ -37,11 +36,12 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('layouts/client/Main.vue'),
+    component: () => import('layouts/client/MainLayoutlong.vue'),
     children: [
       { path: '/event', component: () => import('pages/client/Event.vue') },
-      { path: '/event-style', component: () => import('pages/client/Event-style.vue') },
-      { path: '/event-detail', component: () => import('pages/client/Event-detail.vue') },
+      { path: '/event-style/:id', component: () => import('pages/client/Event-style.vue') },
+      { path: '/event-style/search/:key', component: () => import('pages/client/Event-style.vue') },
+      { path: '/event-detail/:id', component: () => import('pages/client/Event-detail.vue') },
       { path: '/reset-manager', component: () => import('pages/client/rs_manager.vue') },
       { path: '/reset-manager-add', component: () => import('pages/client/rs_manager-add.vue') },
       { path: '/reset-manager-month', component: () => import('pages/client/rs_manager-month.vue') },

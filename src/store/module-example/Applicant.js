@@ -17,8 +17,10 @@ const state = {
             ],
             surveys:[
                 {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "bad"},
-                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
-            ]
+                {queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood"], selected: "notgood"},
+                //{queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood","sdfdsf"], selected: "notgood"}
+            ]         
+            
         },
         {
             id: 2,
@@ -36,8 +38,10 @@ const state = {
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
             surveys:[
-                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
-            ]
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "good"},
+                {queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood"], selected: "bad"},
+                //{queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood","sdfdsf"], selected: "notgood"}
+            ]         
         },
         {
             id: 3,
@@ -55,8 +59,11 @@ const state = {
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
             surveys:[
-                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
-            ]
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "good"},
+                {queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood"], selected: "normal"},
+                //{queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood","sdfdsf"], selected: "notgood"}
+            ]         
+            
         },
         {
             id: 4,
@@ -74,8 +81,11 @@ const state = {
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
             surveys:[
-                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
-            ]
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"},
+                {queSurvey: "Your  level?", selections: ["good", "normal", "bad"," notgood"], selected: "good"},
+                //{queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood","sdfdsf"], selected: "notgood"}
+            ]         
+            
         },
         {
             id: 5,
@@ -93,8 +103,11 @@ const state = {
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
             surveys:[
-                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
-            ]
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"},
+                {queSurvey: "Your  level?", selections: ["good", "normal", "bad"," notgood"], selected: "bad"},
+                //{queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood","sdfdsf"], selected: "notgood"}
+            ]         
+            
         },
         {
             id: 6,
@@ -112,8 +125,11 @@ const state = {
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
             surveys:[
-                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
-            ]
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"},
+                {queSurvey: "Your  level?", selections: ["good", "normal", "bad"," notgood"], selected: "notgood"},
+                //{queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood","sdfdsf"], selected: "notgood"}
+            ]         
+            
         },
         {
             id: 7,
@@ -131,8 +147,11 @@ const state = {
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
             surveys:[
-                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
-            ]
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"},
+                {queSurvey: "Your  level?", selections: ["good", "normal", "bad"," notgood"], selected: "bad"},
+                //{queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood","sdfdsf"], selected: "notgood"}
+            ]         
+            
         },
         {
             id: 8,
@@ -150,8 +169,11 @@ const state = {
                 { question: "what is your weight?", isRequired: true, answer: "100 kgs" },
             ],
             surveys:[
-                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"}
-            ]
+                {queSurvey: "Your satisfaction level?", selections: ["good", "normal", "bad"], selected: "normal"},
+                {queSurvey: "Your  level?", selections: ["good", "normal", "bad"," notgood"], selected: "good"},
+                //{queSurvey: "Your  level?", selections: ["good", "normal", "bad","notgood","sdfdsf"], selected: "notgood"}
+            ]         
+            
         }
     ]
 }

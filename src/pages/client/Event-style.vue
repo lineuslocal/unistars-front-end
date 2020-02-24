@@ -1,162 +1,179 @@
 <template>
   <div class="style-event">
-    <q-page-sticky position="top" expand class="bg-grey-1" style="z-index: 2000;" >
+    <q-page-sticky position="top" expand class="bg-grey-1" style="z-index: 2000;">
       <q-toolbar>
         <q-input
-          class="text-center"
-          placeholder="Search"
-          style="background: rgb(234, 231, 231);padding:0px 10px;border-radius:50px;height: 35px;width: 100%;"
+          rounded
+          outlined
+          dense
+          v-model="searchkey"
+          class="event-search text-center"
+          placeholder="search"
         >
-          <q-btn flat dense round icon="ion-close-circle-outline"  style="color:black;"/>
           <template v-slot:append>
-            <q-icon name="search" />
+            <q-icon v-if="searchkey === ''" name="search" />
+            <q-btn
+              flat
+              dense
+              round
+              v-else
+              icon="ion-close-circle-outline"
+              @click="searchkey = ''"
+              style="color:black;"
+            />
           </template>
         </q-input>
-        <q-btn to = "/event-style" flat="flat" dense="dense" round="round" icon="fas fa-history" />
-        <q-btn to = "/event-style" flat="flat" dense="dense" round="round" icon="fas fa-sort-amount-down-alt" >
-        <q-menu>
-          <q-list style="min-width: 100px">
-            <q-item clickable v-close-popup>
-              <q-item-section>By newest</q-item-section>
-            </q-item>
-            <q-item clickable v-close-popup>
-              <q-item-section>By due date</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu>
+        <q-btn to="/event-style" flat="flat" dense="dense" round="round" icon="fas fa-history" />
+        <q-btn flat="flat" dense="dense" round="round" icon="fas fa-sort-amount-down-alt">
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section @click="sortByName">By newest</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section @click="sortByDate">By due date</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
       </q-toolbar>
-  </q-page-sticky>
-    <q-list style="max-width: 100%;margin-top: 50px">
-      <div v-for="event in styel_Event" :key="event.id" v-ripple>
-        <q-item-label header style="padding:10px;margin-left: 5px;"><span style="color:#F8B67C;">{{event.Payment_type}}</span> | <span style="color:blue;"> {{event.total_time}} days</span> before deadline</q-item-label>
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <q-avatar style="font-size: 70px;">
-            <img :src="event.image" @click="pic">
-          </q-avatar>
-        </q-item-section>
-        <q-item-section style="font-size: 17px;">
-          <q-item-label style="font-size: 16px;" @click="pic" lines="1">{{event.TileEvent}}</q-item-label>
-          <q-item-label caption lines="2">
-            <span class="text-weight-bold" style="font-size: 12px;">{{event.StartTime}} ~ {{event.EndTime}} </span>
+      <q-separator color="grey" inset style="width:100%;" />
+    </q-page-sticky>
+    <div style="max-width: 100%;margin-top:50px;">
+      <q-badge
+        v-for="event in events"
+        :key="event.id"
+        v-ripple
+        :color="new Date(event.endTime) < currentTime ? 'grey' : 'white'"
+        style="margin-bottom:5px;width: 100%;"
+      >
+        <q-list style="width: 100%;">
+          <q-item clickable v-ripple style="padding: 5px 5px;">
+            <div :class="[new Date(event.endTime) < currentTime  ? 'textevent' : 'textevent1' ]">This event is over</div>
+            <q-item-section avatar>
+              <q-avatar :class="[ new Date(event.endTime) < currentTime ? 'imageavta' : '' ]" style=" font-size: 70px;">
+                <img :src="event.photoEvent" @click="todetailEvent(event.id)" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section style="font-size: 17px;">
+              <q-item-label
+                :class="[ new Date(event.endTime) < currentTime ? 'imageavta' : '' ]"
+                style="font-size: 16px;color:black;"
+                lines="1"
+                @click="todetailEvent(event.id)"
+                class="text-weight-bold"
+              >{{event.name}}</q-item-label>
+              <q-item-label caption lines="2">
+                <span
+                  class="text-weight-bold"
+                  style="font-size: 12px;"
+                >{{event.startTime}} ~ {{event.endTime}}</span>
+              </q-item-label>
+              <q-item-label caption lines="2">
+                <span class="text-weight-bold" style="font-size: 12px;">{{event.place}}</span>
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator inset="item" />
+          <q-item-label header :class="[ new Date(event.endTime) < currentTime ? 'imageavta' : '' ]">
+            <span style="color:#F8B67C;">Paid</span> |
+            <span style="color:blue;">{{event.total_time}} 20 days</span> before deadline
           </q-item-label>
-          <q-item-label caption lines="2">
-            <span class="text-weight-bold" style="font-size: 12px;">{{event.address}}</span>
-          </q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-separator inset="item" />
-      </div>
-    </q-list>
+        </q-list>
+      </q-badge>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
-      styel_Event: [
-        {
-          id: 1,
-          image: '/statics/img/anh2.jpeg',
-          TileEvent: '<Seoul> Success Core 5th Core 5th Core',
-          Payment_type: 'Free',
-          total_time: '50',
-          StartTime: '2020.5.18(sat) 08:30',
-          EndTime: '5.19(sat) 17:30',
-          address: 'seocho-gu, Seoul'
-        },
-        {
-          id: '2',
-          image: '/statics/img/anh3.jpg',
-          TileEvent: '<Seoul> Success Core 5th Core 5th Core',
-          Payment_type: 'paid',
-          total_time: '20',
-          StartTime: '2020.5.18(sat) 08:30',
-          EndTime: '5.19(sat) 17:30',
-          address: 'seocho-gu, Seoul'
-        },
-        {
-          id: '3',
-          image: '/statics/img/anh4.jpg',
-          TileEvent: '<Seoul> Success Core 5th Core 5th Core',
-          Payment_type: 'paid',
-          total_time: '30',
-          StartTime: '2020.5.18(sat) 08:30',
-          EndTime: '5.19(sat) 17:30',
-          address: 'seocho-gu, Seoul'
-        },
-        {
-          id: '4',
-          image: '/statics/img/anh5.jpg',
-          TileEvent: '<Seoul> Success Core 5th Core 5th Core',
-          Payment_type: 'Free',
-          total_time: '50',
-          StartTime: '2020.5.18(sat) 08:30',
-          EndTime: '5.19(sat) 17:30',
-          address: 'seocho-gu, Seoul'
-        },
-        {
-          id: '5',
-          image: '/statics/img/anh6.jpg',
-          TileEvent: '<Seoul> Success Core 5th Core 5th Core',
-          Payment_type: 'Free',
-          total_time: '40',
-          StartTime: '2020.5.18(sat) 08:30',
-          EndTime: '5.19(sat) 17:30',
-          address: 'seocho-gu, Seoul'
-        },
-        {
-          id: '6',
-          image: '/statics/img/anh7.jpg',
-          TileEvent: '<Seoul> Success Core 5th Core 5th Core',
-          Payment_type: 'paid',
-          total_time: '50',
-          StartTime: '2020.5.18(sat) 08:30',
-          EndTime: '5.19(sat) 17:30',
-          address: 'seocho-gu, Seoul'
-        },
-        {
-          id: '7',
-          image: '/statics/img/anh2.jpeg',
-          TileEvent: '<Seoul> Success Core 5th Core 5th Core',
-          Payment_type: 'Free',
-          total_time: '20',
-          StartTime: '2020.5.18(sat) 08:30',
-          EndTime: '5.19(sat) 17:30',
-          address: 'seocho-gu, Seoul'
-        },
-        {
-          id: '8',
-          image: '/statics/img/anh3.jpg',
-          TileEvent: '<Seoul> Success Core 5th Core 5th Core',
-          Payment_type: 'paid',
-          DateTime: '50',
-          StartTime: '2020.5.18(sat) 08:30',
-          EndTime: '5.19(sat) 17:30',
-          address: 'seocho-gu, Seoul'
-        }
-      ]
-    }
+      searchkey: "",
+      currentTime: '',
+    };
   },
   methods: {
-    pic () {
-      this.$router.push('/event-detail/')
+    todetailEvent(id) {
+      var a;
+      this.$store.state.Event.events.forEach(element => {
+        if (id == element.id) {
+          if ( new Date(element.endTime) > this.currentTime ) {
+            a = this.$router.push("/event-detail/" + id);
+          } else {
+            a = this.$router.push("/event-detail/" + id);
+          }
+        }
+      });
+      return a;
+    },
+    sortByName() {
+      if (this.sortName == "ascending") {
+        this.$store.commit("Event/sortAscByName");
+        this.sortName = "descending";
+      } else {
+        this.$store.commit("Event/sortDesByName");
+        this.sortName = "ascending";
+      }
+    },
+    sortByDate() {
+      if (this.sortDate == "ascending") {
+        this.$store.commit("Event/sortAscByDate");
+        this.sortDate = "descending";
+      } else {
+        this.$store.commit("Event/sortDesByDate");
+        this.sortDate = "ascending";
+      }
     }
+  },
+  computed: {
+    events() {
+      // return this.$store.state.Event.events;
+      return this.$store.state.Event.events.filter(event => {
+        return (
+          event.name.toLowerCase().match(this.searchkey.toLowerCase()) ||
+          event.createdDate.match(this.searchkey) ||
+          event.place.toLowerCase().match(this.searchkey.toLowerCase())
+        );
+      });
+    },
+  },
+  created() {
+    var key = this.$route.params.key;
+    //var id = +this.$route.params.id;
+    if (key == null) {
+      this.searchkey = "";
+    } else {
+      this.searchkey = key;
+    }
+   this.currentTime = new Date()
   }
-}
+};
 </script>
-<style >
-.relative-position {
-    position: unset;
+<style>
+.event-search {
+  width: 100%;
 }
-/* .q-field--standard .q-field__control:before {
-    border-bottom: none;
-} */
+.textevent {
+  display: block;
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  font-size: 25px;
+  color: white;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+.textevent1 {
+  display: none;
+}
+.imageavta {
+  opacity: 0.4;
+}
 .q-gutter-md > * {
-    margin-top: 60px;
+  margin-top: 60px;
 }
-.q-field__after, .q-field__append {
-     padding-left: 0px;
+.q-field__after,
+.q-field__append {
+  padding-left: 0px;
 }
 </style>

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Faq from './module-example/Faq'
 import FaqCate  from './module-example/FaqCate'
 import Catalogue from './module-example/Catalogue'
+import Catalog from './module-example/Catalog'
 import Event from './module-example/Event'
 import Applicant from './module-example/Applicant'
 import Business from './module-example/Business'
@@ -31,7 +32,8 @@ export default function (/* { ssrContext } */) {
       Catalogue,
       Faq,
       FaqCate,
-      Business
+      Business,
+      Catalog
     },
 
     // enable strict mode (adds overhead!)
