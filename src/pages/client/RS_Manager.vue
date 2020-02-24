@@ -3,14 +3,14 @@
     <q-list>
       <q-item class="s_border">
         <q-item-section>
-          <q-item-label
-            ><q-btn to="/reset-manager" label="By date" flat
-          /></q-item-label>
+          <q-item-label>
+            <q-btn to="/reset-manager" label="By date" flat />
+          </q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-item-label
-            ><q-btn to="/reset-manager-month" label="By month" flat
-          /></q-item-label>
+          <q-item-label>
+            <q-btn to="/reset-manager-month" label="By month" flat />
+          </q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -27,23 +27,19 @@
       <q-list v-for="date in business.value" :key="date.id">
         <q-item class="s_border">
           <q-item-section>
-            <q-item-label>{{ date.date }} </q-item-label>
+            <q-item-label>{{ date.date }}</q-item-label>
           </q-item-section>
           <q-item-section side>
-            <q-item-label>
-              {{ date.summary }}
-            </q-item-label>
+            <q-item-label>{{ date.summary }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-list v-for="pd in date.products" :key="pd.id" class="q-pa-md">
           <q-item class="s_border">
             <q-item-section>
-              <img v-bind:src="pd.images" alt="" />
+              <img v-bind:src="pd.images" alt />
             </q-item-section>
             <q-item-section>
-              <q-item-label>
-                {{ pd.name }}
-              </q-item-label>
+              <q-item-label>{{ pd.name }}</q-item-label>
             </q-item-section>
             <q-item-section class="q-pa-md q-gutter-sm">
               <q-btn round v-bind:color="pd.id_color" class="s_btn" />
@@ -154,7 +150,7 @@ export default {
                 }
               ]
             },
-             {
+            {
               id: 2,
               date: "Thurday,january,9",
               summary: "0%",
