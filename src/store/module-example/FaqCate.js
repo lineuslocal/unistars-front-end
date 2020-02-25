@@ -6,88 +6,88 @@ const state = {
             kr_Name: 'Korean',
             note: `Synonymous`,
             categories: [
-            {
-                id: 1,
-                name: 'Sample',
-                kr_Name: 'Korea',
-                note: 'Synonymous',
-            }
-            ],
-                products: [
-                    {
-                    id: 1,
-                    name: 'Sample',
+                {
+                    id: 2,
+                    name: ' categories',
                     kr_Name: 'Korea',
                     note: 'Synonymous',
-                    }
+                    products: [
+                        {
+                            id: 3,
+                            name: ' products',
+                            kr_Name: 'Korea',
+                            note: 'Synonymous',
+                        }
+                    ]
+                }
             ]
         },
         {
             id: 2,
-            name: "Beginning",
+            name: "Begining",
             kr_Name: 'Korean',
-            note: `Antioxidant`,
+            note: `Synonymous`,
             categories: [
                 {
-                id: 2,
-                name: 'Beginning',
-                kr_Name: 'ChilKorea',
-                note: 'Antioxidant',
-                }   
-                ],
-                products: [
-                    {
-                    id: 2,
-                    name: 'Sample',
+                    id: 3,
+                    name: ' categories',
                     kr_Name: 'Korea',
-                    note: 'Synonymous', 
-                    }
-                ]
+                    note: 'Synonymous',
+                    products: [
+                        {
+                            id: 4,
+                            name: ' products',
+                            kr_Name: 'Korea',
+                            note: 'Synonymous',
+                        }
+                    ]
+                }
+            ]
         },
-        { 
+        {
             id: 3,
-            name: "Intermeditate",
+            name: "Intermediate",
             kr_Name: 'Korean',
-            note: `Cell`,
+            note: `Synonymous`,
             categories: [
                 {
-                    id: 3,
-                    name: 'Intermeditate',
+                    id: 4,
+                    name: ' categories',
                     kr_Name: 'Korea',
-                    note: 'Cell',
-                }   
-                ],
-                products: [
-                    {
-                    id: 3,
-                    name: 'Sample',
-                    kr_Name: 'Korea',
-                    note: 'Synonymous', 
-                    }
-                ]
+                    note: 'Synonymous',
+                    products: [
+                        {
+                            id: 5,
+                            name: ' products',
+                            kr_Name: 'Korea',
+                            note: 'Synonymous',
+                        }
+                    ]
+                }
+            ]
         },
-        { 
+        {
             id: 4,
             name: "Advanced",
             kr_Name: 'Korean',
-            note: `Essentials`,
+            note: `Synonymous`,
             categories: [
                 {
-                    id: 4,
-                    name: 'Advanced',
+                    id: 5,
+                    name: ' categories',
                     kr_Name: 'Korea',
-                    note: 'Essentials',
-                }   
-                ],
-                products: [
-                    {
-                    id: 4,
-                    name: 'Sample',
-                    kr_Name: 'Korea',
-                    note: 'Synonymous', 
-                    }
-                ]
-        }
+                    note: 'Synonymous',
+                    products: [
+                        {
+                            id: 6,
+                            name: ' products',
+                            kr_Name: 'Korea',
+                            note: 'Synonymous',
+                        }
+                    ]
+                }
+            ]
+        },
     ],
     currentCate: {}
 }
@@ -101,20 +101,33 @@ const mutations = {
             }
           })
     },
-    saveCategoriesCate( state, changedcates ) {
-        state.cates.categories.forEach(catego => {
-            if ( catego.id ==  changedcates.id ) {
-            catego.name = changedcates.name
-            catego.kr_Name = changedcates.kr_Name
-            catego.note = changedcates.note
+    saveCategories( state, changeCategories ) {
+        state.cates.categories.forEach(ct => {
+            if (ct.id == changeCategories.id){
+                ct.name = changeCategories.name
+                ct.kr_Name = changeCategories.kr_Name
+                ct.note = changeCategories.note
             }
-          })
+        })
     },
     createCate (state, cate) {
         state.cates.push(cate)    
     },
-    createChilCate (state, cate) {
-        state.cates.categories.push(cate)    
+    createcategoriesCate (state, id) {
+    state.cates.forEach((e, index)=>{
+            if (e.id == id){
+              e.categories.push({   
+                id: state.cates[index].categories.length + 1,
+                name: "",
+                kr_Name: '',
+                note: '',
+                products: []
+            })
+            }
+          })  
+    },
+    createproductsCate (state, cate){
+        state.cates.categories.products.push(cate)
     },
     changeCurrentcate (state, cate) {
         state.currentCate = cate
@@ -185,5 +198,3 @@ export default {
     state,
     mutations
 }
-
-  

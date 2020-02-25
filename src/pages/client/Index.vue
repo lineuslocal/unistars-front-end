@@ -12,10 +12,10 @@
       <div>
         <br>
      <q-chip>
-        <q-avatar size="70px">
+        <q-avatar size="60px">
           <img src="https://cdn.quasar.dev/img/avatar5.jpg">
         </q-avatar>
-        <big style="margin-left: 11px; width: 150px">Hong Gil Dong </big>
+        <big style="margin-left: 11px; width: 300px">Hong Gil Dong </big>
       </q-chip>
     </div>
            <p class="text-center" > Level: Basic</p>
@@ -36,7 +36,7 @@
        <q-btn class="col-4"
        flat
        icon="school"
-       @click="back()">
+       @click="learning()">
       &nbsp; &nbsp; Learning System
        </q-btn>
        </div>
@@ -46,7 +46,7 @@
        <q-btn class="col-4"
        flat
        icon="event"
-       @click="back()">
+       @click="event()">
       &nbsp; &nbsp; Education Event
        </q-btn>
        </div>
@@ -56,7 +56,7 @@
        <q-btn class="col-4"
        flat
        icon="business"
-       @click="back()">
+       @click="bussM()">
       &nbsp; &nbsp; Business Manager
        </q-btn>
        </div>
@@ -65,8 +65,8 @@
              <div>
        <q-btn class="col-4"
        flat
-       icon="chat_bubble"
-       @click="back()">
+       icon="question_answer"
+       @click="faqs()">
      &nbsp; &nbsp;  FAQ
        </q-btn>
        </div>
@@ -76,7 +76,7 @@
        <q-btn class="col-4"
        flat
        icon="notifications_active"
-       @click="back()">
+       @click="notice()">
        &nbsp; &nbsp; Notification
        </q-btn>
        </div>
@@ -86,7 +86,7 @@
        <q-btn class="col-4"
        flat
        icon="thumb_up"
-       @click="back()">
+       @click="recommend()">
       &nbsp; &nbsp; Recommended site
        </q-btn>
        </div>
@@ -96,7 +96,7 @@
        <q-btn class="col-6"
        flat
        icon="account_circle"
-       @click="back()">
+       @click="myaccount()">
       &nbsp; &nbsp; My Account
        </q-btn>
        </div>
@@ -106,7 +106,7 @@
        <q-btn class="col-6"
        flat
        icon="logout" 
-       @click="back()">
+       @click="logout()">
       &nbsp; &nbsp; Log out
        </q-btn>
        </div>
@@ -145,7 +145,7 @@
         <q-card-section>
         <q-icon size="40px" class="absolute-center" name="event"/>
       </q-card-section>
-      <div class="text-center"> <strong> Education Event </strong></div>
+      <div class="text-center" @click="event" > <strong> Education Event </strong></div>
             <q-separator/>
     </q-card>
     <br>
@@ -153,7 +153,7 @@
         <q-card-section>
         <q-icon size="40px" class="absolute-center" name="question_answer"/>
       </q-card-section>
-      <div class="text-center"><strong>FAQ</strong> </div>
+      <div class="text-center" @click="faqs" ><strong>FAQ</strong> </div>
             <q-separator/>
     </q-card>
     <br>
@@ -161,7 +161,7 @@
         <q-card-section>
         <q-icon size="40px" class="absolute-center" name="business"/>
       </q-card-section>
-      <div class="text-center"> <strong> Business Manager</strong></div>
+      <div class="text-center"  @click="bussM()" > <strong> Business Manager</strong></div>
             <q-separator/>
     </q-card>
     </div>
@@ -197,9 +197,19 @@ export default {
     }
   },
   methods: {
-    back () {
+    logout () {
       this.$router.replace('/')
     },
+    event () {
+      this.$router.replace('/event')
+    },
+    faqs () {
+      this.$router.replace('/faqs')
+    },
+    bussM () {
+      this.$router.replace('/reset-manager')
+    },
+
   }
 }
 </script>

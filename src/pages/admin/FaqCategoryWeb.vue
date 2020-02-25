@@ -8,8 +8,8 @@
           </div>
           <div class="cus-container">
             <div class="row">
-    <q-list bordered class="col-3">
-      <q-item-label header  >
+    <q-list bordered class="list q-pa-md">
+      <q-item-label header class=" q-pa-md"  >
           <div>
                 <q-btn color="white" text-color="black" icon="sync" class="cus-btn"/>
                 <q-btn
@@ -33,30 +33,64 @@
                 </template>
               </q-input>
       </q-item-label>
-      <div class="q-pa-md q-gutter-sm">
-
-  </div>
-              <q-item
+            <q-scroll-area style="height: 400px; width: 270px;">
+          <div>
+                 <q-list class="q-qa-md">
+      <div class="q-qa-md q-gutter-sm">
+        <q-item
                 v-for="(category, index) in cates"
                 :key="category.id"
                 class="row"
                 clickable
-               @click.stop="showCate(category.id)"
               >
-                <q-item-section class="col-1">
+          <div  class="row col-12 text-left">
+                <q-item-section class="col-4">
                   <q-checkbox
-                    size="md"
-                    v-model="canDelFaq[index].chosen"
-                  />
+                    no-shadow
+                     size="md"
+                       v-model="canDelFaq[index].chosen"
+                        v-if="canDelFaq[index].canDel"
+                   />
+                  <q-checkbox
+                      size="md"
+                      v-model="canDelFaq[index].chosen"
+                        disable
+                      v-if="!(canDelFaq[index].canDel)"
+                   />
                 </q-item-section>
-                   <q-item-section class="col-2"> 
-          </q-item-section>
                 <q-item-section class="col-5">
-                  <q-item-label >{{category.name}}</q-item-label>
+                  <q-item-label no-ripple  @click.stop="showCate(category.id)" >{{category.name}}</q-item-label>
                 </q-item-section>
-                  <q-btn flat round icon="add" @click.stop="" />
-              </q-item>  
-            </q-list>
+                <q-btn flat round icon="add" @click.stop="addsub(category.id)" />
+               <q-item  v-for="(cat, index1) in cates[index].categories"
+                  :key="cat.id" 
+                  >
+                 <q-item-section class="col-4">
+                     <q-checkbox
+                        size="md"
+                        v-model="canDelFaq[index].chosen"
+                        v-if="canDelFaq[index].canDel"
+                      />
+                      <q-checkbox
+                        size="md"
+                        v-model="canDelFaq[index].chosen"
+                        disable
+                        v-if="!(canDelFaq[index].canDel)"
+                      />
+                  </q-item-section>
+                  <q-item-section class="col-9">
+                    <q-item-label @click.stop="showChilCate(category.id,cat.id)">
+                    {{cat.name}}</q-item-label>
+                  </q-item-section>
+                  <q-btn flat round icon="add"/>
+              </q-item>
+           </div>
+          </q-item>
+        </div>
+        </q-list>  
+            </div>
+          </q-scroll-area>  
+     </q-list>
       <div class="form">
    <q-form @submit="onSubmit" @reset="onReset">
       <div class="row offset-2 col-6">
@@ -116,10 +150,11 @@ export default {
       Name: 'Category',
       current: 1,
       cate: {
-      id: 0,
-      name: '',
-      kr_Name: '',
-      note: '',
+        id: 0,
+        name: '',
+        kr_Name: '',
+        note: '',
+        type: []
       },
       tab: 'Category',
       filterFaq: "",
@@ -157,28 +192,24 @@ export default {
        );
      });
    },
-   created() {
-     if( this.$route.params.id === undefined ){
-       this.name = 'Insert'
-       this.role = 'create'
-     }
-     else {
-       this.$store.state.FaqCate.cates.forEach(cate => {
-         if (cate.id == this.$route.params.id) {
-           this.cate.id = cate.id
-           this.cate.name = cate.name
-           this.cate.kr_Name = cate.kr_Name
-           this.cate.note = cate.note
-         }
-       })
-       this.role = 'edit'
-        this.name = 'Update'
-     }
-   }
   },
   methods: {
     onSubmit() {
-    
+      this.$store.commit('FaqCate/createCate', this.cate)
+      this.$q.notify({
+        color: "green-4",
+        textColor: "white",
+        icon: "cloud_done",
+        timeout: 1000,
+        message: "Create Keyword Successfull"
+      });
+      this.cate  = {
+        id: this.cate.id + 1,
+        name: null,
+        kr_Name: null,
+        note: null,
+        type: null 
+      }
     },
     onReset() {
       this.$q
@@ -204,35 +235,68 @@ export default {
             name: "",
             kr_Name: '',
             note: '',
+            categories: [],
         })
-
-   },
+    },
+    addsub: function(id) {
+      this.$store.commit("FaqCate/createcategoriesCate", id )
+    },
    //Save
     saveCate(){
-      console.log('save: ')
-      console.log( this.cate)
       this.$store.commit('FaqCate/saveCate', this.cate)
       this.$q.notify({
         color: "green-4",
         textColor: "white",
-        icon: "cloud_done",
+        icon: "done",
         timeout: 1000,
         message: "Save Successfully"
       })
     },
-  showCate(id){
-    var x
-    this.cates.forEach( (e, index) => {
-      if(e.id == id){
-       // this.cat = e
-      x= index
-      }
-    })
-    this.cate.id = this.cates[x].id
-    this.cate.name = this.cates[x].name 
-    this.cate.kr_Name = this.cates[x].kr_Name 
-    this.cate.note = this.cates[x].note 
-  },
+    saveSub() {
+      this.$store.commit('FaqCate/saveCategories', this.ct )
+      this.$q.notify({
+        color: "green-4",
+        textColor: "white",
+        icon: "done",
+        timeout: 1000,
+        message: "Save Successfully"
+      })
+    },
+    showCate(id){
+      var x
+      this.cates.forEach( (e, index) => {
+        if(e.id == id){
+        x= index
+        }
+      })
+      this.cate.id = this.cates[x].id
+      this.cate.name = this.cates[x].name 
+      this.cate.kr_Name = this.cates[x].kr_Name 
+      this.cate.note = this.cates[x].note
+      this.cate.type = 'subject' 
+    },
+    showChilCate(idSubject, idCat) {
+      console.log(idSubject, idCat)
+      var indexSubject, indexCat
+      console.log("this.cates")
+      console.log(this.cates)
+      this.cates.forEach((f, index ) => {
+        if(f.id == idSubject ){
+          f.categories.forEach((e, index1) =>{
+            if(e.id == idCat){
+              indexSubject = index
+              indexCat = index1
+            }
+          })
+        
+        }
+      })
+      this.cate.id = this.cates[indexSubject].categories[indexCat].id
+      this.cate.name = this.cates[indexSubject].categories[indexCat].name 
+      this.cate.kr_Name = this.cates[indexSubject].categories[indexCat].kr_Name 
+      this.cate.note = this.cates[indexSubject].categories[indexCat].note
+      this.cate.type = 'chil' 
+    },
     deleteCate() {
       var delList = [];
       this.canDelFaq.forEach(faq => {
@@ -240,7 +304,6 @@ export default {
           delList.push(faq.id);
         }
       });
-      console.log (delList)
       if (delList.length > 0) {
         if (delList.length > 1) {
           var text = delList.length + "cates";
@@ -250,7 +313,7 @@ export default {
       
       this.$q
       .dialog({
-           title: "Alert",
+           title: "Notice",
             message:
               "if you delete, you cannot find it again. Do you really want to delete " +
               text,
@@ -258,33 +321,30 @@ export default {
             persistent: true
       })
       .onOk(() =>{
-        console.log(">>>> Ok");
-        console.log(delList);
         this.$store.commit("FaqCate/deleteCate", delList);
         this.canDelFaq = [];
       })
       .onCancel(() =>{
-        console.log(">>>> Cancel");
       });
       } else {
         this.$q
           .dialog({
-            title: "Alert",
+            title: "Warring",
             message: "Please check event that you want to delete",
             persistent: true
           })
           .onOk(() => {})
       } 
     },
-     sortByCate() {
-       if (this.sortkey == "ascending") {
-         this.$store.commit("FaqCate/sortAscByName");
-         this.sortkey = "descending";
-       }else {
-         this.$store.commit("FaqCate/sortDesByName");
-         this.sortkey = "ascending";
-       }
-     },
+    sortByCate() {
+      if (this.sortkey == "ascending") {
+        this.$store.commit("FaqCate/sortAscByName");
+        this.sortkey = "descending";
+      }else {
+        this.$store.commit("FaqCate/sortDesByName");
+        this.sortkey = "ascending";
+      }
+    },
   },
   watch: {
     del: function(val) {
@@ -299,9 +359,37 @@ export default {
       }
     },
     $route(to, from) {
-      //this.tab= this.$route.params.cat_id
     },
   },
+  created(){
+      if( this.$route.params.id === undefined ){
+        this.name = 'Insert'
+        this.role = 'create'
+      }
+      else {
+        this.$store.state.FaqCate.cates.forEach(cate => {
+          console.log('this.$store.state.FaqCate.cates.forEach')
+          if (cate.id == this.$route.params.id) {
+              this.cate.id = cate.id
+              this.cate.name = cate.name
+              this.cate.kr_Name = cate.kr_Name
+              this.cate.note = cate.note
+              cate.categories.forEach( (cat, index) => {
+                console.log(cat)
+                var catTemp = { id: cat.id, name: cat.name, kr_Name: cat.kr_Name, note: cat.note, products:[] }
+                cat.products.forEach(pro => {
+                  console.log(pro)
+                  var proTemp = {id: pro.id, name: pro.name, kr_Name: pro.kr_Name, note: pro.note}
+                  catTemp.products.push(proTemp)
+                })
+              this.cate.category.push(catTemp)
+            })
+          }
+          })
+          this.role = 'edit'
+          this.name = 'Update'
+      }
+  }
 }
 </script>
 
@@ -331,9 +419,8 @@ export default {
   font-weight: bold;
 }
 .form {
-  width: 70%;
-  height: 500px;
-  margin-top: 50px;
-  padding-left: 150px;
+  width: 60%;
+  margin-top: 100px;
+  padding-left: 220px;
 }
 </style>

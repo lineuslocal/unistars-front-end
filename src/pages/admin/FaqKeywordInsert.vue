@@ -72,7 +72,7 @@ export default {
       this.$q.notify({
         color: "green-4",
         textColor: "white",
-        icon: "cloud_done",
+        icon: "done",
         timeout: 1000,
         message: "Create Keyword Successfull"
       });
@@ -103,7 +103,7 @@ export default {
       this.$q.notify({
         color: "green-4",
         textColor: "white",
-        icon: "cloud_done",
+        icon: "done",
         timeout: 1000,
         message: "Edit Keyword Successfull"
       });

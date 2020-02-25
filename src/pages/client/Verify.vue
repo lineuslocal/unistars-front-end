@@ -35,7 +35,7 @@
           <q-btn 
           :disable="isDisabled()"
           :outline="isDisabled()"
-            label="Confirm" color="primary" to="/user/reset" style="margin-left: 15px"  />
+            label="Confirm" color="primary" to="/reset" style="margin-left: 15px"  />
         </div>
       </div>
   </q-page>

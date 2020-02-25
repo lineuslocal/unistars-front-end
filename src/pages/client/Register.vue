@@ -397,7 +397,7 @@ export default {
         })
         .catch((err) => {
           this.$q.notify({ message: 'Registered Error!', color: 'red', timeout: 1000 })
-          this.$router.replace('/user/register')
+          this.$router.replace('/register')
           console.error(err)
         })
         .finally(() => this.$q.loading.hide())

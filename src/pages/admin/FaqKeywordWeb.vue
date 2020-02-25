@@ -33,7 +33,7 @@
       </div>
       <br>
       <q-item  flat v-ripple class="row" style="font-weight:bold">
-        <q-checkbox size="xs" v-model="del"/>
+        <q-checkbox size="md" v-model="del"/>
         <q-item-section class="col-2">
           <q-item-label ></q-item-label>
         </q-item-section>
@@ -57,12 +57,12 @@
         >
           <q-item-section class="col-1">
             <q-checkbox
-              size="xs"
+              size="md"
               v-model="canDelFaq[index].chosen"
               v-if="canDelFaq[index].canDel"
             />
             <q-checkbox
-              size="xs"
+              size="md"
               v-model="canDelFaq[index].chosen"
               disable
               v-if="!(canDelFaq[index].canDel)"
@@ -82,7 +82,7 @@
           <q-item-section class="col-2">
             <q-btn
               v-if="!(faq.currentParticipant > 0)"
-              size="xs"
+              size="md"
               color="primary"
               label="Update"
               icon="edit"
@@ -91,7 +91,7 @@
             />
             <q-btn
               v-if="faq.currentParticipant > 0"
-              size="xs"
+              size="md"
               color="primary"
               label="Update"
               style="width:50%"

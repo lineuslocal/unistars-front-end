@@ -36,7 +36,7 @@
           <div class="text-right" style="margin-top:30px">
             <q-btn label="Save"  color="primary" v-if="role == 'edit'" @click="saveFaq" to="/admin/faq/Keyword/list"/>
             <q-btn style="margin-left: 15px" label="Cancel"  color="primary" to="/admin/faq/Keyword/list"/>
-            <q-btn style="margin-left: 15px" label="Delete"  color="primary" @click="deleteFaq" />
+            <q-btn style="margin-left: 15px" label="Delete"  color="primary" @click="deleteFaq" to="/admin/faq/Keyword/list" />
           </div>
     </q-form>
   </q-page>
@@ -71,7 +71,7 @@ export default {
       this.$q.notify({
         color: "green-4",
         textColor: "white",
-        icon: "cloud_done",
+        icon: "done",
         timeout: 1000,
         message: "Create Keyword Successfull"
       });
@@ -104,13 +104,20 @@ export default {
       this.$q.notify({
         color: "green-4",
         textColor: "white",
-        icon: "cloud_done",
+        icon: "done",
         timeout: 1000,
         message: "Edit Keyword Successfull"
       });
     },
     deleteFaq() {
        this.$store.commit("Faq/deleteFaq",[this.faq.id])
+       this.$q.notify({
+        color: "green-4",
+        textColor: "white",
+        icon: "done",
+        timeout: 1000,
+        message: "Delete Keyword Successfull"
+      });
     }
   },
   computed: {},
