@@ -26,7 +26,7 @@
     "@quasar/quasar-ui-qcalendar": "^1.5.0",
     "apexcharts": "^3.24.0",
     "api.js": "^0.0.5",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "hellojs": "^1.18.6",
     "quasar": "^1.0.0",
     "validators": "^0.3.1",
